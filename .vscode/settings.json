@@ -56,5 +56,12 @@
     "edu.wpi.first.math.proto.*",
     "edu.wpi.first.math.**.proto.*",
     "edu.wpi.first.math.**.struct.*",
-  ]
+  ],
+  "[java]": {
+    "editor.defaultFormatter": "wpilibsuite.vscode-wpilib"
+  },
+  "editor.defaultFormatter": "vscjava.vscode-java-pack",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "java.format.settings.url": "eclipse-formatter.xml"
 }
