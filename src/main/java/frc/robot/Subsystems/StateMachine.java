@@ -57,8 +57,6 @@ public class StateMachine extends SubsystemBase {
     switch (desiredState) {
       case NONE:
         switch (currentState) {
-          case AUTODRIVE:
-          case SIMULATION:
           case NONE:
             return new NoneState(s_StateMachine, s_Lights);
         }
@@ -71,14 +69,18 @@ public class StateMachine extends SubsystemBase {
 
   public static enum RobotState {
     NONE,
-    AUTODRIVE,
-    SIMULATION
+    ALGAE,
+    CORAL,
+    COMBO,
+    CLIMB,
+    SCORECORAL,
+    SCOREALGAE
   }
 
   public static enum TargetState {
     PREP_NONE,
-    PREP_VISION,
-    PREP_AUTODRIVE
+    PREPLL1,
+    PREPLL2    
   }
 
   @Override
