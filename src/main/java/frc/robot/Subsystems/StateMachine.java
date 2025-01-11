@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 // import frc.robot.Constants.constStateMachine;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Commands.States.IntakingState;
+import frc.robot.Commands.States.NoneState;
+import frc.robot.Subsystems.Drive.Swerve;
 
 
 
@@ -23,19 +26,23 @@ public class StateMachine extends SubsystemBase {
     currentTargetState = TargetState.PREP_NONE;
   }
 
-  public void setRobotState(RobotState robotState) {
+  public void setRobotState(RobotState robotState) 
+  {
     currentState = robotState;
   }
 
-  public void setTargetState(TargetState targetState) {
+  public void setTargetState(TargetState targetState) 
+  {
     currentTargetState = targetState;
   }
 
-  public RobotState getRobotState() {
+  public RobotState getRobotState() 
+  {
     return currentState;
   }
 
-  public TargetState getTargetState() {
+  public TargetState getTargetState() 
+  {
     return currentTargetState;
   }
 
@@ -51,17 +58,27 @@ public class StateMachine extends SubsystemBase {
    *                     possible from your current state
    * @return The Command to run for that desired state
    */
-  public Command tryState(RobotState desiredState, StateMachine s_StateMachine, Drive s_Drive, Lights s_Lights) {
+  public Command tryState(RobotState desiredState, StateMachine s_StateMachine, Swerve s_Drive, Lights s_Lights) {
 
 
     switch (desiredState) {
       case NONE:
         switch (currentState) {
           case NONE:
-            return new NoneState(s_StateMachine, s_Lights);
+          case SCOREALGAE:
+          case SCORECORAL:
+            return new NoneState();
         }
         break;
-      // 
+      case INTAKING:
+        switch (currentState) {
+          case NONE:
+          case SCORECORAL:
+          case SCOREALGAE: //TODO need to find out if you were in the combo state before scoring so that you can go to algae instead of none
+            return new IntakingState();
+        }
+        break;
+      case 
 
     }
     return Commands.print("ITS SO OVER D: Invalid State Provided :3");
@@ -69,9 +86,7 @@ public class StateMachine extends SubsystemBase {
 
   public static enum RobotState {
     NONE,
-    ALGAE,
-    CORAL,
-    COMBO,
+    INTAKING,
     CLIMB,
     SCORECORAL,
     SCOREALGAE

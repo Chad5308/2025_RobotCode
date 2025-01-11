@@ -22,6 +22,8 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -48,7 +50,7 @@ public class Module extends SubsystemBase
     public static ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
 
     public static SparkMax steerMotor;
-    public static SparkClosedLoopController turningPIDController;
+    public static SparkClosedLoopController steerPIDController;
     public static RelativeEncoder steerEncoder;
     public static SparkBaseConfig steerGains;
 
@@ -66,8 +68,8 @@ public class Module extends SubsystemBase
     public static StatusSignal<Current> driveCurrent;
 
     // Inputs from turn motor
-    public static StatusSignal<Angle> turnAbsolutePosition;
-    public static StatusSignal<Angle> turnPosition;
+    public static StatusSignal<Angle> steerAbsolutePosition;
+    public static StatusSignal<Angle> steerPosition;
     // public static Queue<Double> turnPositionQueue;
     public static StatusSignal<AngularVelocity> turnVelocity;
     public static StatusSignal<Voltage> turnAppliedVolts;
@@ -86,10 +88,47 @@ public class Module extends SubsystemBase
 
         driveMotor = new TalonFX(driveNum);
         driveGains = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
-        
 
         steerMotor = new SparkMax(steerNum, MotorType.kBrushless);
-        steerGains = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
+        steerGains = new SparkMaxConfig()
+                .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
+        steerPIDController = steerMotor.getClosedLoopController();
+        
     }
+    
+
+
+    public SwerveModulePosition getSteerPosition()
+    {
+        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(steerEncoder.getPosition()));
+    }
+    public double getDrivePosition()
+    {
+        return driveMotor.getPosition().getValueAsDouble();
+    }
+    public double getDriveVelocity()
+    {
+        return driveMotor.getVelocity().getValueAsDouble();
+    }
+
+
+    
+//This is our setDesiredState alg. Takes the current state and the desired state shown by the controller and points the wheels to that 
+//location
+public void setDesiredState(SwerveModuleState state) {
+  if (Math.abs(state.speedMetersPerSecond) < 0.01) {stop();return;}
+  state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(gState().angle.getDegrees()));
+  driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+  turningPidController.setReference(state.angle.getDegrees(), com.revrobotics.CANSparkBase.ControlType.kPosition);
+  
+}
+
+public void wheelFaceForward(double AEOffset) {
+  steerMotorEncoder.setPosition(getAbsoluteEncoderDeg(AEOffset));
+  try{Thread.sleep(10);
+    turningPidController.setReference(0, com.revrobotics.CANSparkBase.ControlType.kPosition);
+  } catch (Exception e) {
+  }
+}
     
 }
