@@ -77,10 +77,18 @@ public class StateMachine extends SubsystemBase {
     SCOREALGAE
   }
 
-  public static enum TargetState {
+  public static enum TargetState
+  {
     PREP_NONE,
-    PREPLL1,
-    PREPLL2    
+    PREP_LL1,
+    PREP_RL1,
+    PREP_LL2,
+    PREP_RL2,
+    PREP_LL3,
+    PREP_RL3,
+    PREP_LL4,
+    PREP_RL4
+  
   }
 
   @Override
