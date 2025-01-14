@@ -43,7 +43,7 @@ public final class Constants {
 
     
     //TODO Test and input all module offsets
-    public static final double   = 0;
+    public static final double kFLDegrees = 0;
     public static final double kFRDegrees = 0;
     public static final double kBLDegrees = 0;
     public static final double kBRDegrees = 0;
