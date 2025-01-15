@@ -1,8 +1,9 @@
 package frc.robot.Subsystems.Drive;
 
-import java.util.Queue;
 
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -15,6 +16,7 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.ClosedLoopOutputType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -58,6 +60,7 @@ public class Module extends SubsystemBase
 
   public static Rotation2d zeroRotation;
   public static CANcoder absoluteEncoder;
+  public static CANcoderConfiguration CANConfig;
   public boolean absoluteReversed;
 
 
@@ -95,9 +98,11 @@ public class Module extends SubsystemBase
     steerGains = new SparkMaxConfig()
         .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
     steerPIDController = steerMotor.getClosedLoopController();
+    steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    //TODO Config the abs encoder
-
+    absoluteEncoder = new CANcoder(absoluteEncoderID);
+    CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(zeroRotation.getDegrees()));
+    absoluteEncoder.getConfigurator().apply(CANConfig);
   }
   
   public void stop()

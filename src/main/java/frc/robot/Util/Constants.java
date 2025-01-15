@@ -107,6 +107,24 @@ public final class Constants {
     public static final int LEFT_STICK_PORT = 1;
     public static final int RIGHT_STICK_PORT = 2;
   }
+
+  public static final class constants_Elevator 
+  {
+    public static final double ELE_P = 0.0076;
+    public static final double ELE_I = 0.0;
+    public static final double ELE_D = 0.0;
+    public static final double ELE_FF = 0.0;
+  }
+  
+  public static final class constants_Climber 
+  {
+
+  }
+  
+  public static final class constants_AlgaeRollers
+  {
+
+  }
  
 
   

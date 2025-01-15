@@ -6,13 +6,11 @@ package frc.robot;
 
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.Auto;
 import frc.robot.Commands.Drive;
@@ -36,9 +34,9 @@ public class RobotContainer {
   public static Robot robot = new Robot();
   public Swerve s_Swerve = new Swerve();
   public LimelightHelpers h_Limelight = new LimelightHelpers();
-  public Vision s_Limelight = new Vision(s_Swerve);
+  public Vision s_Vision = new Vision(s_Swerve);
   public Drive c_Drive = new Drive(s_Swerve, opController, robot);
-  public Auto c_Auto = new Auto(c_Drive, s_Swerve, s_Limelight);
+  public Auto c_Auto = new Auto(c_Drive, s_Swerve, s_Vision);
 
   private SendableChooser<Command> autoChooser;
 
@@ -61,7 +59,7 @@ public class RobotContainer {
 
   // public SequentialCommandGroup limelightTestAuto()
   // {
-  //   return new SequentialCommandGroup(new PathPlannerAuto("Start Auto").andThen(s_Limelight.autoDrive).andThen(new PathPlannerAuto("Return Auto")));
+  //   return new SequentialCommandGroup(new PathPlannerAuto("Start Auto").andThen(s_Vision.autoDrive).andThen(new PathPlannerAuto("Return Auto")));
   // }
 
 
