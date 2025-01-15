@@ -52,9 +52,9 @@ public LimelightHelpers.PoseEstimate mt2;
         pipelinePublisher = networkTables.getIntegerTopic("limelight.getpipeline").publish();
         
         
-        thetaPIDController = new ProfiledPIDController(constants_Limelight.thetakP, constants_Limelight.thetakI, constants_Limelight.thetakD, constants_Auto.THETA_CONTROLLER_CONSTRAINTS);
-        xPIDController = new ProfiledPIDController(constants_Limelight.linearkP, constants_Limelight.linearkI, constants_Limelight.linearkD, constants_Auto.kLinearConstraints);
-        yPIDController = new ProfiledPIDController(constants_Limelight.linearkP, constants_Limelight.linearkI, constants_Limelight.linearkD, constants_Auto.kLinearConstraints);
+        thetaPIDController = new ProfiledPIDController(constants_Limelight.THETA_P, constants_Limelight.THETA_I, constants_Limelight.THETA_D, constants_Auto.THETA_CONTROLLER_CONSTRAINTS);
+        xPIDController = new ProfiledPIDController(constants_Limelight.LINEAR_P, constants_Limelight.LINEAR_I, constants_Limelight.LINEAR_D, constants_Auto.LINEAR_CONSTRAINTS);
+        yPIDController = new ProfiledPIDController(constants_Limelight.LINEAR_P, constants_Limelight.LINEAR_I, constants_Limelight.LINEAR_D, constants_Auto.LINEAR_CONSTRAINTS);
         setPIDControllers();
 
     }
@@ -184,7 +184,7 @@ public LimelightHelpers.PoseEstimate mt2;
         // targetID = LimelightHelpers.getFiducialID(limelight_Coral);
         // targetArea = LimelightHelpers.getTA(limelight_Coral);
         
-        distanceY = (((13 - constants_Limelight.Height_Coral) / (Math.tan(Math.toRadians(yAng_Coral+constants_Limelight.Angle_Coral)))) + constants_Limelight.DistanceForward_Coral) * 0.0254; //meters from target to center of robot
+        distanceY = (((13 - constants_Limelight.HEIGHT_CORAL) / (Math.tan(Math.toRadians(yAng_Coral+constants_Limelight.ANGLE_CORAL)))) + constants_Limelight.DISTANCE_FORWARD_CORAL) * 0.0254; //meters from target to center of robot
         distanceX = (Math.cos(Math.toRadians(distanceY/xAng_Coral))) * 0.0254;//meters to center of robot
         
         updateDriveValues();

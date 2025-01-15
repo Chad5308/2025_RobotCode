@@ -37,7 +37,7 @@ public class Drive extends Command{
                 this.robot = robot;
                 this.xLimiter = new SlewRateLimiter(constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC);
                 this.yLimiter = new SlewRateLimiter(constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC);
-                this.turningLimiter = new SlewRateLimiter(constants_Drive.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+                this.turningLimiter = new SlewRateLimiter(constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC);
                 addRequirements(s_Swerve);
                 this.opController = opController;
                 // this.leftStick = leftStick;
@@ -73,9 +73,9 @@ public class Drive extends Command{
         ySpeed = Math.abs(ySpeed) > constants_OI.DEADBAND ? ySpeed : 0.0;
         turningSpeed = Math.abs(turningSpeed) > constants_OI.DEADBAND ? turningSpeed : 0.0;
 
-        xSpeed = xLimiter.calculate(xSpeed) * constants_Drive.kTeleDriveMaxSpeedMetersPerSecond;
-        ySpeed = yLimiter.calculate(ySpeed) * constants_Drive.kTeleDriveMaxSpeedMetersPerSecond;
-        turningSpeed = turningLimiter.calculate(turningSpeed) * constants_Drive.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+        xSpeed = xLimiter.calculate(xSpeed) * constants_Drive.TELEDRIVE_MAX_SPEED_METERS_PER_SEC;
+        ySpeed = yLimiter.calculate(ySpeed) * constants_Drive.TELEDRIVE_MAX_SPEED_METERS_PER_SEC;
+        turningSpeed = turningLimiter.calculate(turningSpeed) * constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RAD_PER_SEC;
 
         
         drive();

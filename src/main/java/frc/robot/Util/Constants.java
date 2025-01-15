@@ -6,7 +6,6 @@ package frc.robot.Util;
 
 import java.util.HashMap;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -29,25 +28,25 @@ import edu.wpi.first.wpilibj2.command.Command;
 public final class Constants {
   public static final class constants_Drive {
 
-    public static final Measure<DistanceUnit> wheelRadius = edu.wpi.first.units.Units.Inches.of(1.5);
+    public static final Measure<DistanceUnit> WHEEL_RADIUS = edu.wpi.first.units.Units.Inches.of(1.5);
     // public static final double wheelRadius = Units.inchesToMeters(1.5);
     public static final double COF = 1.2;
     public static final double TRACK_WIDTH = Units.inchesToMeters(23.75);
       // Distance between right and left wheels
-    public static final double kWheelBase = Units.inchesToMeters(23.75);
+    public static final double WHEEL_BASE = Units.inchesToMeters(23.75);
       // Distance between front and back wheels
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-      new Translation2d(kWheelBase / 2, -TRACK_WIDTH / 2), //front left
-        new Translation2d(kWheelBase / 2, TRACK_WIDTH / 2), //front right
-        new Translation2d(-kWheelBase / 2, -TRACK_WIDTH / 2), //back left
-        new Translation2d(-kWheelBase / 2, TRACK_WIDTH / 2)); //back right
+      new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2), //front left
+        new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), //front right
+        new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2), //back left
+        new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2)); //back right
 
     
     //TODO Test and input all module offsets
-    public static final Rotation2d kFLDegrees = new Rotation2d(0);
-    public static final Rotation2d kFRDegrees = new Rotation2d(0);
-    public static final Rotation2d kBLDegrees = new Rotation2d(0);
-    public static final Rotation2d kBRDegrees = new Rotation2d(0);
+    public static final double FL_DEGREES = 0;
+    public static final double FR_DEGREES = 0;
+    public static final double BL_DEGREES = 0;
+    public static final double BR_DEGREES = 0;
 
 
     //TODO Invert any motor to match controller output
@@ -71,10 +70,10 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC = MAX_SPEED_METERS_PER_SEC/(TRACK_WIDTH/2);
 
     //For limiting speed while driving
-    public static final double kTeleDriveMaxSpeedMetersPerSecond = MAX_SPEED_METERS_PER_SEC / 1.0;
-    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = MAX_ANGULAR_SPEED_RAD_PER_SEC / 1.0;
+    public static final double TELEDRIVE_MAX_SPEED_METERS_PER_SEC = MAX_SPEED_METERS_PER_SEC / 1.0;
+    public static final double TELEDRIVE_MAX_ANGULAR_SPEED_RAD_PER_SEC = MAX_ANGULAR_SPEED_RAD_PER_SEC / 1.0;
     public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = 2.0;
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 0.75;
+    public static final double TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 0.75;
   }
   
   public static final class constants_Module {
@@ -85,7 +84,7 @@ public final class Constants {
 
     public static final double TURNING_CONVERSION_FACTOR_2_DEG =  28.25;
     public static final double DRIVE_ENCODER_RPM_2_METERS_PER_SEC = DRIVE_ENCODER_ROT_2_METER / 60;
-    public static final double kTurningEncoderRPM2DegPerSec = TURNING_CONVERSION_FACTOR_2_DEG / 60;
+    public static final double TURNING_ENCODER_RPM_2_DEG_PER_SEC = TURNING_CONVERSION_FACTOR_2_DEG / 60;
 
     public static final double P_TURNING = 0.0075;
     public static final double I_TURNING = 0.0;
@@ -106,24 +105,6 @@ public final class Constants {
     public static final double DEADBAND = 0.09;
     public static final int LEFT_STICK_PORT = 1;
     public static final int RIGHT_STICK_PORT = 2;
-  }
-
-  public static final class constants_Elevator 
-  {
-    public static final double ELE_P = 0.0076;
-    public static final double ELE_I = 0.0;
-    public static final double ELE_D = 0.0;
-    public static final double ELE_FF = 0.0;
-  }
-  
-  public static final class constants_Climber 
-  {
-
-  }
-  
-  public static final class constants_AlgaeRollers
-  {
-
   }
  
 
@@ -148,31 +129,31 @@ public final class Constants {
   }
 
   public static final class constants_Limelight{
-    public static final double thetakP = 4;
-    public static final double thetakI = 0.0002;
-    public static final double thetakD = 0;
+    public static final double THETA_P = 4;
+    public static final double THETA_I = 0.0002;
+    public static final double THETA_D = 0;
 
-    public static final double linearkP = 1.25;
-    public static final double linearkI = 0.001;
-    public static final double linearkD = 0.05;
+    public static final double LINEAR_P = 1.25;
+    public static final double LINEAR_I = 0.001;
+    public static final double LINEAR_D = 0.05;
 
-    public static final double Angle_Coral = -15;
-    public static final double DistanceForward_Coral = 5; //inches
-    public static final double DistanceRight_Coral = -3; //inches
-    public static final double Height_Coral = 23.75; //inches
+    public static final double ANGLE_CORAL = -15;
+    public static final double DISTANCE_FORWARD_CORAL = 5; //inches
+    public static final double DISTANCE_RIGHT_CORAL = -3; //inches
+    public static final double HEIGHT_CORAL = 23.75; //inches
 
-    public static final double Angle_Tags = 15;
-    public static final double DistanceForward_Tags = 3; //inches
-    public static final double DistanceRight_Tags = -3; //inches
-    public static final double Height_Tags = 24.5; //inches
+    public static final double ANGLE_TAGS = 15;
+    public static final double DISTANCE_FORWARD_TAGS = 3; //inches
+    public static final double DISTANCE_RIGHT_TAGS = -3; //inches
+    public static final double HEIGHT_TAGS = 24.5; //inches
   }
 
 
   public static final class constants_Auto {
     public static final double MAX_SPEED_METERS_PER_SEC = constants_Drive.MAX_SPEED_METERS_PER_SEC/2;//0.5;
     public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQRD = constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC/2;//0.25;
-    public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =  constants_Drive.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-    public static final double kMaxAngularAccelerationUnitsPerSecond = constants_Drive.kTeleDriveMaxAngularAccelerationUnitsPerSecond;
+    public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RAD_PER_SEC;
+    public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
     public static  double kPTranslation = 3.0;
     public static  double kITranslation = 0.1;
@@ -188,8 +169,8 @@ public final class Constants {
     public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = 
             new TrapezoidProfile.Constraints(
                     MAX_ANGULAR_SPEED_RAD_PER_SEC,
-                    kMaxAngularAccelerationUnitsPerSecond);
-    public static final TrapezoidProfile.Constraints kLinearConstraints = 
+                    MAX_ANGULAR_ACCEL_UNITS_PER_SEC);
+    public static final TrapezoidProfile.Constraints LINEAR_CONSTRAINTS = 
             new TrapezoidProfile.Constraints(
                 MAX_SPEED_METERS_PER_SEC,
                 MAX_ACCELERATION_METERS_PER_SECOND_SQRD
