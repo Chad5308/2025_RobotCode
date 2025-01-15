@@ -4,17 +4,78 @@
 
 package frc.robot;
 
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Commands.Auto;
+import frc.robot.Commands.Drive;
+import frc.robot.Util.Constants.constants_OI;
+import frc.robot.Util.LimelightHelpers;
+import frc.robot.Subsystems.Vision;
+import frc.robot.Subsystems.Drive.Swerve;
 
+
+/**
+ * This class is where the bulk
+ *  of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * subsystems, commands, and trigger mappings) should be declared here.
+ */
 public class RobotContainer {
-  public RobotContainer() {
+
+  private final CommandXboxController opController = new CommandXboxController(constants_OI.OP_CONTROLLER_PORT);
+
+  public static Robot robot = new Robot();
+  public Swerve s_Swerve = new Swerve();
+  public LimelightHelpers h_Limelight = new LimelightHelpers();
+  public Vision s_Limelight = new Vision(s_Swerve);
+  public Drive c_Drive = new Drive(s_Swerve, opController, robot);
+  public Auto c_Auto = new Auto(c_Drive, s_Swerve, s_Limelight);
+
+  private SendableChooser<Command> autoChooser;
+
+
+ 
+  public RobotContainer() 
+  {
+    autoChooser = AutoBuilder.buildAutoChooser();
+    s_Swerve.setDefaultCommand(c_Drive);
     configureBindings();
+    configureAuto();
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);   
   }
 
-  private void configureBindings() {}
+  public void configureAuto()
+  {
+    // autoChooser.addOption("AutoDrive", limelightTestAuto());
+  }
 
-  public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+  // public SequentialCommandGroup limelightTestAuto()
+  // {
+  //   return new SequentialCommandGroup(new PathPlannerAuto("Start Auto").andThen(s_Limelight.autoDrive).andThen(new PathPlannerAuto("Return Auto")));
+  // }
+
+
+
+  public Command getAutonomousCommand()
+  {
+    return autoChooser.getSelected();
+  }
+
+
+  private void configureBindings() {
+    //Drive Controls
+    opController.povRight().toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
+    opController.povLeft().toggleOnTrue(s_Swerve.fieldOrientedToggle());
+    opController.button(7).onTrue(s_Swerve.resetWheels()); //window looking button
   }
 }
