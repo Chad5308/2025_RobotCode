@@ -78,7 +78,12 @@ public class StateMachine extends SubsystemBase {
             return new IntakingState();
         }
         break;
-      case 
+      case PREP_LL1:
+        switch (currentState) {
+          case INTAKING:
+            return new 
+        }
+        
 
     }
     return Commands.print("ITS SO OVER D: Invalid State Provided :3");
@@ -89,7 +94,15 @@ public class StateMachine extends SubsystemBase {
     INTAKING,
     CLIMB,
     SCORECORAL,
-    SCOREALGAE
+    SCOREALGAE,
+    PREP_LL1,
+    PREP_RL1,
+    PREP_LL2,
+    PREP_RL2,
+    PREP_LL3,
+    PREP_RL3,
+    PREP_LL4,
+    PREP_RL4
   }
 
   public static enum TargetState
