@@ -15,19 +15,19 @@ public class RobotMap
         //Front Left - Module 0
         public static final int FRONT_LEFT_DRIVE_CAN = 0;
         public static final int FRONT_LEFT_STEER_CAN = 0;
-        public static final int FRONT_LEFT_ENCODER = 0;
+        public static final int FRONT_LEFT_ABS_ENCODER = 0;
         //Front Right - Module 1
         public static final int FRONT_RIGHT_DRIVE_CAN = 1;
         public static final int FRONT_RIGHT_STEER_CAN = 1;
-        public static final int FRONT_RIGHT_ENCODER = 1;
+        public static final int FRONT_RIGHT_ABS_ENCODER = 1;
         //Back Left - Module 2
         public static final int BACK_LEFT_DRIVE_CAN = 2;
         public static final int BACK_LEFT_STEER_CAN = 2;
-        public static final int BACK_LEFT_ENCODER = 2;
+        public static final int BACK_LEFT_ABS_ENCODER = 2;
         //Back Right - Module 3
         public static final int BACK_RIGHT_DRIVE_CAN = 3;
         public static final int BACK_RIGHT_STEER_CAN = 3;
-        public static final int BACK_RIGHT_ENCODER = 3;
+        public static final int BACK_RIGHT_ABS_ENCODER = 3;
     }
 
     /*
@@ -63,7 +63,7 @@ public class RobotMap
     {
         public static final int CLIMB = 40;
     }
-    public static final MAP_APRIL_TAGS
+    public static final class MAP_APRIL_TAGS
     {
         
     }

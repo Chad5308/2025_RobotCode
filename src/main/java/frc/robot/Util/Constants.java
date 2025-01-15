@@ -6,6 +6,7 @@ package frc.robot.Util;
 
 import java.util.HashMap;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -43,10 +44,10 @@ public final class Constants {
 
     
     //TODO Test and input all module offsets
-    public static final double kFLDegrees = 0;
-    public static final double kFRDegrees = 0;
-    public static final double kBLDegrees = 0;
-    public static final double kBRDegrees = 0;
+    public static final Rotation2d kFLDegrees = new Rotation2d(0);
+    public static final Rotation2d kFRDegrees = new Rotation2d(0);
+    public static final Rotation2d kBLDegrees = new Rotation2d(0);
+    public static final Rotation2d kBRDegrees = new Rotation2d(0);
 
 
     //TODO Invert any motor to match controller output
@@ -152,7 +153,7 @@ public final class Constants {
   public static final class constants_Auto {
     public static final double MAX_SPEED_METERS_PER_SEC = constants_Drive.MAX_SPEED_METERS_PER_SEC/2;//0.5;
     public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQRD = constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC/2;//0.25;
-    public static final double kMaxAngularSpeedRadiansPerSecond =  constants_Drive.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+    public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =  constants_Drive.kTeleDriveMaxAngularSpeedRadiansPerSecond;
     public static final double kMaxAngularAccelerationUnitsPerSecond = constants_Drive.kTeleDriveMaxAngularAccelerationUnitsPerSecond;
 
     public static  double kPTranslation = 3.0;
@@ -172,8 +173,8 @@ public final class Constants {
                     kMaxAngularAccelerationUnitsPerSecond);
     public static final TrapezoidProfile.Constraints kLinearConstraints = 
             new TrapezoidProfile.Constraints(
-                kMaxSpeedMetersPerSecond,
-                kMaxAccelerationMetersPerSecondSquared
+                MAX_SPEED_METERS_PER_SEC,
+                MAX_ACCELERATION_METERS_PER_SECOND_SQRD
             );
   }
 }
