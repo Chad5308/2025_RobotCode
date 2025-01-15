@@ -72,7 +72,7 @@ public final class Constants {
     //For limiting speed while driving
     public static final double kTeleDriveMaxSpeedMetersPerSecond = MAX_SPEED_METERS_PER_SEC / 1.0;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = MAX_ANGULAR_SPEED_RAD_PER_SEC / 1.0;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 2.0;
+    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = 2.0;
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 0.75;
   }
   
@@ -150,8 +150,8 @@ public final class Constants {
 
 
   public static final class constants_Auto {
-    public static final double kMaxSpeedMetersPerSecond = constants_Drive.MAX_SPEED_METERs_PER_SEC/2;//0.5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = constants_Drive.kTeleDriveMaxAccelerationUnitsPerSecond/2;//0.25;
+    public static final double MAX_SPEED_METERS_PER_SEC = constants_Drive.MAX_SPEED_METERS_PER_SEC/2;//0.5;
+    public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQRD = constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC/2;//0.25;
     public static final double kMaxAngularSpeedRadiansPerSecond =  constants_Drive.kTeleDriveMaxAngularSpeedRadiansPerSecond;
     public static final double kMaxAngularAccelerationUnitsPerSecond = constants_Drive.kTeleDriveMaxAngularAccelerationUnitsPerSecond;
 
