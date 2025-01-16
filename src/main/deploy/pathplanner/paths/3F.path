@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.898108552631578,
-        "y": 4.198190789473684
+        "x": 5.340049342105263,
+        "y": 2.880016447368421
       },
       "prevControl": {
-        "x": 6.725575657894736,
-        "y": 4.178947368421053
+        "x": 6.946875,
+        "y": 2.119901315789474
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 119.99999999999999
   },
   "reversed": false,
   "folder": "START TO REEF",
