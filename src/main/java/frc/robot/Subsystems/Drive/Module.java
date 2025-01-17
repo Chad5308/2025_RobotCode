@@ -96,9 +96,11 @@ public class Module extends SubsystemBase
 
     steerMotor = new SparkMax(steerNum, MotorType.kBrushless);
     steerGains = new SparkMaxConfig()
-        .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
+        .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true));
+    steerGains.encoder.positionConversionFactor(Constants.constants_Module.STEER_MOTOR_GEAR_RATIO);
     steerPIDController = steerMotor.getClosedLoopController();
     steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    
 
     absoluteEncoder = new CANcoder(absoluteEncoderID);
     CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(zeroRotation.getDegrees()));
@@ -120,7 +122,7 @@ public class Module extends SubsystemBase
 
   public SwerveModulePosition getSteerPosition()
   {
-    return new SwerveModulePosition(getDrivePosition(), new Rotation2d(steerEncoder.getPosition()));
+    return new SwerveModulePosition(getABSPosition(), new Rotation2d(steerEncoder.getPosition()));
   }
   
   public Rotation2d steerR2d = Rotation2d.fromDegrees(getSteerPosition().angle.getDegrees());
