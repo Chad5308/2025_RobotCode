@@ -159,10 +159,10 @@ public class Swerve extends SubsystemBase{
         SmartDashboard.putNumber("Robot Heading", getHeading());
         
         //AE Degrees Reading
-        SmartDashboard.putNumber("Back Left AE Value", backLeftModule.getABSPosition());
-        SmartDashboard.putNumber("Back Right AE Value", backRightModule.getABSPosition());
-        SmartDashboard.putNumber("Front Left AE Value", frontLeftModule.getABSPosition());
-        SmartDashboard.putNumber("Front Right AE Value", frontRightModule.getABSPosition());
+        // SmartDashboard.putNumber("Back Left AE Value", backLeftModule.getABSPosition());
+        // SmartDashboard.putNumber("Back Right AE Value", backRightModule.getABSPosition());
+        // SmartDashboard.putNumber("Front Left AE Value", frontLeftModule.getABSPosition());
+        // SmartDashboard.putNumber("Front Right AE Value", frontRightModule.getABSPosition());
     // //   //RE Degrees Reading
         SmartDashboard.putNumber("Back left RE Value", backLeftModule.getSteerPosition().angle.getDegrees());
         SmartDashboard.putNumber("Back Right RE Value", backRightModule.getSteerPosition().angle.getDegrees());

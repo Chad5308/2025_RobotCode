@@ -1,6 +1,7 @@
 package frc.robot.Subsystems.Drive;
 
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
@@ -12,6 +13,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.hardware.core.CoreCANcoder;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.ClosedLoopOutputType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
@@ -89,22 +91,25 @@ public class Module extends SubsystemBase
   
   public Module(int steerNum, int driveNum, boolean invertDrive, boolean invertSteer, int absoluteEncoderID, Rotation2d zeroRotation, boolean absoluteReversed)
   {
+    
     this.absoluteReversed = absoluteReversed;
-
+    absoluteEncoder = new CANcoder(absoluteEncoderID, new CANBus());
+    CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(zeroRotation.getDegrees()).withAbsoluteSensorDiscontinuityPoint(0.5));
+    absoluteEncoder.getConfigurator().apply(CANConfig);
+    
     driveMotor = new TalonFX(driveNum);
     driveGains = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
+    
 
     steerMotor = new SparkMax(steerNum, MotorType.kBrushless);
     steerGains = new SparkMaxConfig()
-        .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true));
+    .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true));
     steerGains.encoder.positionConversionFactor(Constants.constants_Module.STEER_MOTOR_GEAR_RATIO);
     steerPIDController = steerMotor.getClosedLoopController();
-    steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
     
-
-    absoluteEncoder = new CANcoder(absoluteEncoderID);
-    CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(zeroRotation.getDegrees()));
-    absoluteEncoder.getConfigurator().apply(CANConfig);
+    resetDriveEncoder();
   }
   
   public void stop()
@@ -118,23 +123,7 @@ public class Module extends SubsystemBase
     driveMotor.setPosition(0);
   }
   
-
-
-  public SwerveModulePosition getSteerPosition()
-  {
-    return new SwerveModulePosition(getABSPosition(), new Rotation2d(steerEncoder.getPosition()));
-  }
-  
-  public Rotation2d steerR2d = Rotation2d.fromDegrees(getSteerPosition().angle.getDegrees());
-
-  public SwerveModuleState getSteerState()
-  {
-    return new SwerveModuleState(getDriveVelocity(), steerR2d);
-  }
-  public double getABSPosition()
-  {
-    return (absoluteEncoder.getAbsolutePosition().getValueAsDouble()-zeroRotation.getDegrees()) * 360;
-  }
+//Drive Values
   public double getDrivePosition()
   {
       return driveMotor.getPosition().getValueAsDouble();
@@ -142,6 +131,22 @@ public class Module extends SubsystemBase
   public double getDriveVelocity()
   {
     return driveMotor.getVelocity().getValueAsDouble();
+  }
+  
+  //Steer Values
+  public SwerveModulePosition getSteerPosition()
+  {
+    return new SwerveModulePosition(getDrivePosition(), new Rotation2d(steerEncoder.getPosition()));
+  }
+  public Rotation2d steerR2d = Rotation2d.fromDegrees(getSteerPosition().angle.getDegrees());
+  
+  public SwerveModuleState getSteerState()
+  {
+    return new SwerveModuleState(getDriveVelocity(), steerR2d);
+  }
+  public double getABSPosition()
+  {
+    return (absoluteEncoder.getAbsolutePosition().getValueAsDouble());
   }
 
   public void getUpToSpeed(double velocity)
