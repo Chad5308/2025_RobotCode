@@ -6,7 +6,10 @@
     "1",
     "2",
     "3",
-    "Pickup"
+    "Return-Y",
+    "Return-X",
+    "X",
+    "Y"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
