@@ -163,13 +163,13 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RAD_PER_SEC;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
-    public static  double kPTranslation = 3.0;
-    public static  double kITranslation = 0.1;
-    public static  double kDTranslation = 2;
+    public static  double P_TRANSLATION = 3.0;
+    public static  double I_TRANSLATION = 0.1;
+    public static  double D_TRANSLATION = 2;
 
-    public static final double kPTheta = 4.5;
-    public static final double kITheta = 0.1;
-    public static final double kDTheta = 0;
+    public static final double P_THETA = 4.5;
+    public static final double I_THETA = 0.1;
+    public static final double D_THETA = 0;
 
 
     public static final HashMap<String, Command> AUTO_EVENT_MAP = new HashMap<>();
