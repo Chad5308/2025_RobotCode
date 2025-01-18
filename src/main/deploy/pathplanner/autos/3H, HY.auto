@@ -7,25 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2I"
+            "pathName": "3H"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "IX"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "XL"
+            "pathName": "HY"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "2 Piece",
+  "folder": "1 Piece",
   "choreoAuto": false
 }

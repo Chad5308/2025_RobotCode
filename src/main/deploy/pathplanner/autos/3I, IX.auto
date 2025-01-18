@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2I"
+            "pathName": "3I"
           }
         },
         {
@@ -15,17 +15,11 @@
           "data": {
             "pathName": "IX"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "XL"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "2 Piece",
+  "folder": "1 Piece",
   "choreoAuto": false
 }

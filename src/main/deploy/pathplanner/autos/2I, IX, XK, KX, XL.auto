@@ -19,6 +19,18 @@
         {
           "type": "path",
           "data": {
+            "pathName": "XK"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "KX"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "XL"
           }
         }
@@ -26,6 +38,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "2 Piece",
+  "folder": "3 Piece",
   "choreoAuto": false
 }
