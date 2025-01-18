@@ -21,8 +21,8 @@ public class Auto {
 public Drive c_Drive;
 public Swerve s_Swerve;
 public Vision s_Limelight;
-public PIDController translationConstants = new PIDController(constants_Auto.kPTranslation, constants_Auto.kITranslation, constants_Auto.kDTranslation);
-public PIDController rotationConstants = new PIDController(constants_Auto.kPTheta, constants_Auto.kITheta, constants_Auto.kDTheta);
+public PIDController translationConstants = new PIDController(constants_Auto.P_TRANSLATION, constants_Auto.I_TRANSLATION, constants_Auto.D_TRANSLATION);
+public PIDController rotationConstants = new PIDController(constants_Auto.P_THETA, constants_Auto.I_THETA, constants_Auto.D_THETA);
 // public Map map
 
 
