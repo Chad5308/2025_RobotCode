@@ -40,65 +40,63 @@ import frc.robot.Util.Constants;
 
 public class Module extends SubsystemBase
 {
-    
 
 
-
-  public static TalonFX driveMotor;
-  public static VelocityVoltage velocityRequest;
-  public static MotionMagicVelocityVoltage motionMagicRequest;
-  public static TalonFXConfiguration driveConfig = new TalonFXConfiguration();
-  public static NeutralOut neutralOut;
-  static Slot0Configs driveGains;
+  public TalonFX driveMotor;
+  public VelocityVoltage velocityRequest;
+  public MotionMagicVelocityVoltage motionMagicRequest;
+  public TalonFXConfiguration driveConfig = new TalonFXConfiguration();
+  public NeutralOut neutralOut;
+  public Slot0Configs driveGains;
   
-  public static LinearVelocity speedAt12Volts = Units.MetersPerSecond.of(4.55);
-  public static Current slipCurrent = edu.wpi.first.units.Units.Amps.of(120);
-  public static ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
+  public LinearVelocity speedAt12Volts = Units.MetersPerSecond.of(4.55);
+  public Current slipCurrent = edu.wpi.first.units.Units.Amps.of(120);
+  public ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
 
-  public static SparkMax steerMotor;
-  public static SparkClosedLoopController steerPIDController;
-  public static RelativeEncoder steerEncoder;
-  public static SparkBaseConfig steerGains;
+  public SparkMax steerMotor;
+  public SparkClosedLoopController steerPIDController;
+  public RelativeEncoder steerEncoder;
+  public SparkBaseConfig steerGains;
 
-  public static Rotation2d zeroRotation;
-  public static CANcoder absoluteEncoder;
-  public static CANcoderConfiguration CANConfig;
+  public Rotation2d zeroRotation;
+  public CANcoder absoluteEncoder;
+  public CANcoderConfiguration CANConfig;
   public boolean absoluteReversed;
 
 
   
   // Inputs from drive motor
-  public static StatusSignal<Angle> drivePosition;
+  public StatusSignal<Angle> drivePosition;
   // public static Queue<Double> drivePositionQueue;
-  public static StatusSignal<AngularVelocity> driveVelocity;
-  public static StatusSignal<Voltage> driveAppliedVolts;
-  public static StatusSignal<Current> driveCurrent;
+  public StatusSignal<AngularVelocity> driveVelocity;
+  public StatusSignal<Voltage> driveAppliedVolts;
+  public StatusSignal<Current> driveCurrent;
 
   // Inputs from turn motor
-  public static StatusSignal<Angle> steerAbsolutePosition;
-  public static StatusSignal<Angle> steerPosition;
+  public StatusSignal<Angle> steerAbsolutePosition;
+  public StatusSignal<Angle> steerPosition;
   // public static Queue<Double> turnPositionQueue;
-  public static StatusSignal<AngularVelocity> turnVelocity;
-  public static StatusSignal<Voltage> turnAppliedVolts;
-  public static StatusSignal<Current> turnCurrent;
+  public StatusSignal<AngularVelocity> turnVelocity;
+  public StatusSignal<Voltage> turnAppliedVolts;
+  public StatusSignal<Current> turnCurrent;
 
   // Voltage control requests
-  public static VoltageOut voltageRequest = new VoltageOut(0);
+  public VoltageOut voltageRequest = new VoltageOut(0);
   // private final PositionVoltage positionVoltageRequest = new PositionVoltage(0.0);
-  public static VelocityVoltage velocityVoltageRequest = new VelocityVoltage(0.0);
+  public VelocityVoltage velocityVoltageRequest = new VelocityVoltage(0.0);
 
-  
   
   public Module(int steerNum, int driveNum, boolean invertDrive, boolean invertSteer, int absoluteEncoderID, Rotation2d zeroRotation, boolean absoluteReversed)
   {
+    System.out.println("************************** Module Init ********************************");
+    driveMotor = new TalonFX(driveNum);
+    driveGains = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
+    
     
     this.absoluteReversed = absoluteReversed;
     absoluteEncoder = new CANcoder(absoluteEncoderID, new CANBus());
     CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(zeroRotation.getDegrees()).withAbsoluteSensorDiscontinuityPoint(0.5));
     absoluteEncoder.getConfigurator().apply(CANConfig);
-    
-    driveMotor = new TalonFX(driveNum);
-    driveGains = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
     
 
     steerMotor = new SparkMax(steerNum, MotorType.kBrushless);
@@ -109,7 +107,9 @@ public class Module extends SubsystemBase
     steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
     
+    
     resetDriveEncoder();
+    System.out.println("******************************Finished Init *****************************");
   }
   
   public void stop()
@@ -136,13 +136,19 @@ public class Module extends SubsystemBase
   //Steer Values
   public SwerveModulePosition getSteerPosition()
   {
-    return new SwerveModulePosition(getDrivePosition(), new Rotation2d(steerEncoder.getPosition()));
+    return new SwerveModulePosition(getDrivePosition(), getSteerR2d());
   }
-  public Rotation2d steerR2d = Rotation2d.fromDegrees(getSteerPosition().angle.getDegrees());
+
+  public Rotation2d getSteerR2d()
+  {
+    return Rotation2d.fromDegrees(getABSPosition());
+  }
+  // public Rotation2d steerR2d = Rotation2d.fromDegrees(0);
+
   
   public SwerveModuleState getSteerState()
   {
-    return new SwerveModuleState(getDriveVelocity(), steerR2d);
+    return new SwerveModuleState(getDriveVelocity(), getSteerR2d());
   }
   public double getABSPosition()
   {
@@ -173,7 +179,7 @@ public class Module extends SubsystemBase
   {
     if (Math.abs(state.speedMetersPerSecond) < 0.01) {stop();return;}
     // state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(getSteerState().angle.getDegrees()));
-    state.cosineScale(steerR2d);
+    state.cosineScale(getSteerR2d());
     driveMotor.set(state.speedMetersPerSecond / Constants.constants_Drive.MAX_SPEED_METERS_PER_SEC);
     steerPIDController.setReference(state.angle.getDegrees(), ControlType.kPosition);
     
@@ -190,6 +196,6 @@ public class Module extends SubsystemBase
     {
 
     }
-}
+  }
     
 }

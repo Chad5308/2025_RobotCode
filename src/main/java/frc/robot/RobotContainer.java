@@ -33,11 +33,10 @@ public class RobotContainer {
 
   private final CommandXboxController opController = new CommandXboxController(constants_OI.OP_CONTROLLER_PORT);
 
-  public static Robot robot = new Robot();
   public Swerve s_Swerve = new Swerve();
   public LimelightHelpers h_Limelight = new LimelightHelpers();
   public Vision s_Vision = new Vision(s_Swerve);
-  public Drive c_Drive = new Drive(s_Swerve, opController, robot);
+  public Drive c_Drive = new Drive(s_Swerve, opController);
   public Auto c_Auto = new Auto(c_Drive, s_Swerve, s_Vision);
 
   // private SendableChooser<Command> autoChooser;
@@ -49,11 +48,17 @@ public class RobotContainer {
   public RobotContainer() 
   {
     // autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser1 = new SendableChooser<>();
+    autoChooser2 = new SendableChooser<>();
+    autoChooser3 = new SendableChooser<>();
     s_Swerve.setDefaultCommand(c_Drive);
     configureBindings();
     configureAutoChoosers();
 
     // SmartDashboard.putData("Auto Chooser", autoChooser);   
+    SmartDashboard.putData(autoChooser1);
+    SmartDashboard.putData(autoChooser2);
+    SmartDashboard.putData(autoChooser3);
   }
 
   public void configureAutoChoosers()
@@ -126,5 +131,11 @@ public class RobotContainer {
     opController.povRight().toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
     opController.povLeft().toggleOnTrue(s_Swerve.fieldOrientedToggle());
     opController.button(7).onTrue(s_Swerve.resetWheels()); //window looking button
+  }
+
+
+  public void debugging(String string)
+  {
+    System.out.println(string);
   }
 }

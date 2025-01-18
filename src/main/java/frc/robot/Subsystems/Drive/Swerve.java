@@ -37,10 +37,7 @@ public class Swerve extends SubsystemBase{
     public static Module backLeftModule = new Module(MAP_DRIVETRAIN.BACK_LEFT_STEER_CAN, MAP_DRIVETRAIN.BACK_LEFT_DRIVE_CAN, constants_Drive.BL_DRIVE_ENCODER_REVERSED, constants_Drive.BL_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.BACK_LEFT_ABS_ENCODER, constants_Drive.BL_DEGREES, constants_Drive.BL_DRIVE_ABSOLUTE_ENCODER_REVERSED);
     public static Module backRightModule = new Module(MAP_DRIVETRAIN.BACK_RIGHT_STEER_CAN, MAP_DRIVETRAIN.BACK_RIGHT_DRIVE_CAN, constants_Drive.BR_DRIVE_ENCODER_REVERSED, constants_Drive.BR_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.BACK_RIGHT_ABS_ENCODER, constants_Drive.BR_DEGREES, constants_Drive.BR_DRIVE_ABSOLUTE_ENCODER_REVERSED);
     
-    public static SwerveModulePosition[] modulePositions = new SwerveModulePosition[]{
-            frontLeftModule.getSteerPosition(), frontRightModule.getSteerPosition(), backLeftModule.getSteerPosition(), backRightModule.getSteerPosition()
-        };
-
+    
     public Swerve() 
     {
         new Thread(() -> {
@@ -51,60 +48,68 @@ public class Swerve extends SubsystemBase{
             
             alliance = getAlliance();
     }
-
+        
     //gyro int and heading code
     private AHRS gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
-
+    
     public void zeroHeading() 
     {
         gyro.reset();
         gyro.setAngleAdjustment(0);
     }
-
+    
+    
     public double getHeading() 
     {
         return Math.IEEEremainder(-gyro.getAngle(), 360);
     }
-
+    
     public Rotation2d getRotation2d() 
     {
         return Rotation2d.fromDegrees(getHeading());
     }
-
+    
     public boolean allianceCheck() 
     {
         if (alliance.isPresent() && (alliance.get() == Alliance.Red)) {isRedAlliance = true;}else{isRedAlliance = false;}
         return isRedAlliance;
     }
-
+    
     public Optional<Alliance> getAlliance() 
     {
         return DriverStation.getAlliance();
     }
-
+    
+    public static SwerveModulePosition[] getModulePositions()
+    {
+        return new SwerveModulePosition[]{
+                frontLeftModule.getSteerPosition(), frontRightModule.getSteerPosition(), backLeftModule.getSteerPosition(), backRightModule.getSteerPosition()
+        };
+    }
+    
     //Odometer code
     public final SwerveDriveOdometry odometer = new SwerveDriveOdometry
     (
         constants_Drive.kDriveKinematics,
         getRotation2d(),
-        modulePositions
+        getModulePositions()
     );
     
     public Pose2d getPose() 
     {
         return odometer.getPoseMeters();
     }
-
+    
     public void resetOdometry(Pose2d pose) 
     {
-        odometer.resetPosition(getRotation2d(), modulePositions, pose);
+        odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
-
-
+    
+    
     public ChassisSpeeds getRobotRelativeSpeeds(){
         return constants_Drive.kDriveKinematics.toChassisSpeeds(frontLeftModule.getSteerState(), frontRightModule.getSteerState(), backLeftModule.getSteerState(), backRightModule.getSteerState());
     }
-    
+
 
     //stops all modules. Called when the command isn't being ran. So when an input isn't recieved
     public void stopModules() {
@@ -146,7 +151,7 @@ public class Swerve extends SubsystemBase{
 
     @Override
     public void periodic() {
-        odometer.update(getRotation2d(), modulePositions);
+        odometer.update(getRotation2d(), getModulePositions());
 
 
 

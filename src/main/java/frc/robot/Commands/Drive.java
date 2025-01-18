@@ -16,7 +16,6 @@ public class Drive extends Command{
 
     
     private final Swerve s_Swerve;
-    private final Robot robot;
     public final CommandXboxController opController;
     // public final CommandJoystick leftStick;
     // public final CommandJoystick rightStick;
@@ -31,10 +30,9 @@ public class Drive extends Command{
 
 
     // public DriveCommand(s_Swerve s_Swerve, CommandXboxController opController, CommandJoystick leftStick, CommandJoystick rightStick) {
-        public Drive(Swerve s_Swerve, CommandXboxController opController, Robot robot) {
+        public Drive(Swerve s_Swerve, CommandXboxController opController) {
 
                 this.s_Swerve = s_Swerve;
-                this.robot = robot;
                 this.xLimiter = new SlewRateLimiter(constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC);
                 this.yLimiter = new SlewRateLimiter(constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC);
                 this.turningLimiter = new SlewRateLimiter(constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC);
@@ -83,19 +81,14 @@ public class Drive extends Command{
     
     public void drive()
     {
-        
-        if(!robot.isAutonomous())
+        if(fieldOriented)
         {
-            if(fieldOriented)
-            {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, s_Swerve.getRotation2d());
-            }else
-            {
-                chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
-            }
-            s_Swerve.setModuleStates(chassisSpeeds);        
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, s_Swerve.getRotation2d());
+        }else
+        {
+            chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
         }
-        
+        s_Swerve.setModuleStates(chassisSpeeds);        
     }
 
 
