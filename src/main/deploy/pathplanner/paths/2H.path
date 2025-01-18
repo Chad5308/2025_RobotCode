@@ -20,8 +20,8 @@
         "y": 4.188569078947368
       },
       "prevControl": {
-        "x": 6.610726242425387,
-        "y": 5.0919286120512615
+        "x": 7.032020547945206,
+        "y": 3.8371789383561645
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "PREP_L4",
+      "waypointRelativePos": 0.7857142857142859,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
