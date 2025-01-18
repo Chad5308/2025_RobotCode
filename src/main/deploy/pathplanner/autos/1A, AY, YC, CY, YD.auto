@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1A"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AY"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "YC"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CY"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "YD"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "3 Piece",
+  "choreoAuto": false
+}

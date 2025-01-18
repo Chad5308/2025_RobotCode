@@ -1,0 +1,25 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1K"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "KX"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "1 Piece",
+  "choreoAuto": false
+}
