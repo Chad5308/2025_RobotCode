@@ -120,6 +120,17 @@ public class RobotContainer {
   public Command getAutonomousCommand()
   {
     // return autoChooser.getSelected();
+
+    // Before initializing finalSelection, get the current
+    // choice for each autoChooser object.
+    selection1 = autoChooser1.getSelected();
+    selection2 = autoChooser2.getSelected();
+    selection3 = autoChooser3.getSelected();
+    System.out.printf("***** Auto selected: %s %s %s\n", 
+                      selection1, 
+                      selection2, 
+                      selection3);
+
     finalSelection = selection1 + ", " + selection2 + ", " + selection3;
     SmartDashboard.putString("Auto Selection", finalSelection);
     return new PathPlannerAuto(finalSelection);
