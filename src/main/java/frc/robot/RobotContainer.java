@@ -120,7 +120,7 @@ public class RobotContainer {
   public Command getAutonomousCommand()
   {
     // return autoChooser.getSelected();
-    
+
     // Before initializing finalSelection, get the current
     // choice for each autoChooser object.
     selection1 = autoChooser1.getSelected();
@@ -131,7 +131,28 @@ public class RobotContainer {
                       selection2, 
                       selection3);
 
-    finalSelection = selection1 + ", " + selection2 + ", " + selection3;
+    // We need some logic to handle the case when the path is only
+    // one or two legs.  Below is a sample of one way to deal with 
+    // that.  Question: What should we do if the selection1 is null?
+    finalSelection = selection1;
+    if(finalSelection == null)
+    {
+      System.out.print("***** WARNING: No auto path selected.");
+    }
+    else
+    {
+      if(selection2 != null)
+      {
+        finalSelection += ", " + selection2;
+      }
+
+      if(selection3 != null)
+      {
+        finalSelection += ", " + selection3;
+      }
+   }
+
+    //finalSelection = selection1 + ", " + selection2 + ", " + selection3;
     SmartDashboard.putString("Auto Selection", finalSelection);
     return new PathPlannerAuto(finalSelection);
   }
