@@ -120,7 +120,7 @@ public class RobotContainer {
   public Command getAutonomousCommand()
   {
     // return autoChooser.getSelected();
-
+    
     // Before initializing finalSelection, get the current
     // choice for each autoChooser object.
     selection1 = autoChooser1.getSelected();
