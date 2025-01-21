@@ -108,9 +108,7 @@ public final class Constants {
 
   public static final class constants_Elevator
   {
-
-
-
+    public static final double ELEVATOR_TO_INCHES = 1;
 
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
     public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
@@ -132,6 +130,10 @@ public final class Constants {
     }
   }
 
+  public static final class constants_Rollers
+  {
+    public static final double ROLLER_GEAR_RATIO = 1/5;
+  }
 
 
   public static final class constants_OI {

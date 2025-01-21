@@ -4,6 +4,7 @@ package frc.robot.Subsystems.Drive;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -36,6 +37,8 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Constants;
+import frc.robot.Util.Constants.constants_Drive;
+import frc.robot.Util.Constants.constants_Module;
 
 public class Module extends SubsystemBase
 {
@@ -47,6 +50,7 @@ public class Module extends SubsystemBase
   // public TalonFXConfiguration driveConfig = new TalonFXConfiguration();
   public NeutralOut neutralOut;
   public Slot0Configs driveGains;
+  public FeedbackConfigs driveFeedbackConfigs;
   
   public LinearVelocity speedAt12Volts = Units.MetersPerSecond.of(4.55);
   public Current slipCurrent = edu.wpi.first.units.Units.Amps.of(120);
@@ -89,7 +93,10 @@ public class Module extends SubsystemBase
   {
     driveMotor = new TalonFX(driveNum);
     driveGains = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
+    driveFeedbackConfigs = new FeedbackConfigs().withRotorToSensorRatio(constants_Module.DRIVE_ENCODER_ROT_2_METER);
     driveMotor.getConfigurator().apply(driveGains);
+    driveMotor.getConfigurator().apply(driveFeedbackConfigs, 5);
+    
     //TODO Find where to invert drive and steer motors in documentation
   
     

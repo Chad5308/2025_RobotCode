@@ -1,5 +1,6 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
@@ -16,6 +17,7 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_ELEVATOR;
 
 public class Elevator extends SubsystemBase
@@ -26,14 +28,14 @@ public class Elevator extends SubsystemBase
     public MotionMagicVelocityVoltage motionMagicRequest;
     // public TalonFXConfiguration elevatorConfig = new TalonFXConfiguration();
     public NeutralOut neutralOut;
-    public Slot0Configs elevatorConfigs;
+    public Slot0Configs ELE_CONFIG;
+    public FeedbackConfigs ELE_FEEDBACKCONFIG;
     public ClosedLoopOutputType elevatorClosedLoopOutput = ClosedLoopOutputType.Voltage;
 
 
     public SparkMax ELE_ARM;
     public RelativeEncoder ELE_ARM_ENCODER;
     public SparkClosedLoopController ELE_ARM_PID;
-
     public SparkBaseConfig config;
 
 
@@ -42,10 +44,14 @@ public class Elevator extends SubsystemBase
         ELE_LEFT = new TalonFX(MAP_ELEVATOR.ELEVATOR_LEFT);
         ELE_RIGHT = new TalonFX(MAP_ELEVATOR.ELEVATOR_RIGHT);
 
-        elevatorConfigs = new Slot0Configs().withKP(0.1).withKI(0).withKD(0).withKS(0.5).withKV(0.2);
+        ELE_CONFIG = new Slot0Configs().withKP(0.1).withKI(0).withKD(0).withKS(0.5).withKV(0.2);
+        ELE_FEEDBACKCONFIG = new FeedbackConfigs().withRotorToSensorRatio(constants_Rollers.ROLLER_GEAR_RATIO);
         
-        ELE_LEFT.getConfigurator().apply(elevatorConfigs);
-        ELE_RIGHT.getConfigurator().apply(elevatorConfigs);
+        ELE_LEFT.getConfigurator().apply(ELE_CONFIG);
+        ELE_LEFT.getConfigurator().apply(ELE_FEEDBACKCONFIG);
+
+        ELE_RIGHT.getConfigurator().apply(ELE_CONFIG);
+        ELE_RIGHT.getConfigurator().apply(ELE_FEEDBACKCONFIG);
 
         config = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
         ELE_ARM = new SparkMax(MAP_ELEVATOR.ELEVATOR_RIGHT, MotorType.kBrushless);
