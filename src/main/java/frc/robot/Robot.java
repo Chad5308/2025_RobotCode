@@ -16,11 +16,11 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
-    // for (int port = 5801; port <= 5809; port++) {
-    //   PortForwarder.add(port, "limelight.local", port);
-    // }
+    for (int port = 5801; port <= 5809; port++) {
+      PortForwarder.add(port, "limelight.local", port);
+    }
 
-    // PortForwarder.add(5800, "photonvision.local", 5800);
+    PortForwarder.add(5800, "photonvision.local", 5800);
   }
   
 

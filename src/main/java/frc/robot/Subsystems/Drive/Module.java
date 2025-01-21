@@ -13,7 +13,6 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.hardware.core.CoreCANcoder;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.ClosedLoopOutputType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
@@ -45,7 +44,7 @@ public class Module extends SubsystemBase
   public TalonFX driveMotor;
   public VelocityVoltage velocityRequest;
   public MotionMagicVelocityVoltage motionMagicRequest;
-  public TalonFXConfiguration driveConfig = new TalonFXConfiguration();
+  // public TalonFXConfiguration driveConfig = new TalonFXConfiguration();
   public NeutralOut neutralOut;
   public Slot0Configs driveGains;
   
@@ -88,10 +87,11 @@ public class Module extends SubsystemBase
   
   public Module(int steerNum, int driveNum, boolean invertDrive, boolean invertSteer, int absoluteEncoderID, Rotation2d zeroRotation, boolean absoluteReversed)
   {
-    System.out.println("************************** Module Init ********************************");
     driveMotor = new TalonFX(driveNum);
     driveGains = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
-    
+    driveMotor.getConfigurator().apply(driveGains);
+    //TODO Find where to invert drive and steer motors in documentation
+  
     
     this.absoluteReversed = absoluteReversed;
     absoluteEncoder = new CANcoder(absoluteEncoderID, new CANBus());
@@ -109,7 +109,6 @@ public class Module extends SubsystemBase
     
     
     resetDriveEncoder();
-    System.out.println("******************************Finished Init *****************************");
   }
   
   public void stop()

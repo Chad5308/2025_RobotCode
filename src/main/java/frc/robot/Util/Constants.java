@@ -5,6 +5,7 @@
 package frc.robot.Util;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -12,9 +13,14 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.DistanceUnit;
 import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import frc.robot.Subsystems.StateMachine.RobotState;
+import frc.robot.Subsystems.StateMachine.TargetState;;
+
 
 
 
@@ -100,6 +106,34 @@ public final class Constants {
     public static final double MODULE_RADIUS = Units.inchesToMeters(Constants.constants_Drive.TRACK_WIDTH/2); //measured from center of robot to furthest module.
   }
 
+  public static final class constants_Elevator
+  {
+
+
+
+
+    public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
+
+  }
+
+  public static class ElevatorPositionGroup
+  {
+    public Measure<AngleUnit> armAngle; //Degrees
+    public Measure<DistanceUnit> elevatorPosition; //Inches from ground
+
+    public ElevatorPositionGroup(Measure<AngleUnit> armAngle, Measure<DistanceUnit> elevatorPosition)
+    {
+      this.armAngle = armAngle;
+      this.elevatorPosition = elevatorPosition;
+    }
+  }
+
+
+
   public static final class constants_OI {
     public static final int OP_CONTROLLER_PORT = 0;
     public static final double DEADBAND = 0.09;
@@ -183,5 +217,33 @@ public final class Constants {
                 MAX_SPEED_METERS_PER_SEC,
                 MAX_ACCELERATION_METERS_PER_SECOND_SQRD
             );
+  }
+
+
+  public static final class constants_StateMachine
+  {
+    public static final Map<TargetState, RobotState> TARGET_TO_ROBOT_STATE = new HashMap<TargetState, RobotState>();
+
+    static
+    {
+      TARGET_TO_ROBOT_STATE.put(TargetState.PREP_NONE, RobotState.PREP_NONE);
+      TARGET_TO_ROBOT_STATE.put(TargetState.PREP_INTAKE, RobotState.INTAKING);
+      TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L1, RobotState.PREP_L1);
+      TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L2, RobotState.PREP_L2);
+      TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L3, RobotState.PREP_L3);
+      TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L4, RobotState.PREP_L4);
+    }
+
+    public static Map<TargetState, ElevatorPositionGroup> TARGET_TO_PRESET_GROUP = new HashMap<TargetState, ElevatorPositionGroup>();
+
+    static
+    {
+      TARGET_TO_PRESET_GROUP.put(TargetState.PREP_NONE, constants_Elevator.PREP_NONE);
+      TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L1, constants_Elevator.PREP_L1);
+      TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L2, constants_Elevator.PREP_L2);
+      TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L3, constants_Elevator.PREP_L3);
+      TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L4, constants_Elevator.PREP_L4);
+      TARGET_TO_PRESET_GROUP.put(TargetState.PREP_INTAKE, constants_Elevator.PREP_NONE);
+    }
   }
 }

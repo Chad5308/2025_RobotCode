@@ -91,32 +91,25 @@ public class StateMachine extends SubsystemBase {
 
   public static enum RobotState {
     NONE,
+    PREP_NONE,
     INTAKING,
     CLIMB,
     SCORECORAL,
     SCOREALGAE,
-    PREP_LL1,
-    PREP_RL1,
-    PREP_LL2,
-    PREP_RL2,
-    PREP_LL3,
-    PREP_RL3,
-    PREP_LL4,
-    PREP_RL4
+    PREP_L1,
+    PREP_L2,
+    PREP_L3,
+    PREP_L4
   }
 
   public static enum TargetState
   {
     PREP_NONE,
-    PREP_LL1,
-    PREP_RL1,
-    PREP_LL2,
-    PREP_RL2,
-    PREP_LL3,
-    PREP_RL3,
-    PREP_LL4,
-    PREP_RL4
-  
+    PREP_INTAKE,
+    PREP_L1,
+    PREP_L2,
+    PREP_L3,
+    PREP_L4
   }
 
   @Override
