@@ -7,15 +7,24 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Auto;
 import frc.robot.Commands.Drive;
 import frc.robot.Util.Constants.constants_OI;
 import frc.robot.Util.LimelightHelpers;
+import frc.robot.Subsystems.AlgaeRollers;
+import frc.robot.Subsystems.Climber;
+import frc.robot.Subsystems.Elevator;
+import frc.robot.Subsystems.Lights;
+import frc.robot.Subsystems.StateMachine;
+import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.Vision;
 import frc.robot.Subsystems.Drive.Swerve;
 
@@ -29,13 +38,25 @@ import frc.robot.Subsystems.Drive.Swerve;
  */
 public class RobotContainer {
 
-  private final CommandXboxController opController = new CommandXboxController(constants_OI.OP_CONTROLLER_PORT);
+  private final CommandXboxController drive_Controller = new CommandXboxController(constants_OI.DRIVER_CONTROLLER_PORT);
+  private final XboxControllerSim op_Controller = new XboxControllerSim(constants_OI.OP_CONTROLLER_PORT);
 
   public Swerve s_Swerve = new Swerve();
   public LimelightHelpers h_Limelight = new LimelightHelpers();
   public Vision s_Vision = new Vision(s_Swerve);
-  public Drive c_Drive = new Drive(s_Swerve, opController);
+  public Drive c_Drive = new Drive(s_Swerve, drive_Controller);
   public Auto c_Auto = new Auto(c_Drive, s_Swerve, s_Vision);
+  public StateMachine s_StateMachine = new StateMachine();
+  public Climber s_Climber = new Climber();
+  public Elevator s_Elevator = new Elevator();
+  public AlgaeRollers s_Rollers = new AlgaeRollers();
+  public Lights s_Lights = new Lights();
+
+  public Trigger gamePieceStoredTrigger_Coral = new Trigger(() -> s_Elevator.getGamePieceStored());
+  public Trigger gamePieceCollectedTrigger_Coral = new Trigger(() -> s_Elevator.getGamePieceCollected());
+
+  public Trigger gamePieceStoredTrigger_Algae = new Trigger(() -> s_Rollers.getGamePieceStored());
+  public Trigger gamePieceCollectedTrigger_Algae = new Trigger(() -> s_Rollers.getGamePieceCollected());
 
   // private SendableChooser<Command> autoChooser;
 
@@ -50,7 +71,7 @@ public class RobotContainer {
     autoChooser2 = new SendableChooser<>();
     autoChooser3 = new SendableChooser<>();
     s_Swerve.setDefaultCommand(c_Drive);
-    configureBindings();
+    configureDriverBindings(drive_Controller);
     configureAutoChoosers();
 
     // SmartDashboard.putData("Auto Chooser", autoChooser);   
@@ -156,11 +177,19 @@ public class RobotContainer {
   }
 
 
-  private void configureBindings() {
+  public void configureDriverBindings(CommandXboxController drive_Controller) {
     //Drive Controls
-    opController.povRight().toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
-    opController.povLeft().toggleOnTrue(s_Swerve.fieldOrientedToggle());
-    opController.button(7).onTrue(s_Swerve.resetWheels()); //window looking button
+    drive_Controller.povRight().toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
+    drive_Controller.povLeft().toggleOnTrue(s_Swerve.fieldOrientedToggle());
+    drive_Controller.button(7).onTrue(s_Swerve.resetWheels()); //window looking button
+
+        // Intake
+    drive_Controller.leftTrigger()
+        .whileTrue(Commands.deferredProxy(
+            () -> s_StateMachine.tryState(RobotState.INTAKING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+        .onFalse(Commands.deferredProxy(
+            () -> s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))
+            .unless(gamePieceStoredTrigger_Algae));
   }
 
 

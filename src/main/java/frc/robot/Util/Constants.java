@@ -136,6 +136,7 @@ public final class Constants {
 
   public static final class constants_OI {
     public static final int OP_CONTROLLER_PORT = 0;
+    public static final int DRIVER_CONTROLLER_PORT = 1;
     public static final double DEADBAND = 0.09;
     public static final int LEFT_STICK_PORT = 1;
     public static final int RIGHT_STICK_PORT = 2;
@@ -227,7 +228,6 @@ public final class Constants {
     static
     {
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_NONE, RobotState.PREP_NONE);
-      TARGET_TO_ROBOT_STATE.put(TargetState.PREP_INTAKE, RobotState.INTAKING);
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L1, RobotState.PREP_L1);
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L2, RobotState.PREP_L2);
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L3, RobotState.PREP_L3);
@@ -243,7 +243,6 @@ public final class Constants {
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L2, constants_Elevator.PREP_L2);
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L3, constants_Elevator.PREP_L3);
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L4, constants_Elevator.PREP_L4);
-      TARGET_TO_PRESET_GROUP.put(TargetState.PREP_INTAKE, constants_Elevator.PREP_NONE);
     }
   }
 }

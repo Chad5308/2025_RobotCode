@@ -10,4 +10,19 @@ public class AlgaeRollers extends SubsystemBase
     {
         
     }
+
+
+
+        
+    public boolean getGamePieceStored()
+    {
+        return false;
+        //TODO Code this distance/proxy sensor in
+    }
+
+    public boolean getGamePieceCollected()
+    {
+        return false;
+        //TODO Code this distance/proxy sensor in
+    }
 }
