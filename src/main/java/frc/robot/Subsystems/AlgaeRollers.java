@@ -10,6 +10,8 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_ALGAE;
@@ -73,5 +75,13 @@ public class AlgaeRollers extends SubsystemBase
     public void setSpeed(double speed) //rps
     {
         ROLLERS_PID.setReference(speed, ControlType.kVelocity);
+    }
+
+
+
+    @Override
+    public void periodic()
+    {
+        SmartDashboard.putBoolean("Algae Detection", getGamePieceCollected());
     }
 }

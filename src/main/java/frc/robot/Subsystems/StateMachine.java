@@ -80,7 +80,7 @@ public class StateMachine extends SubsystemBase {
         {
           case NONE: //TODO need to find out if you were in the combo state before scoring so that you can go to algae instead of none
           case CORAL:
-            return new IntakingState(s_StateMachine);
+            return new IntakingState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
         break;
       
@@ -91,13 +91,7 @@ public class StateMachine extends SubsystemBase {
             return new ComboState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, s_Vision);
           case CORAL:
           case NONE:
-          case COMBO:
-          case PREP_L1:
-          case PREP_L2:
-          case PREP_L3:
-          case PREP_L4:
-          case PREP_VISION:
-          case PREP_NONE:
+          case SCORING:
             return new CoralState(s_StateMachine, s_Elevator, s_Lights, s_Vision, false);
         }
         break;
@@ -105,24 +99,16 @@ public class StateMachine extends SubsystemBase {
       case ALGAE:
         switch (currentState)
         {
-          case CORAL:
-            return new ComboState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, s_Vision);
+          case NONE:
+          case SCORING:
           case INTAKE_ALGAE:
-          case COMBO:
-          case PREP_L1:
-          case PREP_L2:
-          case PREP_L3:
-          case PREP_L4:
-          case PREP_NONE:
-          case PREP_VISION:
             return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, s_Vision, false);
         }
         break;
       case COMBO:
         switch (currentState)
         {
-          case ALGAE:
-          case CORAL:
+          case INTAKE_ALGAE:
             return new ComboState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, s_Vision);
         }
 
@@ -131,7 +117,7 @@ public class StateMachine extends SubsystemBase {
         {
           case NONE:
           case CORAL:
-          case PREP_NONE:
+          // case PREP_NONE:
             return new ClimbingState(s_StateMachine, s_Elevator, s_Climber, s_Lights, s_Vision);
         }
         break;
@@ -139,15 +125,13 @@ public class StateMachine extends SubsystemBase {
       case SCORING:
         switch(currentState)
         {
-          case COMBO:
-          case CORAL:
-          case ALGAE:
           case PREP_L1:
           case PREP_L2:
           case PREP_L3:
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
+          case PREP_ALGAE:
           case SCORING:
             return new ScoringState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights, c_Drive, s_Climber);
         }
@@ -212,6 +196,20 @@ public class StateMachine extends SubsystemBase {
             return new PrepTargetState(s_Elevator, s_StateMachine, s_Lights, TargetState.PREP_L4);
         }
         break;
+
+      case PREP_ALGAE:
+        switch(currentState)
+        {
+          case COMBO:
+          case ALGAE:
+          case PREP_L1:
+          case PREP_L2:
+          case PREP_L3:
+          case PREP_L4:
+          case PREP_ALGAE:
+            return new PrepTargetState(s_Elevator, s_StateMachine, s_Lights, TargetState.PREP_ALGAE);
+        }
+
       case PREP_NONE:
         switch (currentState)
         {
@@ -274,6 +272,7 @@ public class StateMachine extends SubsystemBase {
     PREP_L3,
     PREP_L4,
     PREP_VISION,
+    PREP_ALGAE
   }
 
   public static enum TargetState

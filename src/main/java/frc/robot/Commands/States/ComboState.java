@@ -38,7 +38,7 @@ public class ComboState extends Command
         {
             //What to do when we are now picking up a coral
             new CoralState(s_StateMachine, s_Elevator, s_Lights, s_Vision, true);
-        }else
+        }else if(s_StateMachine.currentState == RobotState.INTAKE_ALGAE)
         {
             //what to do when we are now picking up a coral
             new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, s_Vision, true);

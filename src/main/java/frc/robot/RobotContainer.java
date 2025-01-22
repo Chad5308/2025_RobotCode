@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import javax.lang.model.util.ElementScanner14;
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -84,9 +86,6 @@ public class RobotContainer {
 
     gamePieceCollectedTrigger_Algae.onTrue(Commands.deferredProxy(
       ()-> s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
-
-    SmartDashboard.putBoolean("Coral Detection", gamePieceStoredTrigger_Coral.getAsBoolean());
-    SmartDashboard.putBoolean("Algae Detection", gamePieceCollectedTrigger_Algae.getAsBoolean());
 
   }
 
@@ -201,12 +200,30 @@ public class RobotContainer {
             () -> s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))
             .unless(gamePieceCollectedTrigger_Algae));
 
+
+    //Shooting
     drive_Controller.rightTrigger().whileTrue(Commands.deferredProxy(
       ()-> s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)
-    ).andThen(Commands.deferredProxy(
-      ()-> s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)
-      )));
+    )).onFalse(Commands.run(()->
+    {
+      if(gamePieceCollectedTrigger_Algae.getAsBoolean())
+      {
+        Commands.deferredProxy(
+          ()-> s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights));
+      }else if(gamePieceStoredTrigger_Coral.getAsBoolean())
+      {
+        Commands.deferredProxy(
+          ()-> s_StateMachine.tryState(RobotState.CORAL, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights));
+      }else
+      {
+        Commands.deferredProxy(
+          ()-> s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights));
+      }
 
+    }));
+      
+    
+    //PREP_L4
     drive_Controller.rightBumper().onTrue(Commands.runOnce(() -> s_StateMachine.setTargetState(TargetState.PREP_L4)))
     .onTrue(Commands.deferredProxy(()-> s_StateMachine.tryState(RobotState.PREP_L4, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
