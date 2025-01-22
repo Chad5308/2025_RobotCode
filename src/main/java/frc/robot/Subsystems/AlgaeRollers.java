@@ -26,6 +26,8 @@ public class AlgaeRollers extends SubsystemBase
     public RelativeEncoder PITCH_ENCODER;
     public SparkClosedLoopController PITCH_PID;
     public SparkBaseConfig configPitch;
+
+    public boolean testBool = false;
     
 
     public AlgaeRollers()
@@ -56,18 +58,12 @@ public class AlgaeRollers extends SubsystemBase
         return ROLLERS_ENCODER.getVelocity();
     }
         
-    public boolean getGamePieceStored()
-    {
-        return false;
-        //TODO Code this distance/proxy sensor in
-    }
-
     public boolean getGamePieceCollected()
     {
-        return false;
+        return testBool;
+        //return senser reading
         //TODO Code this distance/proxy sensor in
     }
-
 
     public void setPosition(double position) //degrees
     {

@@ -25,6 +25,7 @@ import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
+import frc.robot.Subsystems.StateMachine.TargetState;
 import frc.robot.Subsystems.Vision;
 import frc.robot.Subsystems.Drive.Swerve;
 
@@ -39,23 +40,20 @@ import frc.robot.Subsystems.Drive.Swerve;
 public class RobotContainer {
 
   private final CommandXboxController drive_Controller = new CommandXboxController(constants_OI.DRIVER_CONTROLLER_PORT);
-  private final XboxControllerSim op_Controller = new XboxControllerSim(constants_OI.OP_CONTROLLER_PORT);
+  // private final XboxControllerSim op_Controller = new XboxControllerSim(constants_OI.OP_CONTROLLER_PORT);
 
   public Swerve s_Swerve = new Swerve();
   public LimelightHelpers h_Limelight = new LimelightHelpers();
   public Vision s_Vision = new Vision(s_Swerve);
   public Drive c_Drive = new Drive(s_Swerve, drive_Controller);
-  public Auto c_Auto = new Auto(c_Drive, s_Swerve, s_Vision);
   public StateMachine s_StateMachine = new StateMachine();
   public Climber s_Climber = new Climber();
   public Elevator s_Elevator = new Elevator();
   public AlgaeRollers s_Rollers = new AlgaeRollers();
   public Lights s_Lights = new Lights();
+  public Auto c_Auto = new Auto(c_Drive, s_Swerve, s_Vision, s_Elevator, s_StateMachine, s_Lights);
 
   public Trigger gamePieceStoredTrigger_Coral = new Trigger(() -> s_Elevator.getGamePieceStored());
-  public Trigger gamePieceCollectedTrigger_Coral = new Trigger(() -> s_Elevator.getGamePieceCollected());
-
-  public Trigger gamePieceStoredTrigger_Algae = new Trigger(() -> s_Rollers.getGamePieceStored());
   public Trigger gamePieceCollectedTrigger_Algae = new Trigger(() -> s_Rollers.getGamePieceCollected());
 
   // private SendableChooser<Command> autoChooser;
@@ -78,6 +76,18 @@ public class RobotContainer {
     SmartDashboard.putData(autoChooser1);
     SmartDashboard.putData(autoChooser2);
     SmartDashboard.putData(autoChooser3);
+
+
+    gamePieceStoredTrigger_Coral.onTrue(Commands.deferredProxy(
+      () -> s_StateMachine.tryState(RobotState.CORAL, s_StateMachine, c_Drive,s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+
+    gamePieceCollectedTrigger_Algae.onTrue(Commands.deferredProxy(
+      ()-> s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+    SmartDashboard.putBoolean("Coral Detection", gamePieceStoredTrigger_Coral.getAsBoolean());
+    SmartDashboard.putBoolean("Algae Detection", gamePieceCollectedTrigger_Algae.getAsBoolean());
+
   }
 
   public void configureAutoChoosers()
@@ -186,10 +196,28 @@ public class RobotContainer {
         // Intake
     drive_Controller.leftTrigger()
         .whileTrue(Commands.deferredProxy(
-            () -> s_StateMachine.tryState(RobotState.INTAKING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+            () -> s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
         .onFalse(Commands.deferredProxy(
             () -> s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))
-            .unless(gamePieceStoredTrigger_Algae));
+            .unless(gamePieceCollectedTrigger_Algae));
+
+    drive_Controller.rightTrigger().whileTrue(Commands.deferredProxy(
+      ()-> s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)
+    ).andThen(Commands.deferredProxy(
+      ()-> s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)
+      )));
+
+    drive_Controller.rightBumper().onTrue(Commands.runOnce(() -> s_StateMachine.setTargetState(TargetState.PREP_L4)))
+    .onTrue(Commands.deferredProxy(()-> s_StateMachine.tryState(RobotState.PREP_L4, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+
+    drive_Controller.a().onTrue(Commands.runOnce(()-> {
+      s_Rollers.testBool = !s_Rollers.testBool;
+    }));
+
+    drive_Controller.b().onTrue(Commands.runOnce(()-> {
+      s_Elevator.testBool = !s_Elevator.testBool;
+    }));
   }
 
 

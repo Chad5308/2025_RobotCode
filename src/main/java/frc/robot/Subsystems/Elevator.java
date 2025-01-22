@@ -38,6 +38,8 @@ public class Elevator extends SubsystemBase
     public SparkClosedLoopController ELE_ARM_PID;
     public SparkBaseConfig config;
 
+    public boolean testBool = false;
+
 
     public Elevator()
     {
@@ -69,14 +71,9 @@ public class Elevator extends SubsystemBase
     
     public boolean getGamePieceStored()
     {
-        return false;
+        return testBool;
         //TODO Code this distance/proxy sensor in
     }
 
-    public boolean getGamePieceCollected()
-    {
-        return false;
-        //TODO Code this distance/proxy sensor in
-    }
     
 }

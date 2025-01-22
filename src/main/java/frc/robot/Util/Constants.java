@@ -137,8 +137,8 @@ public final class Constants {
 
 
   public static final class constants_OI {
-    public static final int OP_CONTROLLER_PORT = 0;
-    public static final int DRIVER_CONTROLLER_PORT = 1;
+    public static final int DRIVER_CONTROLLER_PORT = 0;
+    public static final int OP_CONTROLLER_PORT = 1;
     public static final double DEADBAND = 0.09;
     public static final int LEFT_STICK_PORT = 1;
     public static final int RIGHT_STICK_PORT = 2;

@@ -18,5 +18,7 @@ public class PrepVision extends Command
         this.s_StateMachine = s_StateMachine;
         this.c_Drive = c_Drive;
         this.s_Lights = s_Lights;
+
+        addRequirements(s_StateMachine);
     }
 }

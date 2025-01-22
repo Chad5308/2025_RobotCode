@@ -41,9 +41,9 @@ public class PrepTargetState extends Command {
     RobotState desiredRobotState = constants_StateMachine.TARGET_TO_ROBOT_STATE.get(desiredTargetState);
     RobotState currentRobotState = s_StateMachine.getRobotState();
 
-    // if (currentRobotState.equals(RobotState.STORE_CORAL) || s_StateMachine.isCurrentStateTargetState()) {
-    //   s_StateMachine.setRobotState(desiredRobotState);
-    // }
+    if (currentRobotState.equals(RobotState.INTAKE_ALGAE) || s_StateMachine.isCurrentStateTargetState()) {
+      s_StateMachine.setRobotState(desiredRobotState);
+    }
 
     desiredElevatorPosition = constants_StateMachine.TARGET_TO_PRESET_GROUP.get(desiredTargetState);
 
@@ -77,20 +77,20 @@ public class PrepTargetState extends Command {
     // }
   }
 
-//   // Called once the command ends or is interrupted.
-//   @Override
-//   public void end(boolean interrupted) {
-//     subShooter.setDesiredPosition(desiredShooterPosition);
-//     s_Elevator.setElevatorPosition(desiredShooterPosition.elevatorPosition);
-//   }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    // s_Elevator.setElevatorPosition(desiredShooterPosition.elevatorPosition);
+  }
 
-//   // Returns true when the command should end.
-//   @Override
-//   public boolean isFinished() {
-//     if (elevatorWasUp) {
-//       return subShooter.isShooterAtPosition(desiredShooterPosition.shooterAngle);
-//     } else {
-//       return s_Elevator.isElevatorAtPosition(desiredShooterPosition.elevatorPosition);
-//     }
-//   }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    // if (elevatorWasUp) {
+    //   return subShooter.isShooterAtPosition(desiredShooterPosition.shooterAngle);
+    // } else {
+    //   return s_Elevator.isElevatorAtPosition(desiredShooterPosition.elevatorPosition);
+    // }
+    return true;
+  }
 }
