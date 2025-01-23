@@ -16,7 +16,7 @@ public class CoralState extends Command
     boolean combo;
 
 
-    public CoralState(StateMachine s_StateMachine, Elevator s_Elevator, Lights s_Lights, Vision s_Vision, boolean combo)
+    public CoralState(StateMachine s_StateMachine, Elevator s_Elevator, Vision s_Vision, Lights s_Lights, boolean combo)
     {
         this.s_StateMachine = s_StateMachine;
         this.s_Elevator = s_Elevator;
@@ -31,7 +31,7 @@ public class CoralState extends Command
     public void initialize()
     {
         if(!combo){s_StateMachine.setRobotState(RobotState.CORAL);}
-        //Sequence for picking up coral
+        //Sequence for picking up coral but also check first if there is already a game piece held and if so that means we came from Score -> None -> Coral
     }
     
     // Called every time the scheduler runs while the command is scheduled.

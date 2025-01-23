@@ -58,7 +58,7 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Swerve.faceAllFoward()));
         // NamedCommands.registerCommand("AutoDrive", Commands.runOnce(() -> s_Vision.autoDrive.schedule()));
         
-        NamedCommands.registerCommand("PREP_L4", new PrepTargetState(s_Elevator, s_StateMachine, s_Lights, TargetState.PREP_L4));
+        NamedCommands.registerCommand("PREP_L4", new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L4));
         
     }
 

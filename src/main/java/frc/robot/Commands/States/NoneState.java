@@ -1,6 +1,7 @@
 package frc.robot.Commands.States;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Commands.Drive;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
@@ -14,11 +15,23 @@ import frc.robot.Subsystems.Vision;
 public class NoneState extends Command 
 {
     StateMachine s_StateMachine;
+    Drive c_Drive;
+    Elevator s_Elevator;
+    Climber s_Climber;
+    AlgaeRollers s_Rollers;
+    Vision s_Vision;
+    Lights s_Lights;
+
     
-    public NoneState(StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator,
-     Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights) 
+    public NoneState(StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights) 
     {
         this.s_StateMachine = s_StateMachine;
+        this.c_Drive = c_Drive;
+        this.s_Elevator = s_Elevator;
+        this.s_Climber = s_Climber;
+        this.s_Rollers = s_Rollers;
+        this.s_Vision = s_Vision;
+        this.s_Lights = s_Lights;
 
         addRequirements(s_StateMachine);
     }
@@ -29,6 +42,19 @@ public class NoneState extends Command
     {
         s_StateMachine.setRobotState(RobotState.NONE);
         s_StateMachine.setTargetState(TargetState.PREP_NONE);
+        //run our homeing sequence
+
+
+        if(s_Rollers.getGamePieceCollected() && s_Elevator.getGamePieceStored())
+        {
+          s_StateMachine.tryState(RobotState.COMBO, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+        }else if(s_Rollers.getGamePieceCollected())
+        {
+          s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+        }else if(s_Elevator.getGamePieceStored())
+        {
+          s_StateMachine.tryState(RobotState.CORAL, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+        }
     }
 
 

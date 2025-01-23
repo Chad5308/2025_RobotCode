@@ -25,7 +25,7 @@ public class PrepTargetState extends Command {
   boolean elevatorWasUp;
 
   /** Creates a new PrepTargetState. */
-  public PrepTargetState(Elevator s_Elevator, StateMachine s_StateMachine, Lights s_LEDs, TargetState desiredTargetState) {
+  public PrepTargetState(StateMachine s_StateMachine, Elevator s_Elevator, Lights s_LEDs, TargetState desiredTargetState) {
     this.s_StateMachine = s_StateMachine;
     this.s_Elevator = s_Elevator;
     this.s_LEDs = s_LEDs;
@@ -41,56 +41,30 @@ public class PrepTargetState extends Command {
     RobotState desiredRobotState = constants_StateMachine.TARGET_TO_ROBOT_STATE.get(desiredTargetState);
     RobotState currentRobotState = s_StateMachine.getRobotState();
 
-    if (currentRobotState.equals(RobotState.INTAKE_ALGAE) || s_StateMachine.isCurrentStateTargetState()) {
+    if (currentRobotState.equals(RobotState.ALGAE) || currentRobotState.equals(RobotState.CORAL) || currentRobotState.equals(RobotState.COMBO) || s_StateMachine.isCurrentStateTargetState()) {
       s_StateMachine.setRobotState(desiredRobotState);
     }
 
     desiredElevatorPosition = constants_StateMachine.TARGET_TO_PRESET_GROUP.get(desiredTargetState);
 
-    // elevatorWasUp = s_Elevator.isSafeToMoveShooterAboveLimit();
 
-    // if (elevatorWasUp) {
-    //   subShooter.setDesiredPosition(desiredShooterPosition);
-    // } else {
-    //   s_Elevator.setElevatorPosition(desiredShooterPosition.elevatorPosition);
-    // }
+    //try and move the elevator and arm to desired position
+    s_Elevator.setElevatorPosition(desiredElevatorPosition);
 
-    // s_LEDs.clearAnimation();
 
-    // switch (desiredTargetState) {
-    //   case PREP_AMP:
-    //     s_LEDs.setLEDs(constLEDs.PREP_AMP_COLOR);
-    //     break;
-    //   case PREP_SUB_BACKWARDS:
-    //     s_LEDs.setLEDs(constLEDs.PREP_SUB_BACKWARDS_COLOR);
-    //     break;
-    //   case PREP_SPEAKER:
-    //     s_LEDs.setLEDs(constLEDs.PREP_SPEAKER_COLOR);
-    //     break;
-    //   case PREP_NONE:
-    //     if (!subTransfer.getGamePieceStored()) {
-    //       s_LEDs.setLEDs(constLEDs.CLEAR_LEDS);
-    //     } else {
-    //       s_LEDs.setLEDAnimation(constLEDs.STORE_FEEDER_COLOR, 0);
-    //     }
-    //     break;
-    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // s_Elevator.setElevatorPosition(desiredShooterPosition.elevatorPosition);
+    s_Elevator.setElevatorPosition(desiredElevatorPosition);
+    //When the command ends we try and move again just incase
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if (elevatorWasUp) {
-    //   return subShooter.isShooterAtPosition(desiredShooterPosition.shooterAngle);
-    // } else {
-    //   return s_Elevator.isElevatorAtPosition(desiredShooterPosition.elevatorPosition);
-    // }
     return true;
+    //should return if the elevator and arm are in tolerance of where we want them to be
   }
 }

@@ -24,7 +24,7 @@ public class ScoringState extends Command
     Drive c_Drive;
     Climber s_Climber;
 
-    public ScoringState(StateMachine s_StateMachine, Elevator s_Elevator, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights, Drive c_Drive, Climber s_Climber)
+    public ScoringState(StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
     {
         this.s_StateMachine = s_StateMachine;
         this.s_Elevator = s_Elevator;

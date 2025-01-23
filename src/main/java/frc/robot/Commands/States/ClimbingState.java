@@ -17,7 +17,7 @@ public class ClimbingState extends Command
     Vision s_Vision;
 
 
-    public ClimbingState(StateMachine s_StateMachine, Elevator s_Elevator, Climber s_Climber, Lights s_Lights, Vision s_Vision)
+    public ClimbingState(StateMachine s_StateMachine, Elevator s_Elevator, Climber s_Climber, Vision s_Vision, Lights s_Lights)
     {
         this.s_StateMachine = s_StateMachine;
         this.s_Elevator = s_Elevator;
