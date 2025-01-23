@@ -57,6 +57,8 @@ public class StateMachine extends SubsystemBase {
     return currentTargetState;
   }
 
+
+  //Our state machine diagram! -> https://www.tldraw.com/ro/7BgSxOY5qbTRsoqWiZpjX?d=v-325.-71.2543.1252.page
  
   public Command tryState(RobotState desiredState, StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights) {
 
