@@ -31,7 +31,6 @@ public class CoralState extends Command
     public void initialize()
     {
         s_StateMachine.setRobotState(RobotState.CORAL);
-        System.out.println("=========================");
         //Sequence for picking up coral but also check first if there is already a game piece held and if so that means we came from Score -> None -> Coral
     }
     

@@ -32,7 +32,6 @@ public class AlgaeState extends Command
         this.combo = combo;
         this.c_Drive = c_Drive;
         this.s_Climber = s_Climber;
-        System.out.println("-----------------------------");
 
 
 
@@ -44,12 +43,7 @@ public class AlgaeState extends Command
     public void initialize()
     {
         s_StateMachine.setRobotState(RobotState.ALGAE);
-        System.out.println("************************************");
-    
-        if(s_Elevator.getGamePieceStored())
-        {
-            s_StateMachine.tryState(RobotState.COMBO, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-        }
+
         //Write Command to retract intake and stop rollers
     }
 
@@ -62,7 +56,6 @@ public class AlgaeState extends Command
     @Override
     public void end(boolean interrupted)
     {
-        System.out.println("++++++++++++++++++++++++++++++++++++++++");
     }
     
     // Returns true when the command should end.

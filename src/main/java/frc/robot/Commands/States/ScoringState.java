@@ -41,20 +41,7 @@ public class ScoringState extends Command
     @Override
     public void initialize()
     {
-        s_StateMachine.setRobotState(RobotState.SCORING);
-        if(s_StateMachine.currentTargetState == TargetState.PREP_ALGAE)
-        {
-            //score algae!
-        }else if(s_StateMachine.currentTargetState == TargetState.PREP_L1)
-        {
-            //score L1!
-        }else if(s_StateMachine.currentTargetState == TargetState.PREP_L4)
-        {
-            //score l4!
-        }else
-        {
-            //score l2 or l3!
-        }
+
     }
 
     
@@ -62,18 +49,6 @@ public class ScoringState extends Command
     @Override
     public void end(boolean interrupted)
     {
-        // If we don't have a game piece anymore, set the target state back to NONE
-    //    if(s_Elevator.getGamePieceStored())
-    //    {
-    //         s_StateMachine.tryState(RobotState.CORAL, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-    //    }else if(s_Rollers.getGamePieceCollected())
-    //    {
-    //         s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-    //    }else
-    //    {
-    //         s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-    //    }
-        s_StateMachine.setTargetState(TargetState.PREP_NONE);
     }
 
     // Returns true when the command should end.

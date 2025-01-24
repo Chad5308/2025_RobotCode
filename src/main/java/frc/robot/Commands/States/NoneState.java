@@ -62,19 +62,12 @@ public class NoneState extends Command
     @Override
     public void end(boolean interrupted)
     {
-      //Set Stuff to home positions
-      if(s_Rollers.getGamePieceCollected())
-      {
-        s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-      }else if(s_Elevator.getGamePieceStored())
-      {
-        s_StateMachine.tryState(RobotState.CORAL, s_StateMachine, c_Drive,s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-      }
+
     }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return gamePieceCollectedTrigger_Algae.getAsBoolean() || gamePieceStoredTrigger_Coral.getAsBoolean();
+    return true;
   }
 }

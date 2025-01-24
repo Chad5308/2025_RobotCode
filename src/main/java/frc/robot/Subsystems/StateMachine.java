@@ -4,11 +4,11 @@
 
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj.RobotState;
+
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-// import frc.robot.Constants.constStateMachine;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Commands.Drive;
@@ -77,8 +77,23 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_L2:
           case CLEAN_L3:
           case NONE:
-            System.out.println("Took the state");
-            return new NoneState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+            if(s_Rollers.getGamePieceCollected() && s_Elevator.getGamePieceStored())
+            {
+              System.out.println("___________COMBO____________");
+              return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+            }else if(s_Elevator.getGamePieceStored())
+            {
+              System.out.println("___________CORAL____________");
+              return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, false);
+            }else if(s_Rollers.getGamePieceCollected())
+            {
+              System.out.println("___________ALGAE____________");
+              return new AlgaeState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights, false);
+            }else
+            {
+              System.out.println("___________NONE____________");
+              return new NoneState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+            }
         }
         break;
 
@@ -87,7 +102,6 @@ public class StateMachine extends SubsystemBase {
         {
           case NONE: //TODO need to find out if you were in the combo state before scoring so that you can go to algae instead of none
           case CORAL:
-          System.out.println("Took the state");
             return new IntakingAlgaeState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
         break;
@@ -96,11 +110,9 @@ public class StateMachine extends SubsystemBase {
         switch (currentState)
         {
           case ALGAE:
-          System.out.println("Took the state");
             return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
           case CORAL:
           case NONE:
-          System.out.println("Took the state");
             return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, false);
         }
         break;
@@ -110,18 +122,15 @@ public class StateMachine extends SubsystemBase {
         {
           case NONE:
           case INTAKE_ALGAE:
-          System.out.println("Took the state");
+          if(s_Elevator.getGamePieceStored())
+          {
+            return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+          }else
+          {
             return new AlgaeState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights, false);
+          }
         }
         break;
-      case COMBO:
-        switch (currentState)
-        {
-          case NONE:
-          case ALGAE:
-          System.out.println("Took the state");
-            return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-        }
       
       case CLEAN_L2:
         switch(currentState)
@@ -164,7 +173,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_NONE:
           case PREP_ALGAE:
           case SCORING:
-          System.out.println("Took the state");
             return new ScoringState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
         break;
@@ -225,7 +233,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
-          System.out.println("Took the state");
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L4);
         }
         break;
@@ -242,7 +249,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE:
           case PREP_NONE:
           case PREP_VISION:
-          System.out.println("Took the state");
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_ALGAE);
         }
 
@@ -257,7 +263,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_NONE:
           case PREP_VISION:
           case PREP_ALGAE:
-          System.out.println("Took the state");
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_NONE);
         }
       
