@@ -41,7 +41,7 @@ public class ScoringState extends Command
     @Override
     public void initialize()
     {
-
+        s_StateMachine. setRobotState(RobotState.SCORING);
     }
 
     

@@ -19,6 +19,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Constants.ElevatorPositionGroup;
+import frc.robot.Util.Constants.constants_Elevator;
 import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_ELEVATOR;
 
@@ -49,7 +50,7 @@ public class Elevator extends SubsystemBase
         ELE_RIGHT = new TalonFX(MAP_ELEVATOR.ELEVATOR_RIGHT);
 
         ELE_CONFIG = new Slot0Configs().withKP(0.1).withKI(0).withKD(0).withKS(0.5).withKV(0.2);
-        ELE_FEEDBACKCONFIG = new FeedbackConfigs().withRotorToSensorRatio(constants_Rollers.ROLLER_GEAR_RATIO);
+        ELE_FEEDBACKCONFIG = new FeedbackConfigs().withRotorToSensorRatio(constants_Elevator.ELEVATOR_TO_INCHES);
         
         ELE_LEFT.getConfigurator().apply(ELE_CONFIG);
         ELE_LEFT.getConfigurator().apply(ELE_FEEDBACKCONFIG);
