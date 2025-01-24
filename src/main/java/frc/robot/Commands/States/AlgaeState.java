@@ -61,12 +61,14 @@ public class AlgaeState extends Command
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted)
-    {}
+    {
+        System.out.println("++++++++++++++++++++++++++++++++++++++++");
+    }
     
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return combo || true;
+        return combo;
         //not gonna end unless taken out by combo
     }
 }

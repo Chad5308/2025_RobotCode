@@ -2,6 +2,7 @@ package frc.robot.Commands.States;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Drive;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
@@ -21,6 +22,9 @@ public class NoneState extends Command
     AlgaeRollers s_Rollers;
     Vision s_Vision;
     Lights s_Lights;
+     
+    Trigger gamePieceStoredTrigger_Coral = new Trigger(() -> s_Elevator.getGamePieceStored());
+    Trigger gamePieceCollectedTrigger_Algae = new Trigger(() -> s_Rollers.getGamePieceCollected());
 
     
     public NoneState(StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights) 
@@ -40,40 +44,37 @@ public class NoneState extends Command
     @Override
     public void initialize()
     {
-        s_StateMachine.setRobotState(RobotState.NONE);
-        s_StateMachine.setTargetState(TargetState.PREP_NONE);
-        //run our homeing sequence
-
-
-        if(s_Rollers.getGamePieceCollected() && s_Elevator.getGamePieceStored())
-        {
-          s_StateMachine.tryState(RobotState.COMBO, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-        }else if(s_Rollers.getGamePieceCollected())
-        {
-          s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-        }else if(s_Elevator.getGamePieceStored())
-        {
-          s_StateMachine.tryState(RobotState.CORAL, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-        }
+      s_StateMachine.setRobotState(RobotState.NONE);
+      s_StateMachine.setTargetState(TargetState.PREP_NONE);
+      //run our homeing sequence
+ 
     }
-
-
     
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted)
-  {
-    //Set Stuff to home positions
-  }
+    
+    
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute()
+    {
+    }
+    
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted)
+    {
+      //Set Stuff to home positions
+      if(s_Rollers.getGamePieceCollected())
+      {
+        s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+      }else if(s_Elevator.getGamePieceStored())
+      {
+        s_StateMachine.tryState(RobotState.CORAL, s_StateMachine, c_Drive,s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+      }
+    }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return gamePieceCollectedTrigger_Algae.getAsBoolean() || gamePieceStoredTrigger_Coral.getAsBoolean();
   }
 }

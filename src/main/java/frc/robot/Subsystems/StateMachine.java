@@ -17,7 +17,7 @@ import frc.robot.Commands.States.CleanL2State;
 import frc.robot.Commands.States.CleanL3State;
 import frc.robot.Commands.States.ClimbingState;
 import frc.robot.Commands.States.ComboState;
-import frc.robot.Commands.States.IntakingState;
+import frc.robot.Commands.States.IntakingAlgaeState;
 import frc.robot.Commands.States.NoneState;
 import frc.robot.Commands.States.PrepTargetState;
 import frc.robot.Commands.States.PrepVision;
@@ -77,6 +77,7 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_L2:
           case CLEAN_L3:
           case NONE:
+            System.out.println("Took the state");
             return new NoneState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
         break;
@@ -86,7 +87,8 @@ public class StateMachine extends SubsystemBase {
         {
           case NONE: //TODO need to find out if you were in the combo state before scoring so that you can go to algae instead of none
           case CORAL:
-            return new IntakingState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+          System.out.println("Took the state");
+            return new IntakingAlgaeState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
         break;
       
@@ -94,9 +96,11 @@ public class StateMachine extends SubsystemBase {
         switch (currentState)
         {
           case ALGAE:
+          System.out.println("Took the state");
             return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
           case CORAL:
           case NONE:
+          System.out.println("Took the state");
             return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, false);
         }
         break;
@@ -106,6 +110,7 @@ public class StateMachine extends SubsystemBase {
         {
           case NONE:
           case INTAKE_ALGAE:
+          System.out.println("Took the state");
             return new AlgaeState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights, false);
         }
         break;
@@ -114,6 +119,7 @@ public class StateMachine extends SubsystemBase {
         {
           case NONE:
           case ALGAE:
+          System.out.println("Took the state");
             return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
       
@@ -158,6 +164,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_NONE:
           case PREP_ALGAE:
           case SCORING:
+          System.out.println("Took the state");
             return new ScoringState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
         break;
@@ -218,6 +225,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
+          System.out.println("Took the state");
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L4);
         }
         break;
@@ -234,6 +242,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE:
           case PREP_NONE:
           case PREP_VISION:
+          System.out.println("Took the state");
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_ALGAE);
         }
 
@@ -248,6 +257,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_NONE:
           case PREP_VISION:
           case PREP_ALGAE:
+          System.out.println("Took the state");
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_NONE);
         }
       
@@ -321,5 +331,8 @@ public class StateMachine extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putString("CURRENT ROBOT STATE", getRobotState().toString());
     SmartDashboard.putString("CURRENT TARGET STATE", getTargetState().toString());
+
+
+    
   }
 }
