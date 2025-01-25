@@ -12,6 +12,8 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_ALGAE;
@@ -28,6 +30,9 @@ public class AlgaeRollers extends SubsystemBase
     public RelativeEncoder PITCH_ENCODER;
     public SparkClosedLoopController PITCH_PID;
     public SparkBaseConfig configPitch;
+
+    //TODO Create a rev robotics distance sensor based on this documentation so that it can be used for finding an Algae
+    //https://github.com/REVrobotics/2m-Distance-Sensor/tree/v2023.0.4#readme
 
     public boolean testBool = false;
     
@@ -63,8 +68,7 @@ public class AlgaeRollers extends SubsystemBase
     public boolean getGamePieceCollected()
     {
         return testBool;
-        //return senser reading
-        //TODO Code this distance/proxy sensor in
+        //TODO Code this distance/proxy sensor in and return senser reading
     }
 
     public void setPosition(double position) //degrees
@@ -76,6 +80,17 @@ public class AlgaeRollers extends SubsystemBase
     {
         ROLLERS_PID.setReference(speed, ControlType.kVelocity);
     }
+
+
+    public Command homePosition()
+    {
+        return Commands.runOnce(()->
+        {
+            //TODO Write code here to set home position of the arm
+        });
+    }
+
+    //TODO Follow the same premice as shown above and create a method returning a Command that sets the arm to an intake state
 
 
 

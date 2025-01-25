@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Constants.ElevatorPositionGroup;
 import frc.robot.Util.Constants.constants_Elevator;
-import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_ELEVATOR;
 
 public class Elevator extends SubsystemBase

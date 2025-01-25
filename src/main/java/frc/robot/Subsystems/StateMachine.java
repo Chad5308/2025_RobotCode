@@ -100,7 +100,7 @@ public class StateMachine extends SubsystemBase {
       case INTAKE_ALGAE:
         switch (currentState)
         {
-          case NONE: //TODO need to find out if you were in the combo state before scoring so that you can go to algae instead of none
+          case NONE:
           case CORAL:
             return new IntakingAlgaeState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }

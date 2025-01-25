@@ -13,7 +13,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.DistanceUnit;
 import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -109,30 +108,29 @@ public final class Constants {
   public static final class constants_Elevator
   {
     public static final double ELEVATOR_TO_INCHES = 1;
-
-    public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.Inches.of(0));
-
+  //TODO Find all elevator positions
+    public static final ElevatorPositionGroup feedStation = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
   }
 
   public static class ElevatorPositionGroup
   {
-    public Measure<AngleUnit> armAngle; //Degrees
-    public Measure<DistanceUnit> elevatorPosition; //Inches from ground
+    public Measure<DistanceUnit> elevatorPosition; //Inches from ground to scoring or to the substation for that one
 
-    public ElevatorPositionGroup(Measure<AngleUnit> armAngle, Measure<DistanceUnit> elevatorPosition)
+    public ElevatorPositionGroup(Measure<DistanceUnit> elevatorPosition)
     {
-      this.armAngle = armAngle;
       this.elevatorPosition = elevatorPosition;
     }
   }
 
   public static final class constants_Rollers
   {
-    public static final double ROLLER_GEAR_RATIO = 1/5;
+    //TODO find roller gear ration and input it here
+    public static final double ROLLER_GEAR_RATIO = 1;
   }
 
 

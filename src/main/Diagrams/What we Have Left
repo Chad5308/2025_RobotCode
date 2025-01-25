@@ -40,6 +40,7 @@ _______Subsystems________
 Module
     1. Confirm all conversions are made such as gear rations and rotations to meters
     2. PID TUNING
+    3. Align the absolute encoders in code to match the relative encoders on the modules
 Swerve
     1. Confirm all values being used are correct
     2. Overhall to odometry if we have time
@@ -51,7 +52,7 @@ Algae Rollers
     4. Create a distance or beam break sensor that tells us if there is a game piece present
 Climber
     1. Instantiate needed motor(s) once build team decides on a solution
-    2. Create Commands that we will later structure in the state to run our statemachine or so they are able to be used manually
+    2. Create Commands that we will later be structured in the state and ran by our statemachine or so they can be used manually
     3. Have the option to use manual climbing or automatic climber given that the robot is aligned
     4. Create the above so that they will be able to be used in our statemachine
     5. PID TUNING
@@ -88,6 +89,12 @@ _________Driver Preferences_________
 3. Configure all controls throughout the code to reflect this file
 4. Add a sendable chooser to the dashboard so that the current driver may select their own profile
 5. Inside of each class there should also be preferable driving options such as max speed, max acceleration, or sensitivity of the controller it self
+
+________Constants________
+1. Find all "Elevator Position Group" positions one the conversions have been checked
+2. Find all module offsets
+3. Find (if any) any modules that need to be reversed
+4. Find algae rollers gear ratio once built
 
 
 
