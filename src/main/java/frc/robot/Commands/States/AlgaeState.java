@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
 import frc.robot.Subsystems.StateMachine.RobotState;
+import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 
 public class AlgaeState extends Command
 {
@@ -43,6 +44,7 @@ public class AlgaeState extends Command
     public void initialize()
     {
         s_StateMachine.setRobotState(RobotState.ALGAE);
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_ALGAE_COLOR);
 
         //Write Command to retract intake and stop rollers
     }

@@ -63,7 +63,7 @@ Elevator
     4. Create the above so that they will be able to be used in our statemachine
     5. PID TUNING
     6. Create a distance or beam break sensor that tells us if there is a game piece present
-Lights
+Lights - Nathan
     1. Use the rev robotics api linked to be search for and find the neccesary code to program a "REV Blinken" controller
     2. Create multiple methods for setting a specific pattern or color on the robot
     3. In each of the state files add in specific lighting patterns or colors to show the drivers what state the robot is in

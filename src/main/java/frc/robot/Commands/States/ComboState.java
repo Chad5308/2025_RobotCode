@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
+import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 import frc.robot.Subsystems.Vision;
 
 public class ComboState extends Command
@@ -52,6 +53,7 @@ public class ComboState extends Command
 
         s_StateMachine.setRobotState(RobotState.COMBO);
         s_StateMachine.setTargetState(TargetState.PREP_ALGAE);
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_COMBO_COLOR);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

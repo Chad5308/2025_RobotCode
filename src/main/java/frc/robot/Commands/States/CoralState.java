@@ -6,6 +6,7 @@ import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
 import frc.robot.Subsystems.StateMachine.RobotState;
+import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 
 public class CoralState extends Command
 {
@@ -32,6 +33,7 @@ public class CoralState extends Command
     {
         s_StateMachine.setRobotState(RobotState.CORAL);
         //Sequence for picking up coral but also check first if there is already a game piece held and if so that means we came from Score -> None -> Coral
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_CORAL_COLOR);
     }
     
     // Called every time the scheduler runs while the command is scheduled.

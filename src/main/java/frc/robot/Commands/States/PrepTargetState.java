@@ -11,23 +11,24 @@ import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
 import frc.robot.Util.Constants.ElevatorPositionGroup;
+import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 import frc.robot.Util.Constants.*;
 
 
 public class PrepTargetState extends Command {
   StateMachine s_StateMachine;
   Elevator s_Elevator;
-  Lights s_LEDs;
+  Lights s_Lights;
   TargetState desiredTargetState;
 
   ElevatorPositionGroup desiredElevatorPosition;
   boolean elevatorWasUp;
 
   /** Creates a new PrepTargetState. */
-  public PrepTargetState(StateMachine s_StateMachine, Elevator s_Elevator, Lights s_LEDs, TargetState desiredTargetState) {
+  public PrepTargetState(StateMachine s_StateMachine, Elevator s_Elevator, Lights s_Lights, TargetState desiredTargetState) {
     this.s_StateMachine = s_StateMachine;
     this.s_Elevator = s_Elevator;
-    this.s_LEDs = s_LEDs;
+    this.s_Lights = s_Lights;
     this.desiredTargetState = desiredTargetState;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -50,8 +51,24 @@ public class PrepTargetState extends Command {
     //try and move the elevator and arm to desired position
     s_Elevator.setElevatorPosition(desiredElevatorPosition);
 
+    switch(desiredTargetState)
+    {
+      case PREP_ALGAE:
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_ALGAE_PATTERN);
+      case PREP_NONE:
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_NONE_PATTERN);
+      case PREP_L1:
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L1_PATTERN);
+      case PREP_L2:
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L2_PATTERN);
+      case PREP_L3:
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L3_PATTERN);
+      case PREP_L4:
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L4_PATTERN);
+    }
 
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
