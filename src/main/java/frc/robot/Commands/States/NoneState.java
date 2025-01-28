@@ -10,6 +10,7 @@ import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
+import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 import frc.robot.Subsystems.Vision;
 
 public class NoneState extends Command 
@@ -46,6 +47,7 @@ public class NoneState extends Command
       s_StateMachine.setRobotState(RobotState.NONE);
       s_StateMachine.setTargetState(TargetState.PREP_NONE);
       //run our homeing sequence
+      s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_NONE_COLOR);
  
     }
     

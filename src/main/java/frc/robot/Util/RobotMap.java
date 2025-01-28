@@ -70,4 +70,26 @@ public class RobotMap
     {
         
     }
+    public static final class MAP_PWM_LIGHTS
+    {   // 
+        // MAKE PREP STATES A PATTERN OF THEIR PARENT STATE (IF PWM_NONE IS GRAY, MAKE PWM_PREP_NONE FLASHING GRAY OR SOMETHING)
+        public static final double PWM_NONE_COLOR = 0;
+        public static final double PWM_SOURCE_COLOR = 0;
+        public static final double PWM_INTAKE_ALGAE_COLOR = 0;
+        public static final double PWM_CORAL_COLOR = 0.85; // DARK BLUE
+        public static final double PWM_ALGAE_COLOR = 0.75; // DARK GREEN
+        public static final double PWM_COMBO_COLOR = 0.79; // BLUE GREEN
+        public static final double PWM_PREP_L1_PATTERN = 0.59;
+        public static final double PWM_PREP_L2_PATTERN = 0.69;
+        public static final double PWM_PREP_L3_PATTERN = 0.33;
+        public static final double PWM_PREP_L4_PATTERN = 0.21;
+        public static final double PWM_PREP_NONE_PATTERN = 0;// NONE COLOR LARSON SCANNER
+        public static final double PWM_PREP_ALGAE_PATTERN = 0;// GREEN LARSON SCANNER
+        public static final double PWM_CLEAN_L2_PATTERN = 0;
+        public static final double PWM_CLEAN_L3_PATTERN = 0;
+        public static final double PWM_CLIMBING_COLOR = 0;
+
+        
+
+    }
 }   
