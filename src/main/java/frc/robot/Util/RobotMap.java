@@ -5,6 +5,9 @@ public class RobotMap
     public static final class MAP_CONTROLLER
     {
         public static final int MAIN_CONTROLLER_PORT = 0;
+        public static final int OPP_CONTROLLER_PORT = 1;
+        public static final int LEFT_JOYSTICK = 3;
+        public static final int RIGHT_JOYSTICK = 4;
         //BUTTON BOARD
     }    
 

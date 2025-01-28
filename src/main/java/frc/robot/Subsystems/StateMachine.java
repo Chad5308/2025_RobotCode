@@ -22,6 +22,7 @@ import frc.robot.Commands.States.NoneState;
 import frc.robot.Commands.States.PrepTargetState;
 import frc.robot.Commands.States.PrepVision;
 import frc.robot.Commands.States.ScoringState;
+import frc.robot.Commands.States.SourceState;
 import frc.robot.Commands.States.CoralState;
 
 import frc.robot.Util.Constants.*;
@@ -64,8 +65,8 @@ public class StateMachine extends SubsystemBase {
  
   public Command tryState(RobotState desiredState, StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights) {
 
-    System.out.println(desiredState + "-------Desired");
-    System.out.println(currentState + "-------current");
+    // System.out.println(desiredState + "-------Desired");
+    // System.out.println(currentState + "-------current");
 
 
     switch (desiredState) {
@@ -88,7 +89,7 @@ public class StateMachine extends SubsystemBase {
             }else if(s_Rollers.getGamePieceCollected())
             {
               System.out.println("___________ALGAE____________");
-              return new AlgaeState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights, false);
+              return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights, false);
             }else
             {
               System.out.println("___________NONE____________");
@@ -127,10 +128,18 @@ public class StateMachine extends SubsystemBase {
             return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
           }else
           {
-            return new AlgaeState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights, false);
+            return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights, false);
           }
         }
         break;
+
+      case SOURCE:
+        switch(currentState)
+        {
+          case NONE:
+          case ALGAE:
+            return new SourceState(s_StateMachine, s_Elevator, s_Vision, s_Lights);
+        }
       
       case CLEAN_L2:
         switch(currentState)
@@ -267,7 +276,7 @@ public class StateMachine extends SubsystemBase {
         }
       
     }
-    System.out.println(desiredState);
+    // System.out.println(desiredState);
     return Commands.print("HAWK TUAH :O INVALID STATE GIVEN");
   
   }
@@ -304,6 +313,7 @@ public class StateMachine extends SubsystemBase {
   public static enum RobotState {
     NONE,
     INTAKE_ALGAE,
+    SOURCE,
     CORAL,
     ALGAE,
     COMBO,

@@ -12,11 +12,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Auto;
 import frc.robot.Commands.Drive;
-import frc.robot.Util.Constants.constants_OI;
+import frc.robot.Util.DriverProfile.ControllerTypes;
+import frc.robot.Util.RobotMap.MAP_CONTROLLER;
+import frc.robot.Util.DriverProfile;
 import frc.robot.Util.LimelightHelpers;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
@@ -37,28 +42,31 @@ import frc.robot.Subsystems.Drive.Swerve;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  public SendableChooser<String> autoChooser1, autoChooser2, autoChooser3;
+  public String selection1, selection2, selection3, finalSelection;
+  public SendableChooser<DriverProfile> driverChooser, opperatorChooser;
 
-  private final CommandXboxController drive_Controller = new CommandXboxController(constants_OI.DRIVER_CONTROLLER_PORT);
-  // private final XboxControllerSim op_Controller = new XboxControllerSim(constants_OI.OP_CONTROLLER_PORT);
 
-  public Swerve s_Swerve = new Swerve();
-  public LimelightHelpers h_Limelight = new LimelightHelpers();
-  public Vision s_Vision = new Vision(s_Swerve);
-  public Drive c_Drive = new Drive(s_Swerve, drive_Controller);
-  public StateMachine s_StateMachine = new StateMachine();
-  public Climber s_Climber = new Climber();
-  public Elevator s_Elevator = new Elevator();
-  public AlgaeRollers s_Rollers = new AlgaeRollers();
-  public Lights s_Lights = new Lights();
-  public Auto c_Auto = new Auto(c_Drive, s_Swerve, s_Vision, s_Elevator, s_StateMachine, s_Lights);
+  public Swerve s_Swerve;
+  public LimelightHelpers h_Limelight;
+  public Vision s_Vision;
+  public Drive c_Drive;
+  public StateMachine s_StateMachine;
+  public Climber s_Climber;
+  public Elevator s_Elevator;
+  public AlgaeRollers s_Rollers;
+  public Lights s_Lights;
+  public Auto c_Auto;
 
   public Trigger gamePieceStoredTrigger_Coral = new Trigger(() -> s_Elevator.getGamePieceStored());
   public Trigger gamePieceCollectedTrigger_Algae = new Trigger(() -> s_Rollers.getGamePieceCollected());
 
+  public DriverProfile selectedDriver;
+  public DriverProfile selectedOpperator;
+
+
   // private SendableChooser<Command> autoChooser;
 
-  public SendableChooser<String> autoChooser1, autoChooser2, autoChooser3;
-  public String selection1, selection2, selection3, finalSelection;
 
  
   public RobotContainer() 
@@ -67,14 +75,31 @@ public class RobotContainer {
     autoChooser1 = new SendableChooser<>();
     autoChooser2 = new SendableChooser<>();
     autoChooser3 = new SendableChooser<>();
-    s_Swerve.setDefaultCommand(c_Drive);
-    configureDriverBindings(drive_Controller);
+    driverChooser = new SendableChooser<>();
+    opperatorChooser = new SendableChooser<>();
+    System.out.println("______________FILES DONE______________________");
+    configureDriverProfiles();
+    System.out.println("______________PROFILES DONE______________________");
     configureAutoChoosers();
-
+    System.out.println("______________AUTOS DONE______________________");
+    
     // SmartDashboard.putData("Auto Chooser", autoChooser);   
     SmartDashboard.putData(autoChooser1);
     SmartDashboard.putData(autoChooser2);
     SmartDashboard.putData(autoChooser3);
+    SmartDashboard.putData(driverChooser);
+    SmartDashboard.putData(opperatorChooser);
+
+
+    configureFiles();
+    s_Swerve.setDefaultCommand(c_Drive);
+    
+    configureDriverBindings();
+    System.out.println("______________BINDINGS DONE______________________");
+    System.out.println(selectedDriver.name);
+    System.out.println(selectedDriver.FOToggle.toString());
+    
+
 
 
     gamePieceStoredTrigger_Coral.onTrue(Commands.deferredProxy(
@@ -84,6 +109,20 @@ public class RobotContainer {
     gamePieceCollectedTrigger_Algae.onTrue(Commands.deferredProxy(
       ()-> s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
+  }
+
+  public void configureFiles()
+  {
+      s_Swerve = new Swerve();
+      h_Limelight = new LimelightHelpers();
+      s_Vision = new Vision(s_Swerve);
+      c_Drive = new Drive(s_Swerve, selectedDriver);
+      s_StateMachine = new StateMachine();
+      s_Climber = new Climber();
+      s_Elevator = new Elevator();
+      s_Rollers = new AlgaeRollers();
+      s_Lights = new Lights();
+      c_Auto = new Auto(c_Drive, s_Swerve, s_Vision, s_Elevator, s_StateMachine, s_Lights);
   }
 
   public void configureAutoChoosers()
@@ -183,46 +222,179 @@ public class RobotContainer {
   }
 
 
-  public void configureDriverBindings(CommandXboxController drive_Controller) {
+  public void configureDriverBindings() {
+    
     //Drive Controls
-    drive_Controller.povRight().toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
-    drive_Controller.povLeft().toggleOnTrue(s_Swerve.fieldOrientedToggle());
-    drive_Controller.button(7).onTrue(s_Swerve.resetWheels()); //window looking button
+    selectedDriver.FOToggle.toggleOnTrue(s_Swerve.fieldOrientedToggle());
+    selectedDriver.zeroHeading.toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
+    selectedDriver.resetWheels.onTrue(s_Swerve.resetWheels()); //window looking button
 
-        // Intake
-    drive_Controller.leftTrigger().whileTrue(Commands.deferredProxy(()->
+    // Intake Algae
+    selectedDriver.intakeAlgae.whileTrue(Commands.deferredProxy(()->
       s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
       .onFalse(Commands.deferredProxy(()->
       s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
+     // Intake Coral
+    selectedDriver.intakeCoral.whileTrue(Commands.deferredProxy(()->
+      s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+      .onFalse(Commands.deferredProxy(()->
+      s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+       //Clean L2
+    selectedDriver.cleanL2.onTrue(Commands.deferredProxy(()->
+      s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+      .onFalse(Commands.deferredProxy(()->
+      s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+       //Clean L3
+    selectedDriver.cleanL3.onTrue(Commands.deferredProxy(()->
+      s_StateMachine.tryState(RobotState.CLEAN_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+      .onFalse(Commands.deferredProxy(()->
+      s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
     //Shooting
-    drive_Controller.rightTrigger().whileTrue(Commands.deferredProxy(()->
-      s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)
-    )).onFalse(Commands.deferredProxy(()->
-      s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)
-    ));
+    selectedDriver.score.whileTrue(Commands.deferredProxy(()->
+      s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+      .onFalse(Commands.deferredProxy(()->
+      s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
       
+
+
+    //PREPS For Opperator controller
+
+    //PREP_L1
+    selectedOpperator.PREP_L1.onTrue(Commands.runOnce(() ->
+    s_StateMachine.setTargetState(TargetState.PREP_L1)))
+    .onTrue(Commands.deferredProxy(()->
+    s_StateMachine.tryState(RobotState.PREP_L1, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+    //PREP_L2
+    selectedOpperator.PREP_L2.onTrue(Commands.runOnce(() ->
+    s_StateMachine.setTargetState(TargetState.PREP_L2)))
+    .onTrue(Commands.deferredProxy(()->
+    s_StateMachine.tryState(RobotState.PREP_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+    //PREP_L3
+    selectedOpperator.PREP_L3.onTrue(Commands.runOnce(() ->
+    s_StateMachine.setTargetState(TargetState.PREP_L3)))
+    .onTrue(Commands.deferredProxy(()->
+    s_StateMachine.tryState(RobotState.PREP_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
     //PREP_L4
-    drive_Controller.rightBumper().onTrue(Commands.runOnce(() ->
+    selectedOpperator.PREP_L4.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_L4)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_L4, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
+    //PREP_ALgae
+    selectedOpperator.PREP_ALGAE.onTrue(Commands.runOnce(() ->
+    s_StateMachine.setTargetState(TargetState.PREP_ALGAE)))
+    .onTrue(Commands.deferredProxy(()->
+    s_StateMachine.tryState(RobotState.PREP_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
-    drive_Controller.a().onTrue(Commands.runOnce(()-> {
-      s_Rollers.testBool = !s_Rollers.testBool;
-    }));
+    //PREP_None
+    selectedOpperator.PREP_NONE.onTrue(Commands.runOnce(() ->
+    s_StateMachine.setTargetState(TargetState.PREP_NONE)))
+    .onTrue(Commands.deferredProxy(()->
+    s_StateMachine.tryState(RobotState.PREP_NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
-    drive_Controller.b().onTrue(Commands.runOnce(()-> {
-      s_Elevator.testBool = !s_Elevator.testBool;
-    }));
+    // drive_Controller.a().onTrue(Commands.runOnce(()-> {
+    //   s_Rollers.testBool = !s_Rollers.testBool;
+    // }));
+
+    // drive_Controller.b().onTrue(Commands.runOnce(()-> {
+    //   s_Elevator.testBool = !s_Elevator.testBool;
+    // }));
   }
 
 
-  public void debugging(String string)
+  public void configureDriverProfiles()
   {
-    System.out.println(string);
+    CommandXboxController xboxMain = new CommandXboxController(MAP_CONTROLLER.MAIN_CONTROLLER_PORT);
+    CommandXboxController xboxOpp = new CommandXboxController(MAP_CONTROLLER.OPP_CONTROLLER_PORT);
+
+    CommandPS4Controller ps4Main = new CommandPS4Controller(MAP_CONTROLLER.MAIN_CONTROLLER_PORT);
+    CommandPS4Controller ps4Opp = new CommandPS4Controller(MAP_CONTROLLER.OPP_CONTROLLER_PORT);
+
+    CommandPS5Controller ps5Main = new CommandPS5Controller(MAP_CONTROLLER.MAIN_CONTROLLER_PORT);
+    CommandPS5Controller ps5Opp = new CommandPS5Controller(MAP_CONTROLLER.OPP_CONTROLLER_PORT);
+    
+    CommandJoystick leftJoystick = new CommandJoystick(MAP_CONTROLLER.LEFT_JOYSTICK);
+    CommandJoystick rightJoystick = new CommandJoystick(MAP_CONTROLLER.RIGHT_JOYSTICK);
+    
+    DriverProfile Martin;
+    DriverProfile Morgan;
+    DriverProfile Test;
+    //Martins Bindings
+    driverChooser.addOption("Martin", Martin = new DriverProfile(ControllerTypes.JoySticks, ControllerTypes.Xbox, true, "Martin", 
+      leftJoystick.trigger(), //Intake Algae
+      leftJoystick.povUp(), //Intake Coral
+      rightJoystick.povLeft(), //Clean L2
+      rightJoystick.povRight(), //Clean L3
+      rightJoystick.trigger(), //Score
+      leftJoystick.povLeft(), //ZeroHeading
+      leftJoystick.povDown(), //FOToggle
+      leftJoystick.povRight(), //Reset Wheels
+      rightJoystick.getX(), //Holox
+      rightJoystick.getY(), //HoloY
+      leftJoystick.getX(), //Rotation
+      xboxOpp.leftTrigger(), //PREP_L1
+      xboxOpp.leftBumper(), //PREP_L2
+      xboxOpp.rightTrigger(), //PREP_L3
+      xboxOpp.rightBumper(), //PREP_L4
+      xboxOpp.a(), //PREP_ALGAE
+      xboxOpp.b())); //PREP_NONE
+    opperatorChooser.addOption("Martin", Martin);
+ 
+    //Morgans Bindings
+    driverChooser.addOption("Morgan", Morgan = new DriverProfile(ControllerTypes.JoySticks, ControllerTypes.Xbox, true, "Morgan",
+      leftJoystick.trigger(), //Intake Algae
+      leftJoystick.povUp(), //Intake Coral
+      rightJoystick.povLeft(), //Clean L2
+      rightJoystick.povRight(), //Clean L3
+      rightJoystick.trigger(), //Score
+      leftJoystick.povLeft(), //ZeroHeading
+      leftJoystick.povDown(), //FOToggle
+      leftJoystick.povRight(), //Reset Wheels
+      rightJoystick.getX(), //Holox
+      rightJoystick.getY(), //HoloY
+      leftJoystick.getX(), //Rotation
+      xboxOpp.leftTrigger(), //PREP_L1
+      xboxOpp.leftBumper(), //PREP_L2
+      xboxOpp.rightTrigger(), //PREP_L3
+      xboxOpp.rightBumper(), //PREP_L4
+      xboxOpp.a(), //PREP_ALGAE
+      xboxOpp.b())); //PREP_NONE
+    opperatorChooser.addOption("Morgan", Morgan);
+      
+    //Test Bindings
+    driverChooser.setDefaultOption("Test", Test = new DriverProfile(ControllerTypes.Xbox, ControllerTypes.Xbox, true, "Test", 
+      xboxMain.leftTrigger(), //Intake Algae
+      xboxMain.rightTrigger(), //Intake Coral
+      xboxMain.leftBumper(), //Clean L2
+      xboxMain.rightBumper(), //Clean L3
+      xboxMain.a(), //Score
+      xboxMain.povRight(), //ZeroHeading
+      xboxMain.povLeft(), //FOToggle
+      xboxMain.povDown(), //Reset Wheels
+      xboxMain.getLeftX(), //Holox
+      xboxMain.getLeftY(), //HoloY
+      xboxMain.getRightX(), //Rotation
+      xboxOpp.leftTrigger(), //PREP_L1
+      xboxOpp.leftBumper(), //PREP_L2
+      xboxOpp.rightTrigger(), //PREP_L3
+      xboxOpp.rightBumper(), //PREP_L4
+      xboxOpp.a(), //PREP_ALGAE
+      xboxOpp.b())); //PREP_NONE
+    opperatorChooser.setDefaultOption("Test", Test);
+    System.out.println("______________WHYYYYYYYYY______________________");
+    
+    selectedDriver = driverChooser.getSelected();
+    selectedOpperator = opperatorChooser.getSelected();
   }
+
+
+
+
 }
