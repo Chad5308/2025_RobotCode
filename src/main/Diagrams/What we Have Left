@@ -4,6 +4,8 @@ _______Commands________
 
 _______States__________
 
+Source State 
+    1. Finish coding this
 Algae State
     1.Write code to retract the intake once an Algae has entered our intake
 Clean L2 State
@@ -37,60 +39,61 @@ ______Auto_______
 
 _______Subsystems________
 
-Module
+Module -- TESTING WHEN ROBOT IS DONE
     1. Confirm all conversions are made such as gear rations and rotations to meters
     2. PID TUNING
     3. Align the absolute encoders in code to match the relative encoders on the modules
 Swerve
-    1. Confirm all values being used are correct
+    1. Confirm all values being used are correct -- TESTING WHEN ROBOT IS DONE
     2. Overhall to odometry if we have time
-    3. Comfirm auto and teleop driving is how we want it to be
+    3. Comfirm auto and teleop driving is how we want it to be -- TESTING WHEN ROBOT IS DONE
 Algae Rollers
     1. Find and create positions of need such as a home position and intaking position
     2. Create Commands to eventually ran by the state machine to set such values
-    3. PID TUNING
+    3. PID TUNING -- TESTING WHEN ROBOT IS DONE
     4. Create a distance or beam break sensor that tells us if there is a game piece present
 Climber
     1. Instantiate needed motor(s) once build team decides on a solution
     2. Create Commands that we will later be structured in the state and ran by our statemachine or so they can be used manually
     3. Have the option to use manual climbing or automatic climber given that the robot is aligned
     4. Create the above so that they will be able to be used in our statemachine
-    5. PID TUNING
+    5. PID TUNING -- TESTING WHEN ROBOT IS DONE
 Elevator
     1. Find converstion from motor rotations to inches
     2. Create commands to command the elevator and feed wheels to certain positions
     3. Delete ant unneccesary code from the previous robot design that will not be needed in the new concept
     4. Create the above so that they will be able to be used in our statemachine
-    5. PID TUNING
+    5. PID TUNING -- TESTING WHEN ROBOT IS DONE
     6. Create a distance or beam break sensor that tells us if there is a game piece present
-Lights - Nathan
+<!-- Lights - Nathan
     1. Use the rev robotics api linked to be search for and find the neccesary code to program a "REV Blinken" controller
     2. Create multiple methods for setting a specific pattern or color on the robot
-    3. In each of the state files add in specific lighting patterns or colors to show the drivers what state the robot is in
-State Machine
+    3. In each of the state files add in specific lighting patterns or colors to show the drivers what state the robot is in -->
+<!-- State Machine
     1. Change our map slightly to allow cleaning at almost any state
-    2. We will have to alter our state machine to then reflect that new map
+    2. We will have to alter our state machine to then reflect that new map -->
 Vision
     1.Wait for neural network to be released by limelight
     2. Look into Reef tags and creating methods to track april tags, and drive to a specified side of the reef on a button press
-    3. Work out how to use step 3 in our state machine
+    3. Work out how to use step 2 in our state machine
 
 _______Robot Container______
 
-1. Finish Controller bindings and make them modular according to the "Driver Preferences" file
-2. Talk to build about what kind of button board we believe we think the driver station should have
-3. Finish/finalize our Auto selector and write out the rest of the autos we want to run
-4. Add in all manuel controls where ever needed - research if other teams maybe have a button or thing on their dashboard to switch between manual and state machine
+<!-- 1. Finish Controller bindings -->
+2. Make them modular according to the "Driver Preferences" file
+3. Talk to build about what kind of button board we believe we think the driver station should have
+4. Finish/finalize our Auto selector and write out the rest of the autos we want to run
+5. Add in all manuel controls where ever needed - research if other teams maybe have a button or thing on their dashboard to switch between manual and state machine
 
-_________Driver Preferences_________
+<!-- _________Driver Preferences_________
 
 1. Create a driver preference class for each driver
 2. Inside each class there should be variables that assign each button mapped on a controller or a flight stick to a function on the robot
 3. Configure all controls throughout the code to reflect this file
 4. Add a sendable chooser to the dashboard so that the current driver may select their own profile
-5. Inside of each class there should also be preferable driving options such as max speed, max acceleration, or sensitivity of the controller it self
+5. Inside of each class there should also be preferable driving options such as max speed, max acceleration, or sensitivity of the controller it self -->
 
-________Constants________
+________Constants________ -- TESTING WHEN ROBOT IS DONE
 1. Find all "Elevator Position Group" positions one the conversions have been checked
 2. Find all module offsets
 3. Find (if any) any modules that need to be reversed

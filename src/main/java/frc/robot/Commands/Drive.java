@@ -1,11 +1,14 @@
 package frc.robot.Commands;
 
+import java.util.List;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Util.Constants.constants_OI;
-import frc.robot.Util.DriverProfile;
 import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Subsystems.Drive.Swerve;
 
@@ -13,7 +16,7 @@ import frc.robot.Subsystems.Drive.Swerve;
 public class Drive extends Command{
 
     private final Swerve s_Swerve;
-    public final DriverProfile driver;
+    public final CommandJoystick left, right;
 
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     private boolean fieldOriented=false;
@@ -25,13 +28,14 @@ public class Drive extends Command{
 
 
     // public DriveCommand(s_Swerve s_Swerve, CommandXboxController opController, CommandJoystick leftStick, CommandJoystick rightStick) {
-    public Drive(Swerve s_Swerve, DriverProfile driver) {
+    public Drive(Swerve s_Swerve, CommandJoystick left, CommandJoystick right) {
 
         this.s_Swerve = s_Swerve;
         this.xLimiter = new SlewRateLimiter(constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC);
         this.yLimiter = new SlewRateLimiter(constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC);
         this.turningLimiter = new SlewRateLimiter(constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC);
-        this.driver = driver;
+        this.left = left;
+        this.right = right;
         addRequirements(s_Swerve);
     }
 
@@ -47,9 +51,9 @@ public class Drive extends Command{
 
     @Override
     public void execute() {
-        xSpeed = driver.holoX;
-        ySpeed = driver.holoY;
-        turningSpeed = driver.rotation;
+        xSpeed = right.getX();
+        ySpeed = right.getY();
+        turningSpeed = left.getX();
         fieldOriented = s_Swerve.fieldOriented;
 
         xSpeed = Math.abs(xSpeed) > constants_OI.DEADBAND ? xSpeed : 0.0;

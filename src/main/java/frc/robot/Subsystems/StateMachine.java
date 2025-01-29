@@ -65,8 +65,8 @@ public class StateMachine extends SubsystemBase {
  
   public Command tryState(RobotState desiredState, StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights) {
 
-    // System.out.println(desiredState + "-------Desired");
-    // System.out.println(currentState + "-------current");
+    System.out.println(desiredState + "-------Desired");
+    System.out.println(currentState + "-------current");
 
 
     switch (desiredState) {
@@ -158,7 +158,7 @@ public class StateMachine extends SubsystemBase {
           case ALGAE:
           case CLEAN_L2:
           case CLEAN_L3:
-            return new CleanL3State();
+            return new CleanL3State(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
 
       case CLIMBING:
@@ -276,7 +276,7 @@ public class StateMachine extends SubsystemBase {
         }
       
     }
-    // System.out.println(desiredState);
+    System.out.println(desiredState);
     return Commands.print("HAWK TUAH :O INVALID STATE GIVEN");
   
   }
