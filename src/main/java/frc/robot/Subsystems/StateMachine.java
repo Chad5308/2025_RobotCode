@@ -158,7 +158,7 @@ public class StateMachine extends SubsystemBase {
           case ALGAE:
           case CLEAN_L2:
           case CLEAN_L3:
-            return new CleanL3State();
+            return new CleanL3State(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
 
       case CLIMBING:

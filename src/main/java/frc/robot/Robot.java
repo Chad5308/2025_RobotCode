@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.selectedOpperator = m_robotContainer.opperatorChooser.getSelected();
     SmartDashboard.putString("Driver Name", m_robotContainer.selectedDriver.name);
     SmartDashboard.putString("Opperator Name", m_robotContainer.selectedOpperator.name);
-    SmartDashboard.putBoolean("dRIVER INTAKE ALGAE", m_robotContainer.driverChooser.getSelected().intakeAlgae.getAsBoolean());
+    SmartDashboard.putBoolean("Driver Intake Algae", m_robotContainer.driverChooser.getSelected().intakeAlgae.getAsBoolean());
   }
 
   @Override

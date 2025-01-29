@@ -4,6 +4,9 @@ _______Commands________
 
 _______States__________
 
+Coral Station State 
+    1. CS state should return back to none or coral or combo state once button input is no longer present, it does not
+    2. May be a State machine thing
 Algae State
     1.Write code to retract the intake once an Algae has entered our intake
 Clean L2 State
@@ -14,7 +17,7 @@ Clean L3 State
     1.same as Clean L2
 Climbing State
     1.  Create climbing sequence using subsystem commands
-Coral State
+CorCal State
     1. Create pickup routine for getting a game piece in roughly the same spot in the chute at all times
 Intake Algae State
     1. Add functionality or lowering the bars and starting the intake using the commands in the subsystem
