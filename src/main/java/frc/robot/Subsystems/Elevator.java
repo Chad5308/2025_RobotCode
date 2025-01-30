@@ -5,7 +5,10 @@ package frc.robot.Subsystems;
 // import com.ctre.phoenix6.controls.NeutralOut;
 // import com.ctre.phoenix6.swerve.SwerveModuleConstants.ClosedLoopOutputType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.Rev2mDistanceSensor;
+import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -42,43 +45,37 @@ public class Elevator extends SubsystemBase
     public RelativeEncoder ELE_ARM_ENCODER;
     public SparkClosedLoopController ELE_ARM_PID;
     public SparkBaseConfig config;
-
+    public Rev2mDistanceSensor distOnboard;
+    
     public boolean testBool = false;
-
-
+    
+    
     public Elevator()
     {
-        // ELE_LEFT = new TalonFX(MAP_ELEVATOR.ELEVATOR_LEFT);
-        // ELE_RIGHT = new TalonFX(MAP_ELEVATOR.ELEVATOR_RIGHT);
-
-        // ELE_CONFIG = new Slot0Configs().withKP(0.1).withKI(0).withKD(0).withKS(0.5).withKV(0.2);
-        // ELE_FEEDBACKCONFIG = new FeedbackConfigs().withRotorToSensorRatio(constants_Elevator.ELEVATOR_TO_INCHES);
-        
-        // ELE_LEFT.getConfigurator().apply(ELE_CONFIG);
-        // ELE_LEFT.getConfigurator().apply(ELE_FEEDBACKCONFIG);
-
-        // ELE_RIGHT.getConfigurator().apply(ELE_CONFIG);
-        // ELE_RIGHT.getConfigurator().apply(ELE_FEEDBACKCONFIG);
-
         config = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
         ELE_ARM = new SparkMax(MAP_ELEVATOR.ELEVATOR_RIGHT, MotorType.kBrushless);
         ELE_ARM_ENCODER = ELE_ARM.getEncoder();
         ELE_ARM_PID = ELE_ARM.getClosedLoopController();
         ELE_ARM.configure(config, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+        
         config = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
         ELE_LEFT= new SparkMax(MAP_ELEVATOR.ELEVATOR_RIGHT, MotorType.kBrushless);
         ELE_LEFT_ENCODER = ELE_ARM.getEncoder();
         ELE_LEFT_PID = ELE_ARM.getClosedLoopController();
         ELE_LEFT.configure(config, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+        
         config = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
         ELE_RIGHT= new SparkMax(MAP_ELEVATOR.ELEVATOR_RIGHT, MotorType.kBrushless);
         ELE_RIGHT_ENCODER = ELE_ARM.getEncoder();
         ELE_RIGHT_PID = ELE_ARM.getClosedLoopController();
-        ELE_RIGHT.configure(config, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);        
-    }
+        ELE_RIGHT.configure(config, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);  
 
+        distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
+        distOnboard.setAutomaticMode(true);
+        distOnboard.setAutomaticMode(false);
+    }
+    
+    
 
     public double getPosition()
     {
@@ -91,17 +88,26 @@ public class Elevator extends SubsystemBase
         //TODO Code this distance/proxy sensor in
     }
 
-    // public void setElevatorPosition(ElevatorPositionGroup position)
-    // {
-    //     return ELE_LEFT_ENCODER.setPosition(positi);
-    // }
+    public void setElevatorPosition(ElevatorPositionGroup position)
+     {
+        ELE_LEFT_PID.setReference(position.elevatorPosition.magnitude(), ControlType.kPosition);
+        ELE_RIGHT_PID.setReference(position.elevatorPosition.magnitude(), ControlType.kPosition);
+     }
 
 
      @Override
     public void periodic()
     {
         SmartDashboard.putBoolean("Coral Detection", getGamePieceStored());
+        if(distOnboard.isRangeValid()){
+            SmartDashboard.putNumber("Range Onboard", distOnboard.getRange());
+            SmartDashboard.putNumber("Timestamp Onboard", distOnboard.getTimestamp());
+        }
+    
+    
     }
 
-    
 }
+    
+    
+    
