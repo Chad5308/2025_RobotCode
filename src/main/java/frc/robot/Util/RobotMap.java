@@ -51,6 +51,9 @@ public class RobotMap
     {
         public static final int ELEVATOR_LEFT = 10;
         public static final int ELEVATOR_RIGHT = 11;
+        public static final int ELEVATOR_SENSOR = 13;
+
+
     }
     public static final class MAP_CLAW
     {
