@@ -1,5 +1,9 @@
 package frc.robot.Util;
 
+import static edu.wpi.first.units.Units.Minute;
+
+import java.util.regex.Pattern;
+
 public class RobotMap
 {
     public static final class MAP_CONTROLLER
@@ -51,6 +55,7 @@ public class RobotMap
     {
         public static final int ELEVATOR_LEFT = 10;
         public static final int ELEVATOR_RIGHT = 11;
+        public static final int ELEVATOR_ROLLERS = 12;
         public static final int ELEVATOR_SENSOR = 13;
 
 
@@ -95,25 +100,22 @@ public class RobotMap
         public static final double[] BLUE_REEF_EF = {22, 0.3081, 4.9068, 3.3074, 300};
     }
     public static final class MAP_PWM_LIGHTS
-    {   // 
+    {   // coral = blue; algae = green; color 2 = blue; color 1 = green
         // MAKE PREP STATES A PATTERN OF THEIR PARENT STATE (IF PWM_NONE IS GRAY, MAKE PWM_PREP_NONE FLASHING GRAY OR SOMETHING)
         public static final double PWM_NONE_COLOR = 0.93; // SOLID WHITE
-        public static final double PWM_CORAL_STATION_COLOR = -0.85;
-        public static final double PWM_INTAKE_ALGAE_COLOR = -0.21;
-        public static final double PWM_CORAL_COLOR = 0.85; // COLOR 1 SOLID GREEN
-        public static final double PWM_ALGAE_COLOR = 0.75; // DARK GREEN
-        public static final double PWM_COMBO_COLOR = 0.79; // COLOR 2 SOLID BLUE
-        public static final double PWM_PREP_L1_PATTERN = 0.59;
-        public static final double PWM_PREP_L2_PATTERN = 0.69;
-        public static final double PWM_PREP_L3_PATTERN = 0.33;
-        public static final double PWM_PREP_L4_PATTERN = 0.21;
-        public static final double PWM_PREP_NONE_PATTERN = 0.95;// NONE COLOR LARSON SCANNER
-        public static final double PWM_PREP_ALGAE_PATTERN = -0.67;// GREEN LARSON SCANNER
-        public static final double PWM_CLEAN_L2_PATTERN = -0.09;
-        public static final double PWM_CLEAN_L3_PATTERN = 0.79;
-        public static final double PWM_CLIMBING_COLOR = -0.05; // STROBE WHITE
-
-        
-
+        public static final double PWM_SOURCE_COLOR = 0.33; // COLOR 2 SHOT
+        public static final double PWM_INTAKE_ALGAE_COLOR = 0.15; // COLOR 1 STROBE
+        public static final double PWM_CORAL_COLOR = 0.81; // AQUA
+        public static final double PWM_ALGAE_COLOR = 0.75; // GREEN
+        public static final double PWM_COMBO_COLOR = 0.67; // GOLD
+        public static final double PWM_PREP_L1_PATTERN = 0.35; // COLOR 2 STROBE
+        public static final double PWM_PREP_L2_PATTERN = 0.35; // COLOR 2 STROBE
+        public static final double PWM_PREP_L3_PATTERN = 0.35; // COLOR 2 STROBE
+        public static final double PWM_PREP_L4_PATTERN = 0.35; // COLOR 2 STROBE
+        public static final double PWM_PREP_NONE_PATTERN = -0.05; // STROBE WHITE
+        public static final double PWM_PREP_ALGAE_PATTERN = 0.13; // COLOR 1 shot
+        public static final double PWM_CLEAN_L2_PATTERN = -0.11; // red strobe
+        public static final double PWM_CLEAN_L3_PATTERN = -0.11; // red strobe
+        public static final double PWM_CLIMBING_COLOR = 0.57; // hot pink
     }
 }   
