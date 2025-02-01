@@ -34,18 +34,12 @@ public class Elevator extends SubsystemBase
     public RelativeEncoder ELE_RIGHT_ENCODER;
     public SparkClosedLoopController ELE_RIGHT_PID;
 
-    // public MotionMagicVelocityVoltage motionMagicRequest;
-    // public SparkMaxConfiguration elevatorConfig = new SparkMaxConfiguration();
-    // public NeutralOut neutralOut;
-    // public Slot0Configs ELE_CONFIG;
-    // public FeedbackConfigs ELE_FEEDBACKCONFIG;
-    // public ClosedLoopOutputType elevatorClosedLoopOutput = ClosedLoopOutputType.Voltage;
-
-    public SparkMax ELE_ARM;
-    public RelativeEncoder ELE_ARM_ENCODER;
-    public SparkClosedLoopController ELE_ARM_PID;
     public SparkBaseConfig config;
-    public Rev2mDistanceSensor distOnboard;
+
+    public SparkMax ELE_ROLLER;
+    public RelativeEncoder ELE_ROLLER_ENCODER;
+    public SparkClosedLoopController ELE_ROLLER_PID;
+    public SparkBaseConfig configRollers;
     
     public boolean testBool = false;
     
@@ -53,26 +47,21 @@ public class Elevator extends SubsystemBase
     public Elevator()
     {
         config = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
-        ELE_ARM = new SparkMax(MAP_ELEVATOR.ELEVATOR_RIGHT, MotorType.kBrushless);
-        ELE_ARM_ENCODER = ELE_ARM.getEncoder();
-        ELE_ARM_PID = ELE_ARM.getClosedLoopController();
-        ELE_ARM.configure(config, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        ELE_ROLLER = new SparkMax(MAP_ELEVATOR.ELEVATOR_ROLLERS, MotorType.kBrushless);
+        ELE_ROLLER_ENCODER = ELE_ROLLER.getEncoder();
+        ELE_ROLLER_PID = ELE_ROLLER.getClosedLoopController();
+        ELE_ROLLER.configure(config, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
-        config = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
-        ELE_LEFT= new SparkMax(MAP_ELEVATOR.ELEVATOR_RIGHT, MotorType.kBrushless);
-        ELE_LEFT_ENCODER = ELE_ARM.getEncoder();
-        ELE_LEFT_PID = ELE_ARM.getClosedLoopController();
+        ELE_LEFT= new SparkMax(MAP_ELEVATOR.ELEVATOR_LEFT, MotorType.kBrushless);
+        ELE_LEFT_ENCODER = ELE_LEFT.getEncoder();
+        ELE_LEFT_PID = ELE_LEFT.getClosedLoopController();
         ELE_LEFT.configure(config, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
-        config = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
         ELE_RIGHT= new SparkMax(MAP_ELEVATOR.ELEVATOR_RIGHT, MotorType.kBrushless);
-        ELE_RIGHT_ENCODER = ELE_ARM.getEncoder();
-        ELE_RIGHT_PID = ELE_ARM.getClosedLoopController();
+        ELE_RIGHT_ENCODER = ELE_RIGHT.getEncoder();
+        ELE_RIGHT_PID = ELE_RIGHT.getClosedLoopController();
         ELE_RIGHT.configure(config, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);  
-
-        distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
-        distOnboard.setAutomaticMode(true);
-        distOnboard.setAutomaticMode(false);
     }
     
     
@@ -99,12 +88,6 @@ public class Elevator extends SubsystemBase
     public void periodic()
     {
         SmartDashboard.putBoolean("Coral Detection", getGamePieceStored());
-        if(distOnboard.isRangeValid()){
-            SmartDashboard.putNumber("Range Onboard", distOnboard.getRange());
-            SmartDashboard.putNumber("Timestamp Onboard", distOnboard.getTimestamp());
-        }
-    
-    
     }
 
 }

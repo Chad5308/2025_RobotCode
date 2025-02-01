@@ -146,19 +146,19 @@ public class RobotContainer {
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
     // Intake Coral
-    leftJoystick.povDown().whileTrue(Commands.deferredProxy(()->
+    leftJoystick.button(2).whileTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
     //Clean L2
-    leftJoystick.povLeft().onTrue(Commands.deferredProxy(()->
+    leftJoystick.button(3).onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
     //Clean L3
-    leftJoystick.povRight().onTrue(Commands.deferredProxy(()->
+    leftJoystick.button(4).onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.CLEAN_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
@@ -171,9 +171,9 @@ public class RobotContainer {
     
     
     //Drive Controls
-    rightJoystick.povLeft().toggleOnTrue(s_Swerve.fieldOrientedToggle());
-    rightJoystick.povDown().toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
-    rightJoystick.povRight().onTrue(s_Swerve.resetWheels()); //window looking button
+    rightJoystick.button(2).toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
+    rightJoystick.button(3).toggleOnTrue(s_Swerve.fieldOrientedToggle());
+    rightJoystick.button(4).onTrue(s_Swerve.resetWheels()); //window looking button
     
     
     //PREPS For Opperator controller
@@ -214,13 +214,13 @@ public class RobotContainer {
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
-    // drive_Controller.a().onTrue(Commands.runOnce(()-> {
-    //   s_Rollers.testBool = !s_Rollers.testBool;
-    // }));
+    leftJoystick.button(8).onTrue(Commands.runOnce(()-> {
+      s_Rollers.testBool = !s_Rollers.testBool;
+    }));
 
-    // drive_Controller.b().onTrue(Commands.runOnce(()-> {
-    //   s_Elevator.testBool = !s_Elevator.testBool;
-    // }));
+    leftJoystick.button(9).onTrue(Commands.runOnce(()-> {
+      s_Elevator.testBool = !s_Elevator.testBool;
+    }));
   }
 
 
