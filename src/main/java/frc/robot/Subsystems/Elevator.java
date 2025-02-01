@@ -73,10 +73,23 @@ public class Elevator extends SubsystemBase
     
     public boolean getGamePieceStored()
     {
-        return testBool;
-        //TODO Code this distance/proxy sensor in
-    }
+        
+        /*
+        we need to get distance 
+        if within two inches return true 
+        if not return false
+        */
+        double objDistance;
+       objDistance = CANrange.getDistance();
+       if (objDistance < 51) {
+        return true; 
+       } else {
+        return false; 
+       }
 
+
+    }
+    
     public void setElevatorPosition(ElevatorPositionGroup position)
      {
         ELE_LEFT_PID.setReference(position.elevatorPosition.magnitude(), ControlType.kPosition);
