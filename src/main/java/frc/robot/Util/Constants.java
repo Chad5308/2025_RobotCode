@@ -49,10 +49,10 @@ public final class Constants {
 
     
     //TODO Test and input all module offsets
-    public static final Rotation2d FL_DEGREES = Rotation2d.fromDegrees(0);
-    public static final Rotation2d FR_DEGREES = Rotation2d.fromDegrees(0);
-    public static final Rotation2d BL_DEGREES = Rotation2d.fromDegrees(0);
-    public static final Rotation2d BR_DEGREES = Rotation2d.fromDegrees(0);
+    public static final double FL_DEGREES = 0;
+    public static final double FR_DEGREES = 0;
+    public static final double BL_DEGREES = 0;
+    public static final double BR_DEGREES = 0;
 
     //TODO Invert any motor to match controller output
     public static final boolean FL_STEER_ENCODER_REVERSED = false;
@@ -83,13 +83,13 @@ public final class Constants {
   
   public static final class constants_Module {
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4);
-    public static final double DRIVE_MOTOR_GEAR_RATIO = 4.59 / 1; //4.59 for Swerve X, 6.75 for sds
-    public static final double STEER_MOTOR_GEAR_RATIO = 13.3714 / 1; //13.3714 for Swerve X, 12.8 for sds
-    public static final double DRIVE_ENCODER_ROT_2_METER = 1/16.0344; //Not sure try 1/16.0344, 1/23.58 for sds
+    public static final double DRIVE_GEAR_RATIO = 4.59 / 1; //4.59 for Swerve X, 6.75 for sds
+    public static final double STEER_GEAR_RATIO = 13.3714 / 1; //13.3714 for Swerve X, 12.8 for sds
+    public static final double STEER_TO_DEGREES = 1; //Was 28.25
+    public static final double DRIVE_ROT_2_METER = 1/16.0344; //Not sure try 1/16.0344, 1/23.58 for sds
 
-    // public static final double TURNING_CONVERSION_FACTOR_2_DEG =  28.25;
-    public static final double DRIVE_ENCODER_RPM_2_METERS_PER_SEC = DRIVE_ENCODER_ROT_2_METER / 60;
-    // public static final double TURNING_ENCODER_RPM_2_DEG_PER_SEC = TURNING_CONVERSION_FACTOR_2_DEG / 60;
+    public static final double DRIVE_RPM_2_METERS_PER_SEC = DRIVE_ROT_2_METER / 60;
+    public static final double STEER__RPM_2_DEG_PER_SEC = STEER_TO_DEGREES / 60;
 
     public static final double P_TURNING = 0.0075;
     public static final double I_TURNING = 0.0;

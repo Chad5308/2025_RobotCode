@@ -58,6 +58,10 @@ public class Swerve extends SubsystemBase{
         gyro.setAngleAdjustment(0);
     }
     
+    public void setAngleAdjustment(double offset)
+    {
+        gyro.setAngleAdjustment(offset);
+    }
     
     public double getHeading() 
     {
@@ -80,13 +84,6 @@ public class Swerve extends SubsystemBase{
         return DriverStation.getAlliance();
     }
     
-    public static SwerveModulePosition[] getModulePositions()
-    {
-        return new SwerveModulePosition[]{
-                frontLeftModule.getSteerPosition(), frontRightModule.getSteerPosition(), backLeftModule.getSteerPosition(), backRightModule.getSteerPosition()
-        };
-    }
-    
     //Odometer code
     public final SwerveDriveOdometry odometer = new SwerveDriveOdometry
     (
@@ -105,20 +102,25 @@ public class Swerve extends SubsystemBase{
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
     
-    
-    public ChassisSpeeds getRobotRelativeSpeeds(){
-        return constants_Drive.kDriveKinematics.toChassisSpeeds(frontLeftModule.getSteerState(), frontRightModule.getSteerState(), backLeftModule.getSteerState(), backRightModule.getSteerState());
-    }
-
-
-    //stops all modules. Called when the command isn't being ran. So when an input isn't recieved
-    public void stopModules() {
-        frontLeftModule.stop();
-        frontRightModule.stop();
-        backLeftModule.stop();
-        backRightModule.stop();
+    public static SwerveModulePosition[] getModulePositions()
+    {
+        return new SwerveModulePosition[]{
+            frontLeftModule.getModulePosition(),
+            frontRightModule.getModulePosition(),
+            backLeftModule.getModulePosition(),
+            backRightModule.getModulePosition()
+        };
     }
     
+    public ChassisSpeeds getRobotRelativeSpeeds()
+    {
+        return constants_Drive.kDriveKinematics.toChassisSpeeds(
+            frontLeftModule.getModuleState(),
+            frontRightModule.getModuleState(),
+            backLeftModule.getModuleState(),
+            backRightModule.getModuleState());
+    }
+
     public void setModuleStates(ChassisSpeeds speeds){
         SwerveModuleState[] moduleStates = constants_Drive.kDriveKinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, constants_Drive.MAX_SPEED_METERS_PER_SEC);
@@ -127,7 +129,6 @@ public class Swerve extends SubsystemBase{
         backRightModule.setDesiredState(moduleStates[2]);
         backLeftModule.setDesiredState(moduleStates[3]);
     }
-    
     
     //face forward method. Called once the bot is enabled
     public void faceAllFoward() {
@@ -140,23 +141,26 @@ public class Swerve extends SubsystemBase{
     
     public Command resetWheels(){
         return runOnce(() -> {
-               faceAllFoward();
-    });}
+            faceAllFoward();
+        });
+    }
+
+    //stops all modules. Called when the command isn't being ran. So when an input isn't recieved
+    public void stopModules() {
+        frontLeftModule.stop();
+        frontRightModule.stop();
+        backLeftModule.stop();
+        backRightModule.stop();
+    }
         
     public Command fieldOrientedToggle(){
         return runOnce(() -> {fieldOriented = !fieldOriented;});
     }
     
-
-
     @Override
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
 
-
-
-        
-        
         //multiple debugging values are listed here. Names are self explanitory
         
         //Odometer and other gyro values
@@ -169,12 +173,13 @@ public class Swerve extends SubsystemBase{
         // SmartDashboard.putNumber("Back Right AE Value", backRightModule.getABSPosition());
         // SmartDashboard.putNumber("Front Left AE Value", frontLeftModule.getABSPosition());
         // SmartDashboard.putNumber("Front Right AE Value", frontRightModule.getABSPosition());
-    // //   //RE Degrees Reading
-        SmartDashboard.putNumber("Back left RE Value", backLeftModule.getSteerPosition().angle.getDegrees());
-        SmartDashboard.putNumber("Back Right RE Value", backRightModule.getSteerPosition().angle.getDegrees());
-        SmartDashboard.putNumber("Front left RE Value", frontLeftModule.getSteerPosition().angle.getDegrees());
-        SmartDashboard.putNumber("Front Right RE Value", frontRightModule.getSteerPosition().angle.getDegrees());
-    //  //RE Distance Reading
+
+        //RE Degrees Reading
+        SmartDashboard.putNumber("Back left RE Value", backLeftModule.getModulePosition().angle.getDegrees());
+        SmartDashboard.putNumber("Back Right RE Value", backRightModule.getModulePosition().angle.getDegrees());
+        SmartDashboard.putNumber("Front left RE Value", frontLeftModule.getModulePosition().angle.getDegrees());
+        SmartDashboard.putNumber("Front Right RE Value", frontRightModule.getModulePosition().angle.getDegrees());
+        //RE Distance Reading
         SmartDashboard.putNumber("Front Left Drive Position", frontLeftModule.getDrivePosition());
         SmartDashboard.putNumber("Front Right Drive Position", frontRightModule.getDrivePosition());
         SmartDashboard.putNumber("Back Left Drive Position", backLeftModule.getDrivePosition());
