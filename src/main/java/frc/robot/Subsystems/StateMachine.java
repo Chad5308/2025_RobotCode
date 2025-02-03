@@ -110,11 +110,15 @@ public class StateMachine extends SubsystemBase {
       case CORAL:
         switch (currentState)
         {
-          case ALGAE:
-            return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-          case CORAL:
-          case NONE:
-            return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, false);
+          
+          case SOURCE:
+            if(s_Rollers.getGamePieceCollected())
+            {
+              return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+            }else
+            {
+              return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, false);
+            }
         }
         break;
 
@@ -140,6 +144,7 @@ public class StateMachine extends SubsystemBase {
           case ALGAE:
             return new SourceState(s_StateMachine, s_Elevator, s_Vision, s_Lights);
         }
+        break;
       
       case CLEAN_L2:
         switch(currentState)
@@ -148,8 +153,9 @@ public class StateMachine extends SubsystemBase {
           case ALGAE:
           case CLEAN_L3:
           case CLEAN_L2:
-            return new CleanL2State();
+            return new CleanL2State(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
+        break;
 
       case CLEAN_L3:
         switch(currentState)
@@ -160,6 +166,7 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_L3:
             return new CleanL3State(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
+        break;
 
       case CLIMBING:
         switch (currentState)
@@ -260,6 +267,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_VISION:
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_ALGAE);
         }
+        break;
 
       case PREP_NONE:
         switch (currentState)
@@ -274,7 +282,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE:
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_NONE);
         }
-      
+        break;
     }
     System.out.println(desiredState);
     return Commands.print("HAWK TUAH :O INVALID STATE GIVEN");

@@ -109,7 +109,7 @@ public final class Constants {
   {
     public static final double ELEVATOR_TO_INCHES = 1;
   //TODO Find all elevator positions
-    public static final ElevatorPositionGroup feedStation = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup Source = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
     public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
     public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));

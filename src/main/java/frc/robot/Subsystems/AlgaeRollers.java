@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.hardware.CANrange;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -36,6 +38,8 @@ public class AlgaeRollers extends SubsystemBase
 
     public boolean testBool = false;
     
+     CANrange CANrange;
+     CANrangeConfiguration configs;
 
     public AlgaeRollers()
     {
@@ -51,6 +55,9 @@ public class AlgaeRollers extends SubsystemBase
         PITCH_ENCODER = PITCH.getEncoder();
         PITCH_PID = PITCH.getClosedLoopController();
         PITCH.configure(configPitch, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        CANrange = new CANrange(31);
+        configs = new CANrangeConfiguration();
     }
 
 
@@ -66,8 +73,22 @@ public class AlgaeRollers extends SubsystemBase
     }
         
     public boolean getGamePieceCollected()
-    {
-        return testBool;
+    {      
+        // CANrange CANrange;
+        // CANrangeConfiguration configs;
+
+        // CANrange = new CANrange(13);
+        // configs = new CANrangeConfiguration();
+
+        double algaeDetectRange;
+        CANrangeConfiguration configs = new CANrangeConfiguration();
+
+       algaeDetectRange = CANrange.getDistance().getValueAsDouble();
+       if (algaeDetectRange < 51) {
+        return true; 
+       } else {
+        return false;
+       }
         //TODO Code this distance/proxy sensor in and return senser reading
     }
 

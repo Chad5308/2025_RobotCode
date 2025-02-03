@@ -51,7 +51,8 @@ Algae Rollers
     1. Find and create positions of need such as a home position and intaking position
     2. Create Commands to eventually ran by the state machine to set such values
     3. PID TUNING -- TESTING WHEN ROBOT IS DONE
-    4. Create a distance or beam break sensor that tells us if there is a game piece present
+    <!-- 4. Create a distance or beam break sensor that tells us if there is a game piece present
+            Check values ie. 51 mm-->
 Climber
     1. Instantiate needed motor(s) once build team decides on a solution
     2. Create Commands that we will later be structured in the state and ran by our statemachine or so they can be used manually
@@ -64,7 +65,9 @@ Elevator
     3. Delete ant unneccesary code from the previous robot design that will not be needed in the new concept
     4. Create the above so that they will be able to be used in our statemachine
     5. PID TUNING -- TESTING WHEN ROBOT IS DONE
-    6. Create a distance or beam break sensor that tells us if there is a game piece present
+    <!-- 6. Create a distance or beam break sensor that tells us if there is a game piece present
+            Check values ie. 51 mm-->
+    
 <!-- Lights - Nathan
     1. Use the rev robotics api linked to be search for and find the neccesary code to program a "REV Blinken" controller
     2. Create multiple methods for setting a specific pattern or color on the robot
