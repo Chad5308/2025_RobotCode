@@ -12,6 +12,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.VelocityUnit;
+import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.DistanceUnit;
 import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -104,7 +106,7 @@ public final class Constants {
 
   public static final class constants_Elevator
   {
-    public static final double ELEVATOR_GEAR_RATIO = 1;
+    public static final double ELEVATOR_GEAR_RATIO = 20;
     public static final double ELEVATOR_TO_INCHES = 1;
   //TODO Find all elevator positions and ratio for motor rotations to inches
     public static final ElevatorPositionGroup Source = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
@@ -128,8 +130,27 @@ public final class Constants {
   public static final class constants_Rollers
   {
     //TODO find roller gear ration and input it here
+
     public static final double ROLLER_GEAR_RATIO = 1;
+
+    public static final AlgaePositionGroup NONE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
+    public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0.75));
+    // intaking algae's magnitude is a percentage of the motor's power, 1being 100% and 0 being 0%
+    public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
   }
+
+  public static final class AlgaePositionGroup
+  {
+    public Measure<AngleUnit> intakeAngle;
+    public Measure<LinearVelocityUnit> rollersRPM;
+
+    public AlgaePositionGroup(Measure<AngleUnit> intakeAngle, Measure<LinearVelocityUnit> rollersRPM)
+    {
+      this.intakeAngle = intakeAngle;
+      this.rollersRPM = rollersRPM;
+    }
+  }
+
 
 
   public static final class constants_OI {
