@@ -43,6 +43,7 @@ public class CleanL2State extends Command
     {
             s_StateMachine.setRobotState(RobotState.CLEAN_L2);
             s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_CLEAN_L2_PATTERN);
+            
     }
     
     // loop
