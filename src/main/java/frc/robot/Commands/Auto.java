@@ -15,11 +15,14 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Util.Constants.constants_Auto;
 import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Commands.States.PrepTargetState;
+import frc.robot.Subsystems.AlgaeRollers;
+import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
 import frc.robot.Subsystems.Drive.Swerve;
+import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
 
 public class Auto {
@@ -29,14 +32,8 @@ public Swerve s_Swerve;
 public Vision s_Vision;
 public PIDController translationConstants = new PIDController(constants_Auto.P_TRANSLATION, constants_Auto.I_TRANSLATION, constants_Auto.D_TRANSLATION);
 public PIDController rotationConstants = new PIDController(constants_Auto.P_THETA, constants_Auto.I_THETA, constants_Auto.D_THETA);
-// public Map map
 
-
-
-
-
-
-    public Auto(Drive c_Drive, Swerve s_Swerve, Vision s_Vision, Elevator s_Elevator, StateMachine s_StateMachine, Lights s_Lights)
+    public Auto(StateMachine s_StateMachine, Drive c_Drive, Swerve s_Swerve, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
     {
         this.c_Drive = c_Drive;
         this.s_Swerve = s_Swerve;
@@ -57,7 +54,7 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Swerve.faceAllFoward()));
         // NamedCommands.registerCommand("AutoDrive", Commands.runOnce(() -> s_Vision.autoDrive.schedule()));
         
-        NamedCommands.registerCommand("PREP_L4", new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L4));
+        NamedCommands.registerCommand("PREP_L4", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L4);}).andThen(Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L4, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
         
     }
 

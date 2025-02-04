@@ -33,13 +33,10 @@ public class AlgaeRollers extends SubsystemBase
     public SparkClosedLoopController PITCH_PID;
     public SparkBaseConfig configPitch;
 
-    //TODO Create a rev robotics distance sensor based on this documentation so that it can be used for finding an Algae
-    //https://github.com/REVrobotics/2m-Distance-Sensor/tree/v2023.0.4#readme
+    public CANrange CANrange;
+    public CANrangeConfiguration sensorConfigs;
 
     public boolean testBool = false;
-    
-     CANrange CANrange;
-     CANrangeConfiguration configs;
 
     public AlgaeRollers()
     {
@@ -56,8 +53,9 @@ public class AlgaeRollers extends SubsystemBase
         PITCH_PID = PITCH.getClosedLoopController();
         PITCH.configure(configPitch, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        CANrange = new CANrange(31);
-        configs = new CANrangeConfiguration();
+        CANrange = new CANrange(MAP_ALGAE.ALGAE_SENSOR);
+        sensorConfigs = new CANrangeConfiguration();
+        CANrange.getConfigurator().apply(sensorConfigs);
     }
 
 
@@ -71,25 +69,15 @@ public class AlgaeRollers extends SubsystemBase
     {
         return ROLLERS_ENCODER.getVelocity();
     }
+
+    public double getDistance()
+    {
+        return CANrange.getDistance().getValueAsDouble()* 39.3701; //Meters to Inches
+    }
         
     public boolean getGamePieceCollected()
     {      
-        // CANrange CANrange;
-        // CANrangeConfiguration configs;
-
-        // CANrange = new CANrange(13);
-        // configs = new CANrangeConfiguration();
-
-        double algaeDetectRange;
-        CANrangeConfiguration configs = new CANrangeConfiguration();
-
-       algaeDetectRange = CANrange.getDistance().getValueAsDouble();
-       if (algaeDetectRange < 51) {
-        return true; 
-       } else {
-        return false;
-       }
-        //TODO Code this distance/proxy sensor in and return senser reading
+       return getDistance() < 10;
     }
 
     public void setPosition(double position) //degrees

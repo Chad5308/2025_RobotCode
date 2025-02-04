@@ -41,11 +41,11 @@ public class ComboState extends Command
     @Override
     public void initialize()
     {
-        if(s_StateMachine.currentState == RobotState.ALGAE)
+        if(s_StateMachine.getRobotState() == RobotState.ALGAE)
         {
             //What to do when we are now picking up a coral
             new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, true);
-        }else if(s_StateMachine.currentState == RobotState.INTAKE_ALGAE)
+        }else if(s_StateMachine.getRobotState() == RobotState.INTAKE_ALGAE)
         {
             //what to do when we are now picking up a coral
             new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights, true);

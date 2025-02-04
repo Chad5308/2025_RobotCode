@@ -59,7 +59,7 @@ public class Module extends SubsystemBase
   public RelativeEncoder steerEncoder;
   public SparkBaseConfig steerGains;
 
-  public Rotation2d zeroRotation;
+  public Rotation2d absOffset;
   public CANcoder absoluteEncoder;
   public CANcoderConfiguration CANConfig;
   public boolean absoluteReversed;
@@ -87,11 +87,11 @@ public class Module extends SubsystemBase
   public VelocityVoltage velocityVoltageRequest = new VelocityVoltage(0.0);
 
   
-  public Module(int steerNum, int driveNum, boolean invertDrive, boolean invertSteer, int absoluteEncoderID, double zeroRotation, boolean absoluteReversed)
+  public Module(int steerNum, int driveNum, boolean invertDrive, boolean invertSteer, int absoluteEncoderID, double absOffset, boolean absoluteReversed)
   {
     driveMotor = new TalonFX(driveNum);
     driveGains = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
-    driveFeedbackConfigs = new FeedbackConfigs().withRotorToSensorRatio(constants_Module.DRIVE_ROT_2_METER);
+    driveFeedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(constants_Module.DRIVE_GEAR_RATIO);
     driveMotor.getConfigurator().apply(driveGains);
     driveMotor.getConfigurator().apply(driveFeedbackConfigs, 5);
     
@@ -99,7 +99,7 @@ public class Module extends SubsystemBase
     
     this.absoluteReversed = absoluteReversed;
     absoluteEncoder = new CANcoder(absoluteEncoderID, new CANBus());
-    CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(zeroRotation).withAbsoluteSensorDiscontinuityPoint(0.5));
+    CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(absOffset).withAbsoluteSensorDiscontinuityPoint(0.5));
     
     absoluteEncoder.getConfigurator().apply(CANConfig);
     
@@ -130,40 +130,15 @@ public class Module extends SubsystemBase
     steerEncoder.setPosition(0);
   }
   
-//Drive Values
+//Drive Methods
   public double getDrivePosition()
   {
-      return driveMotor.getPosition().getValueAsDouble();
+      return driveMotor.getPosition().getValueAsDouble() * constants_Module.DRIVE_ROT_2_METER;
   }
   public double getDriveVelocity()
   {
     return driveMotor.getVelocity().getValueAsDouble();
   }
-  public double getAbsoluteEncoderDeg()
-  {
-    double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble();
-    return (angle  * (absoluteReversed ? -1 : 1) *360 ) % 720;
-  }
-   public double getPosition()
-  {
-    return steerEncoder.getPosition();
-  }
-
-
-  //Steer Values
-  public SwerveModuleState getModuleState()
-  {
-    return new SwerveModuleState(getDriveVelocity(), Rotation2d.fromDegrees(getPosition()));
-  }
-  public SwerveModulePosition getModulePosition()
-  {
-    return new SwerveModulePosition(getDrivePosition(), getModulePosition().angle);
-  }
-  public double getABSPosition()
-  {
-    return (absoluteEncoder.getAbsolutePosition().getValueAsDouble());
-  }
-
   public void getUpToSpeed(double velocity)
   {
     if(velocity <= 0.01)
@@ -178,6 +153,27 @@ public class Module extends SubsystemBase
   {
     driveMotor.setControl(new NeutralOut()); //TODO see if this is coast or brake
   }
+  
+  
+  //Steer Methods
+  public double getPosition()
+  {
+    return steerEncoder.getPosition();
+  }
+  public double getABSPosition()
+  {
+    double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble(); //  * 360 to convert to degrees
+    return (angle  * (absoluteReversed ? -1 : 1) ) % 720;
+  }
+  public SwerveModuleState getModuleState()
+  {
+    return new SwerveModuleState(getDriveVelocity(), Rotation2d.fromDegrees(getPosition()));
+  }
+  public SwerveModulePosition getModulePosition()
+  {
+    return new SwerveModulePosition(getDrivePosition(), getModuleState().angle);
+  }
+
 
       
   //This is our setDesiredState alg. Takes the current state and the desired state shown by the controller and points the wheels to that 

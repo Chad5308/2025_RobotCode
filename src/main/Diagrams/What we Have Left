@@ -1,6 +1,6 @@
 _______Commands________
 
-1. Make joysticks modular based on a variable on the "Drive Preferences" file
+<!-- 1. Make joysticks modular based on a variable on the "Drive Preferences" file -->
 
 _______States__________
 
@@ -40,10 +40,10 @@ ______Auto_______
 _______Subsystems________
 
 Module -- TESTING WHEN ROBOT IS DONE
-    1. Confirm all conversions are made such as gear rations and rotations to meters
+    <!-- 1. Confirm all conversions are made such as gear rations and rotations to meters -->
     2. PID TUNING
     3. Align the absolute encoders in code to match the relative encoders on the modules
-Swerve
+Swerve -- TESTING WHEN ROBOT IS DONE
     1. Confirm all values being used are correct -- TESTING WHEN ROBOT IS DONE
     2. Overhall to odometry if we have time
     3. Comfirm auto and teleop driving is how we want it to be -- TESTING WHEN ROBOT IS DONE
@@ -62,7 +62,7 @@ Climber
 Elevator
     1. Find converstion from motor rotations to inches
     2. Create commands to command the elevator and feed wheels to certain positions
-    3. Delete ant unneccesary code from the previous robot design that will not be needed in the new concept
+    <!-- 3. Delete ant unneccesary code from the previous robot design that will not be needed in the new concept -->
     4. Create the above so that they will be able to be used in our statemachine
     5. PID TUNING -- TESTING WHEN ROBOT IS DONE
     <!-- 6. Create a distance or beam break sensor that tells us if there is a game piece present

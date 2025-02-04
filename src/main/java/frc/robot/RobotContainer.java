@@ -6,8 +6,6 @@ package frc.robot;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -133,7 +131,7 @@ public class RobotContainer {
       s_Elevator = new Elevator();
       s_Rollers = new AlgaeRollers();
       s_Lights = new Lights();
-      c_Auto = new Auto(c_Drive, s_Swerve, s_Vision, s_Elevator, s_StateMachine, s_Lights);
+      c_Auto = new Auto(s_StateMachine, c_Drive, s_Swerve, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
   }
 
 
@@ -141,7 +139,7 @@ public class RobotContainer {
     
     // Intake Algae
     leftJoystick.trigger().whileTrue(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)).andThen(Commands.print("THIS WAS RAN__________________")))
+    s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     

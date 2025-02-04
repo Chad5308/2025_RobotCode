@@ -7,7 +7,6 @@ package frc.robot.Util;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -35,7 +34,6 @@ public final class Constants {
   public static final class constants_Drive {
 
     public static final Measure<DistanceUnit> WHEEL_RADIUS = edu.wpi.first.units.Units.Inches.of(1.5);
-    // public static final double wheelRadius = Units.inchesToMeters(1.5);
     public static final double COF = 1.2;
     public static final double TRACK_WIDTH = Units.inchesToMeters(23.75);
       // Distance between right and left wheels
@@ -46,6 +44,8 @@ public final class Constants {
         new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), //front right
         new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2), //back left
         new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2)); //back right
+
+    public static final double MODULE_RADIUS = Units.inchesToMeters(Constants.constants_Drive.TRACK_WIDTH/2); //measured from center of robot to furthest module.
 
     
     //TODO Test and input all module offsets
@@ -60,9 +60,9 @@ public final class Constants {
     public static final boolean BL_STEER_ENCODER_REVERSED = false;
     public static final boolean BR_STEER_ENCODER_REVERSED = false;
 
-    public static final boolean FL_DRIVE_ENCODER_REVERSED = true;
+    public static final boolean FL_DRIVE_ENCODER_REVERSED = false;
     public static final boolean FR_DRIVE_ENCODER_REVERSED = false;
-    public static final boolean BL_DRIVE_ENCODER_REVERSED = true;
+    public static final boolean BL_DRIVE_ENCODER_REVERSED = false;
     public static final boolean BR_DRIVE_ENCODER_REVERSED = false;
 
     public static final boolean FL_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
@@ -71,7 +71,6 @@ public final class Constants {
     public static final boolean BR_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
 
     public static final double MAX_SPEED_METERS_PER_SEC = 6.949; //6.949 for Swerve X, 4.60248 for sd
-    public static final LinearVelocityUnit MAX_TESTED_SPEED = LinearVelocityUnit.combine(edu.wpi.first.units.Units.Meters.of(4.5).unit(), edu.wpi.first.units.Units.Seconds.of(1).unit());
     public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC = MAX_SPEED_METERS_PER_SEC/(TRACK_WIDTH/2);
 
     //For limiting speed while driving
@@ -83,11 +82,11 @@ public final class Constants {
   
   public static final class constants_Module {
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4);
-    public static final double DRIVE_GEAR_RATIO = 4.59 / 1; //4.59 for Swerve X, 6.75 for sds
-    public static final double STEER_GEAR_RATIO = 13.3714 / 1; //13.3714 for Swerve X, 12.8 for sds
-    public static final double STEER_TO_DEGREES = 1; //Was 28.25
-    public static final double DRIVE_ROT_2_METER = 1/16.0344; //Not sure try 1/16.0344, 1/23.58 for sds
-
+    public static final double WHEEL_CIRCUMFRENCE_METERS = 2*Math.PI*WHEEL_DIAMETER_METERS;
+    public static final double DRIVE_GEAR_RATIO = 4.59; //4.59 for Swerve X, 6.75 for sds
+    public static final double STEER_GEAR_RATIO = 13.3714; //13.3714 for Swerve X, 12.8 for sds
+    public static final double STEER_TO_DEGREES = 360 / STEER_GEAR_RATIO;
+    public static final double DRIVE_ROT_2_METER = (1/WHEEL_CIRCUMFRENCE_METERS);
     public static final double DRIVE_RPM_2_METERS_PER_SEC = DRIVE_ROT_2_METER / 60;
     public static final double STEER__RPM_2_DEG_PER_SEC = STEER_TO_DEGREES / 60;
 
@@ -101,14 +100,13 @@ public final class Constants {
     public static final double A_DRIVE = 0.1;
     public static final double P_DRIVE = 0.1;
     public static final double I_DRIVE = 0.1;
-
-    public static final double MODULE_RADIUS = Units.inchesToMeters(Constants.constants_Drive.TRACK_WIDTH/2); //measured from center of robot to furthest module.
   }
 
   public static final class constants_Elevator
   {
+    public static final double ELEVATOR_GEAR_RATIO = 1;
     public static final double ELEVATOR_TO_INCHES = 1;
-  //TODO Find all elevator positions
+  //TODO Find all elevator positions and ratio for motor rotations to inches
     public static final ElevatorPositionGroup Source = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
     public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
