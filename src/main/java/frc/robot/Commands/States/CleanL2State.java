@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
+import frc.robot.Util.Constants.constants_Elevator;
 import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 import frc.robot.Subsystems.Vision;
 
@@ -43,6 +44,7 @@ public class CleanL2State extends Command
     {
             s_StateMachine.setRobotState(RobotState.CLEAN_L2);
             s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_CLEAN_L2_PATTERN);
+            s_Elevator.setElevatorPosition(constants_Elevator.CLEAN_L2);
             
     }
     

@@ -55,16 +55,22 @@ public class PrepTargetState extends Command {
     {
       case PREP_ALGAE:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_ALGAE_PATTERN);
+        
       case PREP_NONE:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_NONE_PATTERN);
+        s_Elevator.setElevatorPosition(constants_Elevator.PREP_NONE);
       case PREP_L1:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L1_PATTERN);
+        s_Elevator.setElevatorPosition(constants_Elevator.PREP_L1);
       case PREP_L2:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L2_PATTERN);
+        s_Elevator.setElevatorPosition(constants_Elevator.PREP_L2);
       case PREP_L3:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L3_PATTERN);
+        s_Elevator.setElevatorPosition(constants_Elevator.PREP_L3);
       case PREP_L4:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L4_PATTERN);
+        s_Elevator.setElevatorPosition(constants_Elevator.PREP_L4);
     }
 
   }

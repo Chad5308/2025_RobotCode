@@ -41,6 +41,7 @@ public class ScoringState extends Command
     public void initialize()
     {
         s_StateMachine. setRobotState(RobotState.SCORING);
+        
     }
 
     
