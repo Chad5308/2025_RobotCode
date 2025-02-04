@@ -115,6 +115,9 @@ public final class Constants {
     public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
     public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
     public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
   }
 
   public static class ElevatorPositionGroup
