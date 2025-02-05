@@ -3,45 +3,61 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.55304276315402,
-        "y": 7.132812500003803
+        "x": 7.55,
+        "y": 7.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.739284426816601,
-        "y": 7.222043979816348
+        "x": 3.2509741623971236,
+        "y": 6.164758353535161
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "1"
     },
     {
       "anchor": {
-        "x": 2.2238013698608547,
-        "y": 5.4148758561653425
+        "x": 3.0115953947368417,
+        "y": 5.968585526315789
       },
       "prevControl": {
-        "x": 2.820347422492432,
-        "y": 7.02170151406008
+        "x": 3.208774017020054,
+        "y": 6.122275444379709
       },
       "nextControl": {
-        "x": 1.9926991043038988,
-        "y": 4.792390721519994
+        "x": 1.9966475705427587,
+        "y": 5.177489381443176
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8694172654200742,
-        "y": 4.210853234465722
+        "x": 2.2,
+        "y": 4.35
       },
       "prevControl": {
-        "x": 2.417196988830536,
-        "y": 4.191607037118739
+        "x": 1.905850327686448,
+        "y": 4.4926180229399035
+      },
+      "nextControl": {
+        "x": 2.5175164473684215,
+        "y": 4.196052631578947
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.15,
+        "y": 4.175
+      },
+      "prevControl": {
+        "x": 2.863880048866552,
+        "y": 4.144927581341866
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "A"
     }
   ],
   "rotationTargets": [
@@ -52,7 +68,14 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "PREP_L4",
+      "waypointRelativePos": 1.9999999999999978,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -63,7 +86,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "1",

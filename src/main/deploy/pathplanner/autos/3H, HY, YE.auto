@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3H"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HY"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "YE"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "2 Piece",
+  "choreoAuto": false
+}

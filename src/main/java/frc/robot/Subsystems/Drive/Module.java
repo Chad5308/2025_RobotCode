@@ -1,11 +1,12 @@
 package frc.robot.Subsystems.Drive;
 
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -35,74 +36,86 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Constants;
+import frc.robot.Util.Constants.constants_Module;
 
 public class Module extends SubsystemBase
 {
-    
 
 
-
-  public static TalonFX driveMotor;
-  public static VelocityVoltage velocityRequest;
-  public static MotionMagicVelocityVoltage motionMagicRequest;
-  public static TalonFXConfiguration driveConfig = new TalonFXConfiguration();
-  public static NeutralOut neutralOut;
-  static Slot0Configs driveGains;
+  public TalonFX driveMotor;
+  public VelocityVoltage velocityRequest;
+  public MotionMagicVelocityVoltage motionMagicRequest;
+  // public TalonFXConfiguration driveConfig = new TalonFXConfiguration();
+  public NeutralOut neutralOut;
+  public Slot0Configs driveGains;
+  public FeedbackConfigs driveFeedbackConfigs;
   
-  public static LinearVelocity speedAt12Volts = Units.MetersPerSecond.of(4.55);
-  public static Current slipCurrent = edu.wpi.first.units.Units.Amps.of(120);
-  public static ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
+  public LinearVelocity speedAt12Volts = Units.MetersPerSecond.of(4.55);
+  public Current slipCurrent = edu.wpi.first.units.Units.Amps.of(120);
+  public ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
 
-  public static SparkMax steerMotor;
-  public static SparkClosedLoopController steerPIDController;
-  public static RelativeEncoder steerEncoder;
-  public static SparkBaseConfig steerGains;
+  public SparkMax steerMotor;
+  public SparkClosedLoopController steerPIDController;
+  public RelativeEncoder steerEncoder;
+  public SparkBaseConfig steerGains;
 
-  public static Rotation2d zeroRotation;
-  public static CANcoder absoluteEncoder;
-  public static CANcoderConfiguration CANConfig;
+  public Rotation2d absOffset;
+  public CANcoder absoluteEncoder;
+  public CANcoderConfiguration CANConfig;
   public boolean absoluteReversed;
 
 
   
   // Inputs from drive motor
-  public static StatusSignal<Angle> drivePosition;
+  public StatusSignal<Angle> drivePosition;
   // public static Queue<Double> drivePositionQueue;
-  public static StatusSignal<AngularVelocity> driveVelocity;
-  public static StatusSignal<Voltage> driveAppliedVolts;
-  public static StatusSignal<Current> driveCurrent;
+  public StatusSignal<AngularVelocity> driveVelocity;
+  public StatusSignal<Voltage> driveAppliedVolts;
+  public StatusSignal<Current> driveCurrent;
 
   // Inputs from turn motor
-  public static StatusSignal<Angle> steerAbsolutePosition;
-  public static StatusSignal<Angle> steerPosition;
+  public StatusSignal<Angle> steerAbsolutePosition;
+  public StatusSignal<Angle> steerPosition;
   // public static Queue<Double> turnPositionQueue;
-  public static StatusSignal<AngularVelocity> turnVelocity;
-  public static StatusSignal<Voltage> turnAppliedVolts;
-  public static StatusSignal<Current> turnCurrent;
+  public StatusSignal<AngularVelocity> turnVelocity;
+  public StatusSignal<Voltage> turnAppliedVolts;
+  public StatusSignal<Current> turnCurrent;
 
   // Voltage control requests
-  public static VoltageOut voltageRequest = new VoltageOut(0);
+  public VoltageOut voltageRequest = new VoltageOut(0);
   // private final PositionVoltage positionVoltageRequest = new PositionVoltage(0.0);
-  public static VelocityVoltage velocityVoltageRequest = new VelocityVoltage(0.0);
+  public VelocityVoltage velocityVoltageRequest = new VelocityVoltage(0.0);
 
   
-  
-  public Module(int steerNum, int driveNum, boolean invertDrive, boolean invertSteer, int absoluteEncoderID, Rotation2d zeroRotation, boolean absoluteReversed)
+  public Module(int steerNum, int driveNum, boolean invertDrive, boolean invertSteer, int absoluteEncoderID, double absOffset, boolean absoluteReversed)
   {
-    this.absoluteReversed = absoluteReversed;
-
     driveMotor = new TalonFX(driveNum);
     driveGains = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
+    driveFeedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(constants_Module.DRIVE_GEAR_RATIO);
+    driveMotor.getConfigurator().apply(driveGains);
+    driveMotor.getConfigurator().apply(driveFeedbackConfigs, 5);
+    
+  
+    
+    this.absoluteReversed = absoluteReversed;
+    absoluteEncoder = new CANcoder(absoluteEncoderID, new CANBus());
+    CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(absOffset).withAbsoluteSensorDiscontinuityPoint(0.5));
+    
+    absoluteEncoder.getConfigurator().apply(CANConfig);
+    
 
     steerMotor = new SparkMax(steerNum, MotorType.kBrushless);
+    steerEncoder = steerMotor.getEncoder();
     steerGains = new SparkMaxConfig()
-        .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
+    .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(720, 1080));
+    steerGains.encoder.positionConversionFactor(Constants.constants_Module.STEER_TO_DEGREES);
+    steerGains.encoder.velocityConversionFactor(constants_Module.STEER__RPM_2_DEG_PER_SEC);
     steerPIDController = steerMotor.getClosedLoopController();
-    steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-    absoluteEncoder = new CANcoder(absoluteEncoderID);
-    CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(zeroRotation.getDegrees()));
-    absoluteEncoder.getConfigurator().apply(CANConfig);
+    steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
+    steerGains.inverted(invertSteer);
+    
+    resetEncoders();
   }
   
   public void stop()
@@ -110,38 +123,22 @@ public class Module extends SubsystemBase
     driveMotor.set(0);
     steerMotor.set(0);
   }
-
-  public void resetDriveEncoder() 
+  
+  public void resetEncoders() 
   {
     driveMotor.setPosition(0);
+    steerEncoder.setPosition(0);
   }
   
-
-
-  public SwerveModulePosition getSteerPosition()
-  {
-    return new SwerveModulePosition(getDrivePosition(), new Rotation2d(steerEncoder.getPosition()));
-  }
-  
-  public Rotation2d steerR2d = Rotation2d.fromDegrees(getSteerPosition().angle.getDegrees());
-
-  public SwerveModuleState getSteerState()
-  {
-    return new SwerveModuleState(getDriveVelocity(), steerR2d);
-  }
-  public double getABSPosition()
-  {
-    return (absoluteEncoder.getAbsolutePosition().getValueAsDouble()-zeroRotation.getDegrees()) * 360;
-  }
+//Drive Methods
   public double getDrivePosition()
   {
-      return driveMotor.getPosition().getValueAsDouble();
+      return driveMotor.getPosition().getValueAsDouble() * constants_Module.DRIVE_ROT_2_METER;
   }
   public double getDriveVelocity()
   {
     return driveMotor.getVelocity().getValueAsDouble();
   }
-
   public void getUpToSpeed(double velocity)
   {
     if(velocity <= 0.01)
@@ -152,12 +149,31 @@ public class Module extends SubsystemBase
       driveMotor.setControl(motionMagicRequest.withVelocity(velocity));
     }
   }
-
-
   public void setDriveNeutralOutput()
   {
     driveMotor.setControl(new NeutralOut()); //TODO see if this is coast or brake
   }
+  
+  
+  //Steer Methods
+  public double getPosition()
+  {
+    return steerEncoder.getPosition();
+  }
+  public double getABSPosition()
+  {
+    double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble(); //  * 360 to convert to degrees
+    return (angle  * (absoluteReversed ? -1 : 1) ) % 720;
+  }
+  public SwerveModuleState getModuleState()
+  {
+    return new SwerveModuleState(getDriveVelocity(), Rotation2d.fromDegrees(getPosition()));
+  }
+  public SwerveModulePosition getModulePosition()
+  {
+    return new SwerveModulePosition(getDrivePosition(), getModuleState().angle);
+  }
+
 
       
   //This is our setDesiredState alg. Takes the current state and the desired state shown by the controller and points the wheels to that 
@@ -165,8 +181,8 @@ public class Module extends SubsystemBase
   public void setDesiredState(SwerveModuleState state) 
   {
     if (Math.abs(state.speedMetersPerSecond) < 0.01) {stop();return;}
-    // state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(getSteerState().angle.getDegrees()));
-    state.cosineScale(steerR2d);
+    state.optimize(state.angle);
+    state.cosineScale(state.angle);
     driveMotor.set(state.speedMetersPerSecond / Constants.constants_Drive.MAX_SPEED_METERS_PER_SEC);
     steerPIDController.setReference(state.angle.getDegrees(), ControlType.kPosition);
     
@@ -179,10 +195,7 @@ public class Module extends SubsystemBase
     {
       Thread.sleep(10);
       steerPIDController.setReference(0, ControlType.kPosition);
-    } catch (Exception e) 
-    {
-
-    }
-}
+    } catch (Exception e){}
+  }
     
 }

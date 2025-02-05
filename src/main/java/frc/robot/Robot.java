@@ -8,6 +8,8 @@ import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Subsystems.StateMachine.RobotState;
+import frc.robot.Subsystems.StateMachine.TargetState;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -16,13 +18,14 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
-    for (int port = 5801; port <= 5809; port++)
-    {
+    for (int port = 5801; port <= 5809; port++) {
       PortForwarder.add(port, "limelight.local", port);
     }
 
     PortForwarder.add(5800, "photonvision.local", 5800);
   }
+  
+
 
   @Override
   public void robotPeriodic() {
@@ -30,7 +33,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    m_robotContainer.s_StateMachine.setRobotState(RobotState.NONE);
+    m_robotContainer.s_StateMachine.setTargetState(TargetState.PREP_NONE);
+  }
 
   @Override
   public void disabledPeriodic() {}
