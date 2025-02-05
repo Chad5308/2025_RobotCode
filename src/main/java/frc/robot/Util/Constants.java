@@ -137,8 +137,8 @@ public final class Constants {
     public static final double ROLLER_GEAR_RATIO = 1;
 
     public static final AlgaePositionGroup NONE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
-    public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0.75));
-    // intaking algae's magnitude is a percentage of the motor's power, 1being 100% and 0 being 0%
+    public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(20));
+    // intaking algae's magnitude is RPM
     public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
     public static final AlgaePositionGroup SCORING = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
   }
@@ -266,6 +266,16 @@ public final class Constants {
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L2, constants_Elevator.PREP_L2);
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L3, constants_Elevator.PREP_L3);
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L4, constants_Elevator.PREP_L4);
+    }
+
+    public static Map<RobotState, AlgaePositionGroup> TARGET_TO_ALGAE_GROUP = new HashMap<RobotState, AlgaePositionGroup>();
+
+    static
+    {
+      TARGET_TO_ALGAE_GROUP.put(RobotState.ALGAE, constants_Rollers.ALGAE);
+      TARGET_TO_ALGAE_GROUP.put(RobotState.INTAKE_ALGAE, constants_Rollers.INTAKING_ALGAE);
+      TARGET_TO_ALGAE_GROUP.put(RobotState.NONE, constants_Rollers.NONE);
+
     }
   }
 }

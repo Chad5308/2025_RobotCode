@@ -204,7 +204,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L1);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
 
@@ -219,7 +219,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L2);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
         
@@ -234,7 +234,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L3);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
 
@@ -249,7 +249,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L4);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
 
@@ -265,7 +265,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE:
           case PREP_NONE:
           case PREP_VISION:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_ALGAE);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
 
@@ -280,7 +280,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_NONE:
           case PREP_VISION:
           case PREP_ALGAE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_NONE);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
     }
@@ -295,7 +295,7 @@ public class StateMachine extends SubsystemBase {
     {
       return new PrepVision(s_StateMachine, c_Drive, s_Elevator, s_Lights);
     }
-    return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, currentTargetState);
+    return new PrepTargetState(s_StateMachine, s_Elevator, null, s_Lights, currentTargetState);
   }
 
     /**
