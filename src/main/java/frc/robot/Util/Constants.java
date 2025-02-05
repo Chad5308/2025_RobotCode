@@ -140,6 +140,7 @@ public final class Constants {
     public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0.75));
     // intaking algae's magnitude is a percentage of the motor's power, 1being 100% and 0 being 0%
     public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
+    public static final AlgaePositionGroup SCORING = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
   }
 
   public static final class AlgaePositionGroup

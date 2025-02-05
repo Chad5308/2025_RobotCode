@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
+import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
 
@@ -40,7 +41,9 @@ public class ScoringState extends Command
     @Override
     public void initialize()
     {
-        s_StateMachine. setRobotState(RobotState.SCORING);
+        s_StateMachine.setRobotState(RobotState.SCORING);
+        //switch statement l8r
+        s_Rollers.setAlgaeIntake(constants_Rollers.SCORING);
         
     }
 
