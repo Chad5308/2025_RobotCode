@@ -44,7 +44,7 @@ public class IntakingAlgaeState extends Command
     {
       s_StateMachine.setRobotState(frc.robot.Subsystems.StateMachine.RobotState.INTAKE_ALGAE);
         //Bring down the intake and start the rollers
-        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_INTAKE_ALGAE_COLOR);
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_INTAKE_ALGAE_PATTERN);
     }
 
     

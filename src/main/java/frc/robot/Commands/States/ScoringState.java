@@ -11,6 +11,7 @@ import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
+import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 
 public class ScoringState extends Command
 {
@@ -40,7 +41,8 @@ public class ScoringState extends Command
     @Override
     public void initialize()
     {
-        s_StateMachine. setRobotState(RobotState.SCORING);
+        s_StateMachine.setRobotState(RobotState.SCORING);
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_SCORING);
         
     }
 
