@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Util.Constants.AlgaePositionGroup;
 import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_ALGAE;
 
@@ -80,16 +81,14 @@ public class AlgaeRollers extends SubsystemBase
        return getDistance() < 10;
     }
 
-    public void setPosition(double position) //degrees
+    public void setAlgaeIntake(AlgaePositionGroup group) //degrees & m/s
     {
-        PITCH_PID.setReference(position, ControlType.kPosition);
+        PITCH_PID.setReference(group.intakeAngle.magnitude(), ControlType.kPosition);
+        ROLLERS_PID.setReference(group.rollersRPM.magnitude(), ControlType.kVelocity);
+
     }
 
-    public void setSpeed(double speed) //rps
-    {
-        ROLLERS_PID.setReference(speed, ControlType.kVelocity);
-    }
-
+    
 
     public Command homePosition()
     {

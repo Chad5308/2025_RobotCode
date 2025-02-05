@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
+import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
 import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
@@ -43,6 +44,7 @@ public class ScoringState extends Command
     {
         s_StateMachine.setRobotState(RobotState.SCORING);
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_SCORING);
+        s_Rollers.setAlgaeIntake(constants_Rollers.SCORING);         //switch statement l8r
         
     }
 
