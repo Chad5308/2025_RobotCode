@@ -129,7 +129,20 @@ public final class Constants {
       this.elevatorPosition = elevatorPosition;
     }
   }
+  public static final class constants_Climber 
+  {
+    public static final ClimberPositionGroup NONE = new ClimberPositionGroup(0);
+    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(0);
+  }
 
+  public static final class ClimberPositionGroup
+  {
+    public double angle;
+
+    public ClimberPositionGroup(double angle) {
+      this.angle = angle;
+    }
+  }
   public static final class constants_Rollers
   {
     //TODO find roller gear ration and input it here

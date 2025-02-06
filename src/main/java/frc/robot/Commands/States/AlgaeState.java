@@ -7,6 +7,7 @@ import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
 import frc.robot.Subsystems.StateMachine.RobotState;
+import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 
 public class AlgaeState extends Command
@@ -38,9 +39,11 @@ public class AlgaeState extends Command
     {
         s_StateMachine.setRobotState(RobotState.ALGAE);
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_ALGAE_COLOR);
-        s_Elevator.setElevatorPosition(null);
+        s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
+       // insert vision command 
 
-        //Write Command to retract intake and stop rollers
+        
+        
     }
 
     // Called every time the scheduler runs while the command is scheduled.
