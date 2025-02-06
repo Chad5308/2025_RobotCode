@@ -130,7 +130,20 @@ public final class Constants {
       this.elevatorRollersRPM = elevatorRollersRPM;
     }
   }
+  public static final class constants_Climber 
+  {
+    public static final ClimberPositionGroup NONE = new ClimberPositionGroup(0);
+    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(0);
+  }
 
+  public static final class ClimberPositionGroup
+  {
+    public double angle;
+
+    public ClimberPositionGroup(double angle) {
+      this.angle = angle;
+    }
+  }
   public static final class constants_Rollers
   {
     public static final double ROLLER_GEAR_RATIO = 1;

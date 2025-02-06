@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
+import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 
 public class IntakingAlgaeState extends Command 
@@ -45,6 +46,7 @@ public class IntakingAlgaeState extends Command
       s_StateMachine.setRobotState(frc.robot.Subsystems.StateMachine.RobotState.INTAKE_ALGAE);
         //Bring down the intake and start the rollers
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_INTAKE_ALGAE_PATTERN);
+        s_Rollers.setAlgaeIntake(constants_Rollers.INTAKING_ALGAE);
     }
 
     

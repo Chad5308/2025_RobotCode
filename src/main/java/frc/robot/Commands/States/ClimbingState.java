@@ -33,6 +33,8 @@ public class ClimbingState extends Command
     {
         s_StateMachine.setRobotState(RobotState.CLIMBING);
         //Climbing sequence
+        
+        
     }
     
     // Called every time the scheduler runs while the command is scheduled.
