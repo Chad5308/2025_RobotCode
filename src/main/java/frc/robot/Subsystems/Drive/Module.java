@@ -24,6 +24,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -114,6 +115,7 @@ public class Module extends SubsystemBase
     steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
     steerGains.inverted(invertSteer);
+    steerGains.idleMode(IdleMode.kBrake);
     
     resetEncoders();
   }

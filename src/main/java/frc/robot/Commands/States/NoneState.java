@@ -48,13 +48,10 @@ public class NoneState extends Command
     {
       s_StateMachine.setRobotState(RobotState.NONE);
       s_StateMachine.setTargetState(TargetState.PREP_NONE);
-      //run our homeing sequence
       s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_NONE_COLOR);
+      //run our homeing sequence
       s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
       s_Rollers.setAlgaeIntake(constants_Rollers.NONE);
-      
-      
- 
     }
     
     

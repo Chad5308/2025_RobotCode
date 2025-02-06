@@ -38,6 +38,6 @@ public class SourceState extends Command
     @Override
     public boolean isFinished()
     {
-        return true;
+        return s_Elevator.getGamePieceStored();
     }
 }

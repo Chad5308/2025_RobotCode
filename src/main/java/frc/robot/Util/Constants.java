@@ -105,6 +105,10 @@ public final class Constants {
     public static final double ELEVATOR_GEAR_RATIO = 20;
     public static final double ELEVATOR_TO_INCHES = 1;
     public static final double ELEVATOR_TOLERANCE = 2; //inches
+    public static final boolean LEFT_INVERTED = false;
+    public static final boolean RIGHT_INVERTED = true;
+    public static final boolean ROLLER_INVERTED = false;
+
   //TODO Find all elevator positions and ratio for motor rotations to inches
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(0, 10);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(0, 10);

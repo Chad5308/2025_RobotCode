@@ -17,18 +17,15 @@ public class AlgaeState extends Command
     AlgaeRollers s_Rollers;
     Lights s_Lights;
     Vision s_Vision;
-    boolean combo;
 
 
-    public AlgaeState(StateMachine s_StateMachine, Elevator s_Elevator, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights, boolean combo)
+    public AlgaeState(StateMachine s_StateMachine, Elevator s_Elevator, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
     {
         this.s_StateMachine = s_StateMachine;
         this.s_Elevator = s_Elevator;
         this.s_Rollers = s_Rollers;
         this.s_Vision = s_Vision;
         this.s_Lights = s_Lights;
-
-
 
         addRequirements(s_StateMachine);
     }
@@ -41,26 +38,17 @@ public class AlgaeState extends Command
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_ALGAE_COLOR);
         s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
        // insert vision command 
-
-        
-        
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute()
-    {}
 
-    // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted)
     {
     }
     
-    // Returns true when the command should end.
     @Override
-    public boolean isFinished() {
-        return combo;
-        //not gonna end unless taken out by combo
+    public boolean isFinished()
+    {
+        return true;
     }
 }

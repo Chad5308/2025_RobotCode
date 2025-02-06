@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,13 +43,17 @@ public class AlgaeRollers extends SubsystemBase
     public AlgaeRollers()
     {
         configRollers = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
+        configRollers.encoder.positionConversionFactor(1);
+        configRollers.idleMode(IdleMode.kBrake);
         ROLLERS = new SparkMax(MAP_ALGAE.ALGAE_ROLLERS, MotorType.kBrushless);
         ROLLERS_ENCODER = ROLLERS.getEncoder();
         ROLLERS_PID = ROLLERS.getClosedLoopController();
         ROLLERS.configure(configRollers, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
+
         configPitch = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
         configPitch.encoder.positionConversionFactor(constants_Rollers.ROLLER_GEAR_RATIO);
+        configPitch.idleMode(IdleMode.kCoast);
         PITCH = new SparkMax(MAP_ALGAE.ALGAE_PITCH, MotorType.kBrushless);
         PITCH_ENCODER = PITCH.getEncoder();
         PITCH_PID = PITCH.getClosedLoopController();

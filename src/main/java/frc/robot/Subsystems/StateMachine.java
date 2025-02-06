@@ -85,11 +85,11 @@ public class StateMachine extends SubsystemBase {
             }else if(s_Elevator.getGamePieceStored())
             {
               System.out.println("___________CORAL____________");
-              return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, false);
+              return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights);
             }else if(s_Rollers.getGamePieceCollected())
             {
               System.out.println("___________ALGAE____________");
-              return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights, false);
+              return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights);
             }else
             {
               System.out.println("___________NONE____________");
@@ -117,7 +117,7 @@ public class StateMachine extends SubsystemBase {
               return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
             }else
             {
-              return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, false);
+              return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights);
             }
         }
         break;
@@ -132,7 +132,7 @@ public class StateMachine extends SubsystemBase {
             return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
           }else
           {
-            return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights, false);
+            return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights);
           }
         }
         break;

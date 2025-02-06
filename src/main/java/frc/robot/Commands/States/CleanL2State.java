@@ -34,7 +34,6 @@ public class CleanL2State extends Command
         this.s_Lights = s_Lights;
         this.s_Vision = s_Vision;
 
-
         addRequirements(s_StateMachine);
     }
 
@@ -45,29 +44,17 @@ public class CleanL2State extends Command
             s_StateMachine.setRobotState(RobotState.CLEAN_L2);
             s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_CLEAN_L2_PATTERN);
             s_Elevator.setElevatorPosition(constants_Elevator.CLEAN_L2);
-            
     }
     
-    // loop
-    
-    // Called every time the scheduler runs while the command is scheduled
-    @Override 
-    public void execute()
-    {
-
-    }
-
-    // Called once the command ends or is interrupted
     @Override
     public void end(boolean interrupted)
     {
 
     }
 
-    // returns true when teh command should end
     @Override
     public boolean isFinished()
     {
-        return false;
+        return true;
     }
 }
