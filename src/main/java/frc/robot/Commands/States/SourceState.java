@@ -31,9 +31,13 @@ public class SourceState extends Command
     public void initialize()
     {
         s_StateMachine.setRobotState(RobotState.SOURCE);
-           //Create state for intaking from the source
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_SOURCE_COLOR);
-        s_Elevator.setElevatorPosition(constants_Elevator.Source);
+        s_Elevator.setElevatorPosition(constants_Elevator.SOURCE);
+    }
 
+    @Override
+    public boolean isFinished()
+    {
+        return true;
     }
 }

@@ -68,32 +68,49 @@ public class PrepTargetState extends Command {
     {
       case PREP_ALGAE:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_ALGAE_PATTERN);
+        break;
       case PREP_NONE:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_NONE_PATTERN);
+        break;
       case PREP_L1:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L1_PATTERN);
+        break;
       case PREP_L2:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L2_PATTERN);
+        break;
       case PREP_L3:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L3_PATTERN);
+        break;
       case PREP_L4:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L4_PATTERN);
+        break;
     }
-
   }
 
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-
+  public void end(boolean interrupted)
+  {
+    if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
+    {
+      s_Rollers.setAlgaeIntake(desiredAlgaePositionGroup);
+    } else { 
+      s_Elevator.setElevatorPosition(desiredElevatorPosition);
+    }
     //When the command ends we try and move again just incase
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    
+    if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
+    {
+      return s_Rollers.isRollersInPosition(desiredAlgaePositionGroup);
+    } else { 
+      return s_Elevator.isElevatorInPosition(desiredElevatorPosition);
+    }
     //should return if the elevator and arm are in tolerance of where we want them to be
   }
 }

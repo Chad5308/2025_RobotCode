@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Constants;
 import frc.robot.Util.Constants.ElevatorPositionGroup;
+import frc.robot.Util.Constants.constants_Elevator;
 import frc.robot.Util.RobotMap.MAP_ELEVATOR;
 
 public class Elevator extends SubsystemBase
@@ -86,16 +87,32 @@ public class Elevator extends SubsystemBase
     
     public void setElevatorPosition(ElevatorPositionGroup position)
     {
-        ELE_LEFT_PID.setReference(position.elevatorPosition.magnitude(), ControlType.kPosition);
-        ELE_RIGHT_PID.setReference(position.elevatorPosition.magnitude(), ControlType.kPosition);
+        if(position.elevatorPositionInches >= 0)
+        {
+            ELE_LEFT_PID.setReference(position.elevatorPositionInches, ControlType.kPosition);
+            ELE_RIGHT_PID.setReference(position.elevatorPositionInches, ControlType.kPosition);
+        }
+        if(position.elevatorRollersRPM >= 0)
+        {
+            ELE_ROLLER_PID.setReference(position.elevatorRollersRPM, ControlType.kVelocity);
+        }
     }
 
+    public boolean isElevatorInPosition(ElevatorPositionGroup position)
+    {
+        return Math.abs(getPosition() - position.elevatorPositionInches) < constants_Elevator.ELEVATOR_TOLERANCE;
+    }
 
+    public double getElevatorRollerRPM()
+    {
+        return ELE_ROLLER_ENCODER.getVelocity();
+    }
      @Override
     public void periodic()
     {
         SmartDashboard.putBoolean("Coral Detection", getGamePieceStored());
         SmartDashboard.putNumber("Elevator Position", getPosition());
+        
     }
 
 }

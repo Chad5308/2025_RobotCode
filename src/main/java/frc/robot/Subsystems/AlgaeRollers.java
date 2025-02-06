@@ -83,8 +83,13 @@ public class AlgaeRollers extends SubsystemBase
 
     public void setAlgaeIntake(AlgaePositionGroup group) //degrees & m/s
     {
-        PITCH_PID.setReference(group.intakeAngle.magnitude(), ControlType.kPosition);
-        ROLLERS_PID.setReference(group.rollersRPM.magnitude(), ControlType.kVelocity);
+        PITCH_PID.setReference(group.intakeAngle, ControlType.kPosition);
+        ROLLERS_PID.setReference(group.rollersRPM, ControlType.kVelocity);
+    }
+
+    public boolean isRollersInPosition(AlgaePositionGroup position)
+    {
+        return (Math.abs(getPosition() - position.intakeAngle) < constants_Rollers.ROLLER_ANGLE_TOLERANCE) && (Math.abs(getSpeed() - position.rollersRPM) < constants_Rollers.ROLLER_RPM_TOLERANCE);
     }
 
     

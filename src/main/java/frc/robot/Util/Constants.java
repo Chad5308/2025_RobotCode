@@ -12,11 +12,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.DistanceUnit;
-import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.wpilibj2.command.Command;
-
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;;
 
@@ -107,47 +104,52 @@ public final class Constants {
   {
     public static final double ELEVATOR_GEAR_RATIO = 20;
     public static final double ELEVATOR_TO_INCHES = 1;
+    public static final double ELEVATOR_TOLERANCE = 2; //inches
   //TODO Find all elevator positions and ratio for motor rotations to inches
-    public static final ElevatorPositionGroup Source = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(0, 10);
+    public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(0, 10);
+    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(0, 0);
+    public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 20);
+
   }
 
   public static class ElevatorPositionGroup
   {
-    public Measure<DistanceUnit> elevatorPosition; //Inches from ground to scoring or to the substation for that one
+    public double elevatorPositionInches; //Inches from ground to scoring or to the substation for that one
+    public double elevatorRollersRPM;
 
-    public ElevatorPositionGroup(Measure<DistanceUnit> elevatorPosition)
+    public ElevatorPositionGroup(double elevatorPositionInches, double elevatorRollersRPM)
     {
-      this.elevatorPosition = elevatorPosition;
+      this.elevatorPositionInches = elevatorPositionInches;
+      this.elevatorRollersRPM = elevatorRollersRPM;
     }
   }
 
   public static final class constants_Rollers
   {
-    //TODO find roller gear ration and input it here
-
     public static final double ROLLER_GEAR_RATIO = 1;
+    public static final double ROLLER_ANGLE_TOLERANCE = 2;
+    public static final double ROLLER_RPM_TOLERANCE = 5;
 
-    public static final AlgaePositionGroup NONE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
-    public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(20));
+    public static final AlgaePositionGroup NONE = new AlgaePositionGroup(0,0);
+    public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(0, 0);
     // intaking algae's magnitude is RPM
-    public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
-    public static final AlgaePositionGroup SCORING = new AlgaePositionGroup(edu.wpi.first.units.Units.Degrees.of(0), edu.wpi.first.units.Units.MetersPerSecond.of(0));
+    public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(0,0);
+    public static final AlgaePositionGroup SCORING = new AlgaePositionGroup(0,0);
   }
 
   public static final class AlgaePositionGroup
   {
-    public Measure<AngleUnit> intakeAngle;
-    public Measure<LinearVelocityUnit> rollersRPM;
+    public double intakeAngle;
+    public double rollersRPM;
 
-    public AlgaePositionGroup(Measure<AngleUnit> intakeAngle, Measure<LinearVelocityUnit> rollersRPM)
+    public AlgaePositionGroup(double intakeAngle, double rollersRPM)
     {
       this.intakeAngle = intakeAngle;
       this.rollersRPM = rollersRPM;
