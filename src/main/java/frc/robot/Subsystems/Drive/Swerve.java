@@ -40,13 +40,12 @@ public class Swerve extends SubsystemBase{
     
     public Swerve() 
     {
-        new Thread(() -> {
-            try {
-                Thread.sleep(500);
-                zeroHeading();
-            } catch (Exception e) {}}).start();    
-            
-            alliance = getAlliance();
+        new Thread(() -> {try
+        {
+            Thread.sleep(500);
+            zeroHeading();
+        } catch (Exception e) {}}).start();    
+        alliance = getAlliance();
     }
         
     //gyro int and heading code

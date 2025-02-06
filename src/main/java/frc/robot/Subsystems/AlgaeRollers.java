@@ -85,7 +85,6 @@ public class AlgaeRollers extends SubsystemBase
     {
         PITCH_PID.setReference(group.intakeAngle.magnitude(), ControlType.kPosition);
         ROLLERS_PID.setReference(group.rollersRPM.magnitude(), ControlType.kVelocity);
-
     }
 
     

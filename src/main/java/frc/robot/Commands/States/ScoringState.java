@@ -12,6 +12,7 @@ import frc.robot.Subsystems.Vision;
 import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
+import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 
 public class ScoringState extends Command
 {
@@ -42,8 +43,8 @@ public class ScoringState extends Command
     public void initialize()
     {
         s_StateMachine.setRobotState(RobotState.SCORING);
-        //switch statement l8r
-        s_Rollers.setAlgaeIntake(constants_Rollers.SCORING);
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_SCORING);
+        s_Rollers.setAlgaeIntake(constants_Rollers.SCORING);         //switch statement l8r
         
     }
 
