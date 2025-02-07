@@ -24,30 +24,3 @@ public class Lights extends SubsystemBase
     }
 
 }
-
-// getting and setting example
-// public double getPosition()
-//     {
-//         return PITCH_ENCODER.getPosition() * 360;
-//     }
-
-//     public double getSpeed()
-//     {
-//         return ROLLERS_ENCODER.getVelocity();
-//     }
-        
-//     public boolean getGamePieceCollected()
-//     {
-//         return testBool;
-//         //TODO Code this distance/proxy sensor in and return senser reading
-//     }
-
-//     public void setPosition(double position) //degrees
-//     {
-//         PITCH_PID.setReference(position, ControlType.kPosition);
-//     }
-
-//     public void setSpeed(double speed) //rps
-//     {
-//         ROLLERS_PID.setReference(speed, ControlType.kVelocity);
-//     }

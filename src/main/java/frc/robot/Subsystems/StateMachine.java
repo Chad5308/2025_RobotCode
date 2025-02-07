@@ -65,8 +65,8 @@ public class StateMachine extends SubsystemBase {
  
   public Command tryState(RobotState desiredState, StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights) {
 
-    // System.out.println(desiredState + "-------Desired");
-    // System.out.println(currentState + "-------current");
+    System.out.println(desiredState + "-------Desired");
+    System.out.println(currentState + "-------current");
 
 
     switch (desiredState) {
@@ -85,11 +85,11 @@ public class StateMachine extends SubsystemBase {
             }else if(s_Elevator.getGamePieceStored())
             {
               System.out.println("___________CORAL____________");
-              return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, false);
+              return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights);
             }else if(s_Rollers.getGamePieceCollected())
             {
               System.out.println("___________ALGAE____________");
-              return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights, false);
+              return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights);
             }else
             {
               System.out.println("___________NONE____________");
@@ -110,11 +110,15 @@ public class StateMachine extends SubsystemBase {
       case CORAL:
         switch (currentState)
         {
-          case ALGAE:
-            return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-          case CORAL:
-          case NONE:
-            return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, false);
+          
+          case SOURCE:
+            if(s_Rollers.getGamePieceCollected())
+            {
+              return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+            }else
+            {
+              return new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights);
+            }
         }
         break;
 
@@ -128,7 +132,7 @@ public class StateMachine extends SubsystemBase {
             return new ComboState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
           }else
           {
-            return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights, false);
+            return new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights);
           }
         }
         break;
@@ -140,6 +144,7 @@ public class StateMachine extends SubsystemBase {
           case ALGAE:
             return new SourceState(s_StateMachine, s_Elevator, s_Vision, s_Lights);
         }
+        break;
       
       case CLEAN_L2:
         switch(currentState)
@@ -148,8 +153,9 @@ public class StateMachine extends SubsystemBase {
           case ALGAE:
           case CLEAN_L3:
           case CLEAN_L2:
-            return new CleanL2State();
+            return new CleanL2State(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
+        break;
 
       case CLEAN_L3:
         switch(currentState)
@@ -158,8 +164,9 @@ public class StateMachine extends SubsystemBase {
           case ALGAE:
           case CLEAN_L2:
           case CLEAN_L3:
-            return new CleanL3State();
+            return new CleanL3State(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
+        break;
 
       case CLIMBING:
         switch (currentState)
@@ -197,7 +204,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L1);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
 
@@ -212,7 +219,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L2);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
         
@@ -227,7 +234,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L3);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
 
@@ -242,7 +249,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_L4);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
         break;
 
@@ -258,8 +265,9 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE:
           case PREP_NONE:
           case PREP_VISION:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_ALGAE);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
+        break;
 
       case PREP_NONE:
         switch (currentState)
@@ -272,11 +280,11 @@ public class StateMachine extends SubsystemBase {
           case PREP_NONE:
           case PREP_VISION:
           case PREP_ALGAE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, TargetState.PREP_NONE);
+            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
         }
-      
+        break;
     }
-    // System.out.println(desiredState);
+    System.out.println(desiredState);
     return Commands.print("HAWK TUAH :O INVALID STATE GIVEN");
   
   }
@@ -287,7 +295,7 @@ public class StateMachine extends SubsystemBase {
     {
       return new PrepVision(s_StateMachine, c_Drive, s_Elevator, s_Lights);
     }
-    return new PrepTargetState(s_StateMachine, s_Elevator, s_Lights, currentTargetState);
+    return new PrepTargetState(s_StateMachine, s_Elevator, null, s_Lights, currentTargetState);
   }
 
     /**

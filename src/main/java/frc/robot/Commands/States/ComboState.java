@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
+import frc.robot.Util.Constants.*;
 import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 import frc.robot.Subsystems.Vision;
 
@@ -41,35 +42,24 @@ public class ComboState extends Command
     @Override
     public void initialize()
     {
-        if(s_StateMachine.currentState == RobotState.ALGAE)
+        if(s_Rollers.getGamePieceCollected()) //What to do when we are now picking up a Coral
         {
-            //What to do when we are now picking up a coral
-            new CoralState(s_StateMachine, s_Elevator, s_Vision, s_Lights, true);
-        }else if(s_StateMachine.currentState == RobotState.INTAKE_ALGAE)
+            s_Elevator.setElevatorPosition(constants_Elevator.CORAL); 
+        }else//what to do when we are now picking up a Algae
         {
-            //what to do when we are now picking up a coral
-            new AlgaeState(s_StateMachine, s_Elevator, s_Rollers, s_Vision, s_Lights, true);
+            s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
         }
 
         s_StateMachine.setRobotState(RobotState.COMBO);
-        s_StateMachine.setTargetState(TargetState.PREP_ALGAE);
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_COMBO_COLOR);
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute()
-    {
-    }
-
-    // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted)
     {
-        //not gonna end unless taken out by combo
+
     }
 
-      // Returns true when the command should end.
     @Override
     public boolean isFinished() {
         return false;

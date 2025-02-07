@@ -20,8 +20,8 @@
         "y": 5.25
       },
       "prevControl": {
-        "x": 6.712939149550411,
-        "y": 6.617323464048919
+        "x": 6.8216609589041095,
+        "y": 6.48169948630137
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "PREP_L4",
-      "waypointRelativePos": 0.8309523809523809,
+      "waypointRelativePos": 0.4,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -49,7 +49,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": -29.999999999999996
   },
   "reversed": false,
   "folder": "1",

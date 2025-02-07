@@ -6,6 +6,8 @@ import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
 import frc.robot.Subsystems.StateMachine.RobotState;
+import frc.robot.Util.Constants.constants_Elevator;
+import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 
 public class SourceState extends Command
 {
@@ -29,6 +31,13 @@ public class SourceState extends Command
     public void initialize()
     {
         s_StateMachine.setRobotState(RobotState.SOURCE);
-        //Create state for intaking from the source
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_SOURCE_COLOR);
+        s_Elevator.setElevatorPosition(constants_Elevator.SOURCE);
+    }
+
+    @Override
+    public boolean isFinished()
+    {
+        return s_Elevator.getGamePieceStored();
     }
 }

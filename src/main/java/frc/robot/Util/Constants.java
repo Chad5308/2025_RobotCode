@@ -7,16 +7,13 @@ package frc.robot.Util;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.DistanceUnit;
-import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.wpilibj2.command.Command;
-
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;;
 
@@ -35,7 +32,6 @@ public final class Constants {
   public static final class constants_Drive {
 
     public static final Measure<DistanceUnit> WHEEL_RADIUS = edu.wpi.first.units.Units.Inches.of(1.5);
-    // public static final double wheelRadius = Units.inchesToMeters(1.5);
     public static final double COF = 1.2;
     public static final double TRACK_WIDTH = Units.inchesToMeters(23.75);
       // Distance between right and left wheels
@@ -47,12 +43,14 @@ public final class Constants {
         new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2), //back left
         new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2)); //back right
 
+    public static final double MODULE_RADIUS = Units.inchesToMeters(Constants.constants_Drive.TRACK_WIDTH/2); //measured from center of robot to furthest module.
+
     
     //TODO Test and input all module offsets
-    public static final Rotation2d FL_DEGREES = Rotation2d.fromDegrees(0);
-    public static final Rotation2d FR_DEGREES = Rotation2d.fromDegrees(0);
-    public static final Rotation2d BL_DEGREES = Rotation2d.fromDegrees(0);
-    public static final Rotation2d BR_DEGREES = Rotation2d.fromDegrees(0);
+    public static final double FL_DEGREES = 0;
+    public static final double FR_DEGREES = 0;
+    public static final double BL_DEGREES = 0;
+    public static final double BR_DEGREES = 0;
 
     //TODO Invert any motor to match controller output
     public static final boolean FL_STEER_ENCODER_REVERSED = false;
@@ -60,9 +58,9 @@ public final class Constants {
     public static final boolean BL_STEER_ENCODER_REVERSED = false;
     public static final boolean BR_STEER_ENCODER_REVERSED = false;
 
-    public static final boolean FL_DRIVE_ENCODER_REVERSED = true;
+    public static final boolean FL_DRIVE_ENCODER_REVERSED = false;
     public static final boolean FR_DRIVE_ENCODER_REVERSED = false;
-    public static final boolean BL_DRIVE_ENCODER_REVERSED = true;
+    public static final boolean BL_DRIVE_ENCODER_REVERSED = false;
     public static final boolean BR_DRIVE_ENCODER_REVERSED = false;
 
     public static final boolean FL_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
@@ -71,7 +69,6 @@ public final class Constants {
     public static final boolean BR_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
 
     public static final double MAX_SPEED_METERS_PER_SEC = 6.949; //6.949 for Swerve X, 4.60248 for sd
-    public static final LinearVelocityUnit MAX_TESTED_SPEED = LinearVelocityUnit.combine(edu.wpi.first.units.Units.Meters.of(4.5).unit(), edu.wpi.first.units.Units.Seconds.of(1).unit());
     public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC = MAX_SPEED_METERS_PER_SEC/(TRACK_WIDTH/2);
 
     //For limiting speed while driving
@@ -83,13 +80,13 @@ public final class Constants {
   
   public static final class constants_Module {
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4);
-    public static final double DRIVE_MOTOR_GEAR_RATIO = 4.59 / 1; //4.59 for Swerve X, 6.75 for sds
-    public static final double STEER_MOTOR_GEAR_RATIO = 13.3714 / 1; //13.3714 for Swerve X, 12.8 for sds
-    public static final double DRIVE_ENCODER_ROT_2_METER = 1/16.0344; //Not sure try 1/16.0344, 1/23.58 for sds
-
-    // public static final double TURNING_CONVERSION_FACTOR_2_DEG =  28.25;
-    public static final double DRIVE_ENCODER_RPM_2_METERS_PER_SEC = DRIVE_ENCODER_ROT_2_METER / 60;
-    // public static final double TURNING_ENCODER_RPM_2_DEG_PER_SEC = TURNING_CONVERSION_FACTOR_2_DEG / 60;
+    public static final double WHEEL_CIRCUMFRENCE_METERS = 2*Math.PI*WHEEL_DIAMETER_METERS;
+    public static final double DRIVE_GEAR_RATIO = 4.59; //4.59 for Swerve X, 6.75 for sds
+    public static final double STEER_GEAR_RATIO = 13.3714; //13.3714 for Swerve X, 12.8 for sds
+    public static final double STEER_TO_DEGREES = 360 / STEER_GEAR_RATIO;
+    public static final double DRIVE_ROT_2_METER = (1/WHEEL_CIRCUMFRENCE_METERS);
+    public static final double DRIVE_RPM_2_METERS_PER_SEC = DRIVE_ROT_2_METER / 60;
+    public static final double STEER__RPM_2_DEG_PER_SEC = STEER_TO_DEGREES / 60;
 
     public static final double P_TURNING = 0.0075;
     public static final double I_TURNING = 0.0;
@@ -101,37 +98,81 @@ public final class Constants {
     public static final double A_DRIVE = 0.1;
     public static final double P_DRIVE = 0.1;
     public static final double I_DRIVE = 0.1;
-
-    public static final double MODULE_RADIUS = Units.inchesToMeters(Constants.constants_Drive.TRACK_WIDTH/2); //measured from center of robot to furthest module.
   }
 
   public static final class constants_Elevator
   {
+    public static final double ELEVATOR_GEAR_RATIO = 20;
     public static final double ELEVATOR_TO_INCHES = 1;
-  //TODO Find all elevator positions
-    public static final ElevatorPositionGroup feedStation = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
-    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(edu.wpi.first.units.Units.Inches.of(0));
+    public static final double ELEVATOR_TOLERANCE = 2; //inches
+    public static final boolean LEFT_INVERTED = false;
+    public static final boolean RIGHT_INVERTED = true;
+    public static final boolean ROLLER_INVERTED = false;
+
+  //TODO Find all elevator positions and ratio for motor rotations to inches
+    public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(0, 10);
+    public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(0, 10);
+    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(0, 0);
+    public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 20);
+
   }
 
   public static class ElevatorPositionGroup
   {
-    public Measure<DistanceUnit> elevatorPosition; //Inches from ground to scoring or to the substation for that one
+    public double elevatorPositionInches; //Inches from ground to scoring or to the substation for that one
+    public double elevatorRollersRPM;
 
-    public ElevatorPositionGroup(Measure<DistanceUnit> elevatorPosition)
+    public ElevatorPositionGroup(double elevatorPositionInches, double elevatorRollersRPM)
     {
-      this.elevatorPosition = elevatorPosition;
+      this.elevatorPositionInches = elevatorPositionInches;
+      this.elevatorRollersRPM = elevatorRollersRPM;
+    }
+  }
+  public static final class constants_Climber 
+  {
+    public static final ClimberPositionGroup NONE = new ClimberPositionGroup(0);
+    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(0);
+  }
+
+  public static final class ClimberPositionGroup
+  {
+    public double angle;
+
+    public ClimberPositionGroup(double angle) {
+      this.angle = angle;
+    }
+  }
+  public static final class constants_Rollers
+  {
+    public static final double ROLLER_GEAR_RATIO = 1;
+    public static final double ROLLER_ANGLE_TOLERANCE = 2;
+    public static final double ROLLER_RPM_TOLERANCE = 5;
+
+    public static final AlgaePositionGroup NONE = new AlgaePositionGroup(0,0);
+    public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(0, 0);
+    // intaking algae's magnitude is RPM
+    public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(0,0);
+    public static final AlgaePositionGroup SCORING = new AlgaePositionGroup(0,0);
+  }
+
+  public static final class AlgaePositionGroup
+  {
+    public double intakeAngle;
+    public double rollersRPM;
+
+    public AlgaePositionGroup(double intakeAngle, double rollersRPM)
+    {
+      this.intakeAngle = intakeAngle;
+      this.rollersRPM = rollersRPM;
     }
   }
 
-  public static final class constants_Rollers
-  {
-    //TODO find roller gear ration and input it here
-    public static final double ROLLER_GEAR_RATIO = 1;
-  }
 
 
   public static final class constants_OI {
@@ -243,6 +284,16 @@ public final class Constants {
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L2, constants_Elevator.PREP_L2);
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L3, constants_Elevator.PREP_L3);
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L4, constants_Elevator.PREP_L4);
+    }
+
+    public static Map<RobotState, AlgaePositionGroup> TARGET_TO_ALGAE_GROUP = new HashMap<RobotState, AlgaePositionGroup>();
+
+    static
+    {
+      TARGET_TO_ALGAE_GROUP.put(RobotState.ALGAE, constants_Rollers.ALGAE);
+      TARGET_TO_ALGAE_GROUP.put(RobotState.INTAKE_ALGAE, constants_Rollers.INTAKING_ALGAE);
+      TARGET_TO_ALGAE_GROUP.put(RobotState.NONE, constants_Rollers.NONE);
+
     }
   }
 }
