@@ -113,8 +113,8 @@ public final class Constants {
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(0, 10);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(0, 10);
     public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(0, -1);
-    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(0, -1);
-    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(0, -1);
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(8.5625, -1);
+    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(24.875, -1);
     public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(0, -1);
     public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(0, -1);
     public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(0, -1);
