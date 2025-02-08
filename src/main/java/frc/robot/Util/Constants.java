@@ -115,9 +115,10 @@ public final class Constants {
     public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(0, -1);
     public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(8.5625, -1);
     public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(24.875, -1);
-    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(0, -1);
-    public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(0, -1);
-    public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(0, -1);
+  //TODO: PREP_L4 is an estimate.  Confirm with actual measurement.
+    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(36, -1);
+    public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(4.5625, -1);
+    public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(20.875, -1);
     public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(0, 0);
     public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 20);
 
