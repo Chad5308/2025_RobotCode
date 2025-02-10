@@ -341,6 +341,16 @@ public class StateMachine extends SubsystemBase {
 
   public static enum TargetState
   {
+    NONE,
+    INTAKE_ALGAE,
+    SOURCE,
+    CORAL,
+    ALGAE,
+    COMBO,
+    CLEAN_L2,
+    CLEAN_L3,
+    CLIMBING,
+    SCORING,
     PREP_NONE,
     PREP_L1,
     PREP_L2,

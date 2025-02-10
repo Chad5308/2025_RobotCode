@@ -14,7 +14,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Util.Constants.constants_Auto;
 import frc.robot.Util.Constants.constants_Drive;
-import frc.robot.Commands.States.PrepTargetState;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Elevator;
@@ -54,7 +53,22 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Swerve.faceAllFoward()));
         // NamedCommands.registerCommand("AutoDrive", Commands.runOnce(() -> s_Vision.autoDrive.schedule()));
         
-        NamedCommands.registerCommand("PREP_L4", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L4);}).andThen(Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L4, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
+        NamedCommands.registerCommand("PREP_L1", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L1);}).andThen
+        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L1, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
+        NamedCommands.registerCommand("PREP_L2", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L2);}).andThen
+        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
+        NamedCommands.registerCommand("PREP_L3", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L3);}).andThen
+        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
+        NamedCommands.registerCommand("PREP_L4", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L4);}).andThen
+        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L4, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
+        NamedCommands.registerCommand("SOURCE", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.SOURCE);}).andThen
+        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
+        NamedCommands.registerCommand("PREP_ALGAE", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_ALGAE);}).andThen
+        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
+        NamedCommands.registerCommand("SCORING", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.SCORING);}).andThen
+        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
+        NamedCommands.registerCommand("PREP_NONE", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_NONE);}).andThen
+        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
         
     }
 

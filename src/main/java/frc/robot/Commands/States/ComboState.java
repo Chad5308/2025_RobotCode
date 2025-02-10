@@ -1,5 +1,7 @@
 package frc.robot.Commands.States;
 
+import javax.lang.model.util.ElementScanner14;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.Drive;
 import frc.robot.Subsystems.AlgaeRollers;
@@ -42,16 +44,28 @@ public class ComboState extends Command
     @Override
     public void initialize()
     {
-        if(s_Rollers.getGamePieceCollected()) //What to do when we are now picking up a Coral
-        {
+        if(s_Rollers.getGamePieceCollected() && s_Elevator.getGamePieceStored()) //What to do when we are now picking up a Coral
+        { 
             s_Elevator.setElevatorPosition(constants_Elevator.CORAL); 
-        }else//what to do when we are now picking up a Algae
+            s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
+            s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_COMBO_COLOR);
+            s_StateMachine.setRobotState(RobotState.COMBO);
+        }
+         else if (s_Rollers.getGamePieceCollected())
         {
             s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
-        }
+            s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_ALGAE_COLOR);
+            s_StateMachine.setRobotState(RobotState.ALGAE);
 
-        s_StateMachine.setRobotState(RobotState.COMBO);
-        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_COMBO_COLOR);
+        } 
+         else if (s_Elevator.getGamePieceStored())
+        {
+            s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
+            s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_CORAL_COLOR);
+            s_StateMachine.setRobotState(RobotState.CORAL);
+            
+        }
+        
     }
 
     @Override
