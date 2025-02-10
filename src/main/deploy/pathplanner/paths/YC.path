@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.7,
-        "y": 2.925
+        "x": 3.8916523972602737,
+        "y": 2.8304580479452057
       },
       "prevControl": {
-        "x": 3.4674242278421668,
-        "y": 2.7136915930929892
+        "x": 3.6590766251024403,
+        "y": 2.619149641038195
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "PREP_L4",
-      "waypointRelativePos": 0.7142857142857145,
+      "name": "PREP_L3",
+      "waypointRelativePos": 0.5694915254237312,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -49,7 +49,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 148.0647529843582
   },
   "reversed": false,
   "folder": "Return-Y",

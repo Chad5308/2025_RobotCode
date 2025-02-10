@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.15,
-        "y": 4.175
+        "x": 3.1553938356164384,
+        "y": 3.972410102739726
       },
       "prevControl": {
-        "x": 1.8782106164383559,
-        "y": 3.9423587328767122
+        "x": 1.8836044520547943,
+        "y": 3.7397688356164385
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "PREP_L4",
-      "waypointRelativePos": 0.7452380952380941,
+      "name": "PREP_L2",
+      "waypointRelativePos": 0.68813559322034,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -55,7 +55,7 @@
   "folder": "Return-X",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 128.30403265382898
+    "rotation": 125.00000000000001
   },
   "useDefaultConstraints": true
 }

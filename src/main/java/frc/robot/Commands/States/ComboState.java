@@ -1,6 +1,5 @@
 package frc.robot.Commands.States;
 
-import javax.lang.model.util.ElementScanner14;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.Drive;
@@ -10,7 +9,6 @@ import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
-import frc.robot.Subsystems.StateMachine.TargetState;
 import frc.robot.Util.Constants.*;
 import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 import frc.robot.Subsystems.Vision;
@@ -56,8 +54,7 @@ public class ComboState extends Command
             s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
             s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_ALGAE_COLOR);
             s_StateMachine.setRobotState(RobotState.ALGAE);
-
-        } 
+        }
          else if (s_Elevator.getGamePieceStored())
         {
             s_Elevator.setElevatorPosition(constants_Elevator.CORAL);

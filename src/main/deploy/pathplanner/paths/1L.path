@@ -20,7 +20,7 @@
         "y": 5.08
       },
       "prevControl": {
-        "x": 1.8897505106821006,
+        "x": 1.8897505106821004,
         "y": 7.299948729014234
       },
       "nextControl": null,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "PREP_L4",
-      "waypointRelativePos": 0.8380952380952379,
+      "name": "PREP_L3",
+      "waypointRelativePos": 0.9050847457627111,
       "endWaypointRelativePos": null,
       "command": null
     }

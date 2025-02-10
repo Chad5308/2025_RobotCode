@@ -21,6 +21,18 @@
           "data": {
             "pathName": "YC"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
+          }
         }
       ]
     }
