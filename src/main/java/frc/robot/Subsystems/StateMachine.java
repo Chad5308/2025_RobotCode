@@ -74,6 +74,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentState)
         {
           case INTAKE_ALGAE:
+          case SOURCE:
           case SCORING:
           case CLEAN_L2:
           case CLEAN_L3:

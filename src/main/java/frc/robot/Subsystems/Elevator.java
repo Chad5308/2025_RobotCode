@@ -93,7 +93,8 @@ public class Elevator extends SubsystemBase
     
     public boolean getGamePieceStored()
     {
-       return getDistance() < 10;
+    //    return getDistance() < 10;
+        return testBool;
     }
     
     public void setElevatorPosition(ElevatorPositionGroup position)

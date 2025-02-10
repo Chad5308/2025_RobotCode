@@ -25,7 +25,6 @@ public class PrepTargetState extends Command {
   boolean ALGAE_STATE;
 
   ElevatorPositionGroup desiredElevatorPosition;
-  AlgaePositionGroup desiredAlgaePositionGroup;
   boolean elevatorWasUp;
 
   /** Creates a new PrepTargetState. */
@@ -51,12 +50,11 @@ public class PrepTargetState extends Command {
     }
 
     desiredElevatorPosition = constants_StateMachine.TARGET_TO_PRESET_GROUP.get(desiredTargetState);
-    desiredAlgaePositionGroup = constants_StateMachine.TARGET_TO_ALGAE_GROUP.get(desiredRobotState);
 
 
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
-      s_Rollers.setAlgaeIntake(desiredAlgaePositionGroup);
+      s_Rollers.setAlgaeIntake(constants_Rollers.PREP_ALGAE);
     } else { 
       s_Elevator.setElevatorPosition(desiredElevatorPosition);
     }
@@ -94,7 +92,7 @@ public class PrepTargetState extends Command {
   {
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
-      s_Rollers.setAlgaeIntake(desiredAlgaePositionGroup);
+      s_Rollers.setAlgaeIntake(constants_Rollers.PREP_ALGAE);
     } else { 
       s_Elevator.setElevatorPosition(desiredElevatorPosition);
     }
@@ -107,7 +105,7 @@ public class PrepTargetState extends Command {
     
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
-      return s_Rollers.isRollersInPosition(desiredAlgaePositionGroup);
+      return s_Rollers.isRollersInPosition(constants_Rollers.PREP_ALGAE);
     } else { 
       return s_Elevator.isElevatorInPosition(desiredElevatorPosition);
     }

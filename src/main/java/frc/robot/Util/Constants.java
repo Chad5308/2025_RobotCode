@@ -159,6 +159,7 @@ public final class Constants {
     // intaking algae's magnitude is RPM
     public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(0,0);
     public static final AlgaePositionGroup SCORING = new AlgaePositionGroup(0,0);
+    public static final AlgaePositionGroup PREP_ALGAE = new AlgaePositionGroup(0, 0);
   }
 
   public static final class AlgaePositionGroup
@@ -269,6 +270,7 @@ public final class Constants {
     static
     {
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_NONE, RobotState.PREP_NONE);
+      TARGET_TO_ROBOT_STATE.put(TargetState.PREP_ALGAE, RobotState.PREP_ALGAE);
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L1, RobotState.PREP_L1);
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L2, RobotState.PREP_L2);
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L3, RobotState.PREP_L3);
@@ -286,14 +288,14 @@ public final class Constants {
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L4, constants_Elevator.PREP_L4);
     }
 
-    public static Map<RobotState, AlgaePositionGroup> TARGET_TO_ALGAE_GROUP = new HashMap<RobotState, AlgaePositionGroup>();
+    // public static Map<TargetState, AlgaePositionGroup> TARGET_TO_ALGAE_GROUP = new HashMap<TargetState, AlgaePositionGroup>();
 
-    static
-    {
-      TARGET_TO_ALGAE_GROUP.put(RobotState.ALGAE, constants_Rollers.ALGAE);
-      TARGET_TO_ALGAE_GROUP.put(RobotState.INTAKE_ALGAE, constants_Rollers.INTAKING_ALGAE);
-      TARGET_TO_ALGAE_GROUP.put(RobotState.NONE, constants_Rollers.NONE);
+    // static
+    // {
+    //   TARGET_TO_ALGAE_GROUP.put(RobotState.ALGAE, constants_Rollers.ALGAE);
+    //   TARGET_TO_ALGAE_GROUP.put(RobotState.INTAKE_ALGAE, constants_Rollers.INTAKING_ALGAE);
+    //   TARGET_TO_ALGAE_GROUP.put(RobotState.NONE, constants_Rollers.NONE);
 
-    }
+    // }
   }
 }

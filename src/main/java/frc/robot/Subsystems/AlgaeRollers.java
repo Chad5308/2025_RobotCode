@@ -83,7 +83,8 @@ public class AlgaeRollers extends SubsystemBase
         
     public boolean getGamePieceCollected()
     {      
-       return getDistance() < 10;
+    //    return getDistance() < 10;
+        return testBool;
     }
 
     public void setAlgaeIntake(AlgaePositionGroup group) //degrees & m/s
