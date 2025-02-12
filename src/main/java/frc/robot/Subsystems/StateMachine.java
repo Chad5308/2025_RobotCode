@@ -185,7 +185,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_L1:
           case PREP_L2:
           case PREP_L3:
-          case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
           case PREP_ALGAE:
@@ -202,7 +201,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_L1:
           case PREP_L2:
           case PREP_L3:
-          case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
@@ -217,7 +215,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_L1:
           case PREP_L2:
           case PREP_L3:
-          case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
@@ -232,22 +229,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_L1:
           case PREP_L2:
           case PREP_L3:
-          case PREP_L4:
-          case PREP_VISION:
-          case PREP_NONE:
-            return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
-        }
-        break;
-
-      case PREP_L4:
-        switch (currentState)
-        {
-          case CORAL:
-          case COMBO:
-          case PREP_L1:
-          case PREP_L2:
-          case PREP_L3:
-          case PREP_L4:
           case PREP_VISION:
           case PREP_NONE:
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
@@ -262,7 +243,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_L1:
           case PREP_L2:
           case PREP_L3:
-          case PREP_L4:
           case PREP_ALGAE:
           case PREP_NONE:
           case PREP_VISION:
@@ -277,7 +257,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_L1:
           case PREP_L2:
           case PREP_L3:
-          case PREP_L4:
           case PREP_NONE:
           case PREP_VISION:
           case PREP_ALGAE:
@@ -334,7 +313,6 @@ public class StateMachine extends SubsystemBase {
     PREP_L1,
     PREP_L2,
     PREP_L3,
-    PREP_L4,
     PREP_VISION,
     PREP_ALGAE
   }
@@ -355,7 +333,6 @@ public class StateMachine extends SubsystemBase {
     PREP_L1,
     PREP_L2,
     PREP_L3,
-    PREP_L4,
     PREP_VISION,
     PREP_ALGAE
   }

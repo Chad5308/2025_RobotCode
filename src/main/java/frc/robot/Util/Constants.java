@@ -33,8 +33,9 @@ public final class Constants {
 
     public static final Measure<DistanceUnit> WHEEL_RADIUS = edu.wpi.first.units.Units.Inches.of(1.5);
     public static final double COF = 1.2;
+    //TODO Measure from the center of each wheel to get these, Front to back for "WHEEL_BASE", Left to right for "TRACK_WIDTH"
     public static final double TRACK_WIDTH = Units.inchesToMeters(23.75);
-      // Distance between right and left wheels
+      // Distance between left and right wheels
     public static final double WHEEL_BASE = Units.inchesToMeters(23.75);
       // Distance between front and back wheels
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
@@ -46,11 +47,11 @@ public final class Constants {
     public static final double MODULE_RADIUS = Units.inchesToMeters(Constants.constants_Drive.TRACK_WIDTH/2); //measured from center of robot to furthest module.
 
     
-    //TODO Test and input all module offsets
-    public static final double FL_DEGREES = 0;
-    public static final double FR_DEGREES = 0;
-    public static final double BL_DEGREES = 0;
-    public static final double BR_DEGREES = 0;
+    //TODO Test and input all module offsets which range from -1 -> 1, Make sure to read the TODO in the "MODULE" file for more info on zeroing the motors
+    public static final double FL_OFFSET = 0;
+    public static final double FR_OFFSET = 0;
+    public static final double BL_OFFSET = 0;
+    public static final double BR_OFFSET = 0;
 
     //TODO Invert any motor to match controller output
     public static final boolean FL_STEER_ENCODER_REVERSED = false;
@@ -88,11 +89,13 @@ public final class Constants {
     public static final double DRIVE_RPM_2_METERS_PER_SEC = DRIVE_ROT_2_METER / 60;
     public static final double STEER__RPM_2_DEG_PER_SEC = STEER_TO_DEGREES / 60;
 
+    //TODO Tune our pid loop for the drives once you add in all the offsets, you can just rotate the wheels to 90 degrees using the flight sticks, then disable and enable the code to set them to 0 degreese and tune off of that vaule
     public static final double P_TURNING = 0.0075;
     public static final double I_TURNING = 0.0;
     public static final double D_TURNING = 0.75;
     public static final double FF_TURNING = 0;
 
+    //TODO Dont worry about changing these values
     public static final double S_DRIVE = 0.4;
     public static final double V_DRIVE = 0.124;
     public static final double A_DRIVE = 0.1;
@@ -103,25 +106,39 @@ public final class Constants {
   public static final class constants_Elevator
   {
     public static final double ELEVATOR_GEAR_RATIO = 20;
-    public static final double ELEVATOR_TO_INCHES = 1;
-    public static final double ELEVATOR_TOLERANCE = 2; //inches
-    public static final boolean LEFT_INVERTED = false;
+    public static final double ELEVATOR_MAX_HEIGHT = 1; //TODO follow the steps in the elvator subsytem to get this number
+    public static final double ELEVATOR_ROTATIONS_AT_MAX_HEIGHT = 1; //TODO follow the steps in the elvator subsytem to get this number
+    public static final double ELEVATOR_TO_INCHES = ELEVATOR_ROTATIONS_AT_MAX_HEIGHT / ELEVATOR_MAX_HEIGHT;
+    public static final double ELEVATOR_TOLERANCE = 1.5; //inches
+    public static final double ROLLER_SENSOR_TOLERANCE = 10; //Inches TODO Change this value to be what we want it to be
+    public static final boolean LEFT_INVERTED = false;//TODO if the encoder values are decreasing as the elevator moves up flip the "Left-Inverted" && "Right_Inverted" booleans
     public static final boolean RIGHT_INVERTED = true;
     public static final boolean ROLLER_INVERTED = false;
 
-  //TODO Find all elevator positions and ratio for motor rotations to inches
+    public static final boolean ABS_INVERTED = false;
+    public static final double ABS_OFFSET = 0;
+
+    //TODO TUNE THESE
+    public static final double ELEVATOR_P = 0;
+    public static final double ELEVATOR_I = 0;
+    public static final double ELEVATOR_D = 0;
+    public static final double ELEVATOR_FF = 0;//Dont worry about this value, keep it 0
+
+    public static final double ROLLER_P = 0;
+    public static final double ROLLER_I = 0;
+    public static final double ROLLER_D = 0;
+    public static final double ROLLER_FF = 0;//Dont worry about this value, keep it 0
+
+  //TODO Find all elevator positions
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(0, 10);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(0, 10);
     public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(0, -1);
     public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(8.5625, -1);
     public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(24.875, -1);
-  //TODO: PREP_L4 is an estimate.  Confirm with actual measurement.
-    public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(36, -1);
     public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(4.5625, -1);
     public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(20.875, -1);
     public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(0, 0);
     public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 20);
-
   }
 
   public static class ElevatorPositionGroup
@@ -151,13 +168,34 @@ public final class Constants {
   }
   public static final class constants_Rollers
   {
+    //TODO Find this gear ration and input it here
     public static final double ROLLER_GEAR_RATIO = 1;
-    public static final double ROLLER_ANGLE_TOLERANCE = 2;
+    public static final double ANGLE_TO_DEGREES = 360 / ROLLER_GEAR_RATIO;
+
+    public static final boolean ABS_INVERTED = false; //TODO follow the steps in the elvator subsytem to get this number
+    public static final double ABS_OFFSET = 0; //TODO follow the steps in the elvator subsytem to get this number
+
+    public static final boolean ROLLER_INVERTED = false;
+    public static final boolean ANGLE_INVERTED = false;
+
+    public static final double ROLLER_ANGLE_TOLERANCE = 1.25;
+    public static final double ROLLER_SENSOR_TOLERANCE = 10; //Inches TODO Change this value to be what we want it to be
     public static final double ROLLER_RPM_TOLERANCE = 5;
+
+    //TODO TUNE THESE
+    public static final double PITCH_P = 0;
+    public static final double PITCH_I = 0;
+    public static final double PITCH_D = 0;
+    public static final double PITCH_FF = 0;//Dont worry about this value, keep it 0
+
+    public static final double ROLLER_P = 0;
+    public static final double ROLLER_I = 0;
+    public static final double ROLLER_D = 0;
+    public static final double ROLLER_FF = 0;//Dont worry about this value, keep it 0
+
 
     public static final AlgaePositionGroup NONE = new AlgaePositionGroup(0,0);
     public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(0, 0);
-    // intaking algae's magnitude is RPM
     public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(0,0);
     public static final AlgaePositionGroup SCORING = new AlgaePositionGroup(0,0);
     public static final AlgaePositionGroup PREP_ALGAE = new AlgaePositionGroup(0, 0);
@@ -275,7 +313,6 @@ public final class Constants {
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L1, RobotState.PREP_L1);
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L2, RobotState.PREP_L2);
       TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L3, RobotState.PREP_L3);
-      TARGET_TO_ROBOT_STATE.put(TargetState.PREP_L4, RobotState.PREP_L4);
     }
 
     public static Map<TargetState, ElevatorPositionGroup> TARGET_TO_PRESET_GROUP = new HashMap<TargetState, ElevatorPositionGroup>();
@@ -286,17 +323,6 @@ public final class Constants {
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L1, constants_Elevator.PREP_L1);
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L2, constants_Elevator.PREP_L2);
       TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L3, constants_Elevator.PREP_L3);
-      TARGET_TO_PRESET_GROUP.put(TargetState.PREP_L4, constants_Elevator.PREP_L4);
     }
-
-    // public static Map<TargetState, AlgaePositionGroup> TARGET_TO_ALGAE_GROUP = new HashMap<TargetState, AlgaePositionGroup>();
-
-    // static
-    // {
-    //   TARGET_TO_ALGAE_GROUP.put(RobotState.ALGAE, constants_Rollers.ALGAE);
-    //   TARGET_TO_ALGAE_GROUP.put(RobotState.INTAKE_ALGAE, constants_Rollers.INTAKING_ALGAE);
-    //   TARGET_TO_ALGAE_GROUP.put(RobotState.NONE, constants_Rollers.NONE);
-
-    // }
   }
 }

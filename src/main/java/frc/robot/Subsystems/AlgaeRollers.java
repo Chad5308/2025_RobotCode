@@ -14,6 +14,7 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -38,37 +39,52 @@ public class AlgaeRollers extends SubsystemBase
     public CANrange CANrange;
     public CANrangeConfiguration sensorConfigs;
 
-    public boolean testBool = false;
+
+    public DutyCycleEncoder absoluteEncoder;
+
+    //TODO Zeroing the Algae Rollers and converting to degrees
+    /*
+     * 1. when the robot is off move the Intake all the way up
+     * 2. Push code to the robot so that the intake is reset to 0 and temporarily secure the intake in its home positon
+     * 4. Make sure both the Absolute encoder and Relative encoder are increasing positivly when moving down, if not, adjust the one that isnt moving the right way by flipping their coresponding "Inverted" boolean in the Constants_Rollers file, you can also check to make sure the intake rollers increase positivily when rotating inward
+     * 6. Note down the rotations of the Absolute encoder position when in the home position in the variable "ABS_OFFSET" in the Constants_Rollers file
+     * 7. Push the code to the robot and ur done!!
+     */
 
     public AlgaeRollers()
     {
-        configRollers = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
+        absoluteEncoder = new DutyCycleEncoder(MAP_ALGAE.ALGAE_ABS_PORT);
+        absoluteEncoder.setInverted(constants_Rollers.ABS_INVERTED);
+
+        configRollers = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Rollers.ROLLER_P, constants_Rollers.ROLLER_I, constants_Rollers.ROLLER_D, constants_Rollers.ROLLER_FF, ClosedLoopSlot.kSlot0));
         configRollers.encoder.positionConversionFactor(1);
         configRollers.idleMode(IdleMode.kBrake);
         ROLLERS = new SparkMax(MAP_ALGAE.ALGAE_ROLLERS, MotorType.kBrushless);
         ROLLERS_ENCODER = ROLLERS.getEncoder();
         ROLLERS_PID = ROLLERS.getClosedLoopController();
-        ROLLERS.configure(configRollers, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        ROLLERS.configure(configRollers.inverted(constants_Rollers.ROLLER_INVERTED), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
-        configPitch = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.075, 0.0, ClosedLoopSlot.kSlot0));
+        configPitch = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Rollers.PITCH_P, constants_Rollers.PITCH_I, constants_Rollers.PITCH_D, constants_Rollers.PITCH_FF, ClosedLoopSlot.kSlot0));
         configPitch.encoder.positionConversionFactor(constants_Rollers.ROLLER_GEAR_RATIO);
         configPitch.idleMode(IdleMode.kCoast);
         PITCH = new SparkMax(MAP_ALGAE.ALGAE_PITCH, MotorType.kBrushless);
         PITCH_ENCODER = PITCH.getEncoder();
         PITCH_PID = PITCH.getClosedLoopController();
-        PITCH.configure(configPitch, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        PITCH.configure(configPitch.inverted(constants_Rollers.ANGLE_INVERTED), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         CANrange = new CANrange(MAP_ALGAE.ALGAE_SENSOR);
         sensorConfigs = new CANrangeConfiguration();
         CANrange.getConfigurator().apply(sensorConfigs);
+
+        PITCH_ENCODER.setPosition(0);
     }
 
 
 
     public double getPosition()
     {
-        return PITCH_ENCODER.getPosition() * 360;
+        return (absoluteEncoder.get() * constants_Rollers.ANGLE_TO_DEGREES) - constants_Rollers.ABS_OFFSET;
     }
 
     public double getSpeed()
@@ -83,8 +99,7 @@ public class AlgaeRollers extends SubsystemBase
         
     public boolean getGamePieceCollected()
     {      
-    //    return getDistance() < 10;
-        return testBool;
+       return getDistance() < constants_Rollers.ROLLER_SENSOR_TOLERANCE;
     }
 
     public void setAlgaeIntake(AlgaePositionGroup group) //degrees & m/s
@@ -98,23 +113,14 @@ public class AlgaeRollers extends SubsystemBase
         return (Math.abs(getPosition() - position.intakeAngle) < constants_Rollers.ROLLER_ANGLE_TOLERANCE) && (Math.abs(getSpeed() - position.rollersRPM) < constants_Rollers.ROLLER_RPM_TOLERANCE);
     }
 
-    
-
-    public Command homePosition()
-    {
-        return Commands.runOnce(()->
-        {
-            //TODO Write code here to set home position of the arm
-        });
-    }
-
-    //TODO Follow the same premice as shown above and create a method returning a Command that sets the arm to an intake state
-
-
 
     @Override
     public void periodic()
     {
         SmartDashboard.putBoolean("Algae Detection", getGamePieceCollected());
+        SmartDashboard.putNumber("Algae Relative Angle Encoder", PITCH_ENCODER.getPosition());
+        SmartDashboard.putNumber("Algae Absolute Angle Encoder", getPosition());
+        SmartDashboard.putNumber("Algae Relative Roller Encoder", ROLLERS_ENCODER.getPosition());
+
     }
 }

@@ -42,27 +42,10 @@ public class ComboState extends Command
     @Override
     public void initialize()
     {
-        if(s_Rollers.getGamePieceCollected() && s_Elevator.getGamePieceStored()) //What to do when we are now picking up a Coral
-        { 
-            s_Elevator.setElevatorPosition(constants_Elevator.CORAL); 
-            s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
-            s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_COMBO_COLOR);
-            s_StateMachine.setRobotState(RobotState.COMBO);
-        }
-         else if (s_Rollers.getGamePieceCollected())
-        {
-            s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
-            s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_ALGAE_COLOR);
-            s_StateMachine.setRobotState(RobotState.ALGAE);
-        }
-         else if (s_Elevator.getGamePieceStored())
-        {
-            s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
-            s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_CORAL_COLOR);
-            s_StateMachine.setRobotState(RobotState.CORAL);
-            
-        }
-        
+        s_Elevator.setElevatorPosition(constants_Elevator.CORAL); 
+        s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
+        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_COMBO_COLOR);
+        s_StateMachine.setRobotState(RobotState.COMBO);
     }
 
     @Override

@@ -32,10 +32,10 @@ public class Swerve extends SubsystemBase{
     Optional<Alliance> alliance;
   
     
-    public static Module frontLeftModule = new Module(MAP_DRIVETRAIN.FRONT_LEFT_STEER_CAN, MAP_DRIVETRAIN.FRONT_LEFT_DRIVE_CAN, constants_Drive.FL_DRIVE_ENCODER_REVERSED, constants_Drive.FL_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.FRONT_LEFT_ABS_ENCODER, constants_Drive.FL_DEGREES, constants_Drive.FL_DRIVE_ABSOLUTE_ENCODER_REVERSED);
-    public static Module frontRightModule = new Module(MAP_DRIVETRAIN.FRONT_RIGHT_STEER_CAN, MAP_DRIVETRAIN.FRONT_RIGHT_DRIVE_CAN, constants_Drive.FR_DRIVE_ENCODER_REVERSED, constants_Drive.FR_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.FRONT_RIGHT_ABS_ENCODER, constants_Drive.FR_DEGREES, constants_Drive.FR_DRIVE_ABSOLUTE_ENCODER_REVERSED);
-    public static Module backLeftModule = new Module(MAP_DRIVETRAIN.BACK_LEFT_STEER_CAN, MAP_DRIVETRAIN.BACK_LEFT_DRIVE_CAN, constants_Drive.BL_DRIVE_ENCODER_REVERSED, constants_Drive.BL_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.BACK_LEFT_ABS_ENCODER, constants_Drive.BL_DEGREES, constants_Drive.BL_DRIVE_ABSOLUTE_ENCODER_REVERSED);
-    public static Module backRightModule = new Module(MAP_DRIVETRAIN.BACK_RIGHT_STEER_CAN, MAP_DRIVETRAIN.BACK_RIGHT_DRIVE_CAN, constants_Drive.BR_DRIVE_ENCODER_REVERSED, constants_Drive.BR_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.BACK_RIGHT_ABS_ENCODER, constants_Drive.BR_DEGREES, constants_Drive.BR_DRIVE_ABSOLUTE_ENCODER_REVERSED);
+    public static Module frontLeftModule = new Module(MAP_DRIVETRAIN.FRONT_LEFT_STEER_CAN, MAP_DRIVETRAIN.FRONT_LEFT_DRIVE_CAN, constants_Drive.FL_DRIVE_ENCODER_REVERSED, constants_Drive.FL_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.FRONT_LEFT_ABS_ENCODER, constants_Drive.FL_OFFSET, constants_Drive.FL_DRIVE_ABSOLUTE_ENCODER_REVERSED);
+    public static Module frontRightModule = new Module(MAP_DRIVETRAIN.FRONT_RIGHT_STEER_CAN, MAP_DRIVETRAIN.FRONT_RIGHT_DRIVE_CAN, constants_Drive.FR_DRIVE_ENCODER_REVERSED, constants_Drive.FR_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.FRONT_RIGHT_ABS_ENCODER, constants_Drive.FR_OFFSET, constants_Drive.FR_DRIVE_ABSOLUTE_ENCODER_REVERSED);
+    public static Module backLeftModule = new Module(MAP_DRIVETRAIN.BACK_LEFT_STEER_CAN, MAP_DRIVETRAIN.BACK_LEFT_DRIVE_CAN, constants_Drive.BL_DRIVE_ENCODER_REVERSED, constants_Drive.BL_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.BACK_LEFT_ABS_ENCODER, constants_Drive.BL_OFFSET, constants_Drive.BL_DRIVE_ABSOLUTE_ENCODER_REVERSED);
+    public static Module backRightModule = new Module(MAP_DRIVETRAIN.BACK_RIGHT_STEER_CAN, MAP_DRIVETRAIN.BACK_RIGHT_DRIVE_CAN, constants_Drive.BR_DRIVE_ENCODER_REVERSED, constants_Drive.BR_STEER_ENCODER_REVERSED, MAP_DRIVETRAIN.BACK_RIGHT_ABS_ENCODER, constants_Drive.BR_OFFSET, constants_Drive.BR_DRIVE_ABSOLUTE_ENCODER_REVERSED);
     
     
     public Swerve() 
@@ -168,10 +168,10 @@ public class Swerve extends SubsystemBase{
         SmartDashboard.putBoolean("fieldOriented", fieldOriented);
         
         //AE Degrees Reading
-        // SmartDashboard.putNumber("Back Left AE Value", backLeftModule.getABSPosition());
-        // SmartDashboard.putNumber("Back Right AE Value", backRightModule.getABSPosition());
-        // SmartDashboard.putNumber("Front Left AE Value", frontLeftModule.getABSPosition());
-        // SmartDashboard.putNumber("Front Right AE Value", frontRightModule.getABSPosition());
+        SmartDashboard.putNumber("Back Left AE Value", backLeftModule.getABSPosition());
+        SmartDashboard.putNumber("Back Right AE Value", backRightModule.getABSPosition());
+        SmartDashboard.putNumber("Front Left AE Value", frontLeftModule.getABSPosition());
+        SmartDashboard.putNumber("Front Right AE Value", frontRightModule.getABSPosition());
 
         //RE Degrees Reading
         SmartDashboard.putNumber("Back left RE Value", backLeftModule.getModulePosition().angle.getDegrees());

@@ -1,15 +1,14 @@
 package frc.robot.Util;
 
-
+//TODO Confirm that all these numbers have been set and are correct
 
 public class RobotMap
 {
     public static final class MAP_CONTROLLER
     {
-        public static final int MAIN_CONTROLLER_PORT = 0;
-        public static final int OPP_CONTROLLER_PORT = 1;
-        public static final int LEFT_JOYSTICK = 3;
-        public static final int RIGHT_JOYSTICK = 4;
+        public static final int LEFT_JOYSTICK = 0;
+        public static final int RIGHT_JOYSTICK = 1;
+        public static final int BUTTON_BOARD = 2;
         //BUTTON BOARD
     }    
 
@@ -38,17 +37,20 @@ public class RobotMap
         public static final int ELEVATOR_RIGHT = 11;
         public static final int ELEVATOR_ROLLERS = 12;
         public static final int ELEVATOR_SENSOR = 13;
+        public static final int ELEVATOR_ABS_PORT = 1; //TODO Check this
     }
     public static final class MAP_ALGAE
     {
         public static final int ALGAE_PITCH = 20;
         public static final int ALGAE_ROLLERS = 21;
         public static final int ALGAE_SENSOR = 22;
+        public static final int ALGAE_ABS_PORT = 2; //TODO Check this too
     }
     public static final class MAP_CLIMBER
     {
         public static final int CLIMB_LEFT = 30;
         public static final int CLIMB_RIGHT = 31;
+        public static final int CLIMB_ABS_PORT = 3; //TODO Check this aswell
     }
     public static final class MAP_APRIL_TAGS //[id num, height in inches, coordinate x, coordinate y, heading] inches to meters; use field manual image for id reference
     {
@@ -87,7 +89,6 @@ public class RobotMap
         public static final double PWM_PREP_L1_PATTERN = 0.35; // COLOR 2 STROBE
         public static final double PWM_PREP_L2_PATTERN = 0.35; // COLOR 2 STROBE
         public static final double PWM_PREP_L3_PATTERN = 0.35; // COLOR 2 STROBE
-        public static final double PWM_PREP_L4_PATTERN = 0.35; // COLOR 2 STROBE
         public static final double PWM_PREP_NONE_PATTERN = -0.05; // STROBE WHITE
         public static final double PWM_PREP_ALGAE_PATTERN = 0.13; // COLOR 1 shot
         public static final double PWM_CLEAN_L2_PATTERN = -0.11; // red strobe

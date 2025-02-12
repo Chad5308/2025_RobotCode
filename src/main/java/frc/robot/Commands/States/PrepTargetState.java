@@ -55,8 +55,16 @@ public class PrepTargetState extends Command {
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
       s_Rollers.setAlgaeIntake(constants_Rollers.PREP_ALGAE);
+      s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
     } else { 
       s_Elevator.setElevatorPosition(desiredElevatorPosition);
+      if(s_Rollers.getGamePieceCollected())
+      {
+        s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
+      }else
+      {
+        s_Rollers.setAlgaeIntake(constants_Rollers.NONE);
+      }
     }
 
     
@@ -79,9 +87,6 @@ public class PrepTargetState extends Command {
       case PREP_L3:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L3_PATTERN);
         break;
-      case PREP_L4:
-        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L4_PATTERN);
-        break;
     }
   }
 
@@ -93,8 +98,10 @@ public class PrepTargetState extends Command {
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
       s_Rollers.setAlgaeIntake(constants_Rollers.PREP_ALGAE);
+      s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
     } else { 
       s_Elevator.setElevatorPosition(desiredElevatorPosition);
+      s_Rollers.setAlgaeIntake(constants_Rollers.NONE);
     }
     //When the command ends we try and move again just incase
   }
