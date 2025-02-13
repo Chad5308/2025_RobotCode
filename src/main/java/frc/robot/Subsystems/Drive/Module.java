@@ -87,6 +87,19 @@ public class Module extends SubsystemBase
   // private final PositionVoltage positionVoltageRequest = new PositionVoltage(0.0);
   public VelocityVoltage velocityVoltageRequest = new VelocityVoltage(0.0);
 
+
+  //TODO HOW TO ZERO THE WHEELS
+  /*
+   * 1. First, connect to the robot and push this code using (shift -> f5)
+   * 2. Second, after building the code, take a look at the dashboard which should show some basic data on the robot
+   * 3. Third, turn one of the wheels and make sure its corresponding Relative encoder (such as "Back left RE Value") and Absolute encoder (such as "Back Left AE Value") are rotating in the same direction, meaning when you turn the wheel counterclockwise, both numbers should be going up positivly
+   * 4. Fourth, using a bar of 1x2 aluminum or just something straight, align all wheels forward with the gear racks pointed inward
+   * 5. Fifth, note down each of the modules Absolute Position and input them into the Constants file in the variables FL_OFFSET, FR_OFFSET, BL_OFFSET, BR_OFFSET
+   * 6, Sixth, once you change the offset variables, go into the "MODULE" file, this one, and multiple the output of the "getABSPosition()" method variable by 360
+   * 7. Seventh, Push the robot code again using (shift -> f5) and enable the robot once and then disable, then confirm by rotating each drive that both the Absolute encoder and the Relative encoder match and rotate at the same pace.
+   * 8. Lastly, Head to the "Drive" Command file and uncomment the one line inside the "Initialize method" which activates the face forward method/algorithm
+   */
+
   
   public Module(int steerNum, int driveNum, boolean invertDrive, boolean invertSteer, int absoluteEncoderID, double absOffset, boolean absoluteReversed)
   {
@@ -112,8 +125,7 @@ public class Module extends SubsystemBase
     steerGains.encoder.positionConversionFactor(Constants.constants_Module.STEER_TO_DEGREES);
     steerGains.encoder.velocityConversionFactor(constants_Module.STEER__RPM_2_DEG_PER_SEC);
     steerPIDController = steerMotor.getClosedLoopController();
-    steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters,
-        PersistMode.kPersistParameters);
+    steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     steerGains.inverted(invertSteer);
     steerGains.idleMode(IdleMode.kBrake);
     
@@ -164,6 +176,7 @@ public class Module extends SubsystemBase
   }
   public double getABSPosition()
   {
+    //TODO once you find all the offsets using this number that is printed out (Should range from -1 -> 1), multiply by 360 to convert to degrees
     double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble(); //  * 360 to convert to degrees
     return (angle  * (absoluteReversed ? -1 : 1) ) % 720;
   }
@@ -178,8 +191,7 @@ public class Module extends SubsystemBase
 
 
       
-  //This is our setDesiredState alg. Takes the current state and the desired state shown by the controller and points the wheels to that 
-  //location
+  //This is our setDesiredState alg. Takes the current state and the desired state shown by the controller and points the wheels to that location
   public void setDesiredState(SwerveModuleState state) 
   {
     if (Math.abs(state.speedMetersPerSecond) < 0.01) {stop();return;}

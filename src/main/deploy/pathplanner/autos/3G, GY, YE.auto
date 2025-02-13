@@ -11,6 +11,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "GY"
@@ -20,6 +26,12 @@
           "type": "path",
           "data": {
             "pathName": "YE"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
           }
         }
       ]

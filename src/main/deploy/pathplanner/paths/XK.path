@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "PREP_L4",
-      "waypointRelativePos": 0.6714285714285716,
+      "name": "PREP_L3",
+      "waypointRelativePos": 0.6067796610169492,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -55,7 +55,7 @@
   "folder": "Return-X",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 128.30403265382898
+    "rotation": 125.00000000000001
   },
   "useDefaultConstraints": true
 }

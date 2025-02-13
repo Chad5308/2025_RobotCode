@@ -11,6 +11,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "AX"
@@ -23,6 +29,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "KX"
@@ -32,6 +44,12 @@
           "type": "path",
           "data": {
             "pathName": "XL"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
           }
         }
       ]

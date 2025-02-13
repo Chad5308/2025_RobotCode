@@ -25,7 +25,6 @@ public class PrepTargetState extends Command {
   boolean ALGAE_STATE;
 
   ElevatorPositionGroup desiredElevatorPosition;
-  AlgaePositionGroup desiredAlgaePositionGroup;
   boolean elevatorWasUp;
 
   /** Creates a new PrepTargetState. */
@@ -51,14 +50,21 @@ public class PrepTargetState extends Command {
     }
 
     desiredElevatorPosition = constants_StateMachine.TARGET_TO_PRESET_GROUP.get(desiredTargetState);
-    desiredAlgaePositionGroup = constants_StateMachine.TARGET_TO_ALGAE_GROUP.get(desiredRobotState);
 
 
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
-      s_Rollers.setAlgaeIntake(desiredAlgaePositionGroup);
+      s_Rollers.setAlgaeIntake(constants_Rollers.PREP_ALGAE);
+      s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
     } else { 
       s_Elevator.setElevatorPosition(desiredElevatorPosition);
+      if(s_Rollers.getGamePieceCollected())
+      {
+        s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
+      }else
+      {
+        s_Rollers.setAlgaeIntake(constants_Rollers.NONE);
+      }
     }
 
     
@@ -81,9 +87,6 @@ public class PrepTargetState extends Command {
       case PREP_L3:
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L3_PATTERN);
         break;
-      case PREP_L4:
-        s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_PREP_L4_PATTERN);
-        break;
     }
   }
 
@@ -94,9 +97,11 @@ public class PrepTargetState extends Command {
   {
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
-      s_Rollers.setAlgaeIntake(desiredAlgaePositionGroup);
+      s_Rollers.setAlgaeIntake(constants_Rollers.PREP_ALGAE);
+      s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
     } else { 
       s_Elevator.setElevatorPosition(desiredElevatorPosition);
+      s_Rollers.setAlgaeIntake(constants_Rollers.NONE);
     }
     //When the command ends we try and move again just incase
   }
@@ -107,7 +112,7 @@ public class PrepTargetState extends Command {
     
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
-      return s_Rollers.isRollersInPosition(desiredAlgaePositionGroup);
+      return s_Rollers.isRollersInPosition(constants_Rollers.PREP_ALGAE);
     } else { 
       return s_Elevator.isElevatorInPosition(desiredElevatorPosition);
     }
