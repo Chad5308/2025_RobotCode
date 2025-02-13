@@ -117,6 +117,7 @@ public final class Constants {
     public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(24.875, -1);
   //TODO: PREP_L4 is an estimate.  Confirm with actual measurement.
     public static final ElevatorPositionGroup PREP_L4 = new ElevatorPositionGroup(36, -1);
+  //TODO: CLEAN_L2 and L3 are estimates iwthin a few inches as cleaner position is not specified.
     public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(4.5625, -1);
     public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(20.875, -1);
     public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(0, 0);
