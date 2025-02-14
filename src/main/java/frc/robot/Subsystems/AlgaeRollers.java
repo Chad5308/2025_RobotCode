@@ -53,7 +53,7 @@ public class AlgaeRollers extends SubsystemBase
 
     public AlgaeRollers()
     {
-        absoluteEncoder = new DutyCycleEncoder(MAP_ALGAE.ALGAE_ABS_PORT);
+        absoluteEncoder = new DutyCycleEncoder(MAP_ALGAE.ALGAE_ABS_ENCODER_PWM_PORT);
         absoluteEncoder.setInverted(constants_Rollers.ABS_INVERTED);
 
         configRollers = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Rollers.ROLLER_P, constants_Rollers.ROLLER_I, constants_Rollers.ROLLER_D, constants_Rollers.ROLLER_FF, ClosedLoopSlot.kSlot0));
@@ -73,7 +73,7 @@ public class AlgaeRollers extends SubsystemBase
         PITCH_PID = PITCH.getClosedLoopController();
         PITCH.configure(configPitch.inverted(constants_Rollers.ANGLE_INVERTED), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        CANrange = new CANrange(MAP_ALGAE.ALGAE_SENSOR);
+        CANrange = new CANrange(MAP_ALGAE.ALGAE_CANRANGE);
         sensorConfigs = new CANrangeConfiguration();
         CANrange.getConfigurator().apply(sensorConfigs);
 

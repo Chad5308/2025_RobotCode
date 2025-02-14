@@ -15,42 +15,41 @@ public class RobotMap
     public static final class MAP_DRIVETRAIN
     {
         //Front Left - Module 0
-        public static final int FRONT_LEFT_DRIVE_CAN = 0;
-        public static final int FRONT_LEFT_STEER_CAN = 0;
-        public static final int FRONT_LEFT_ABS_ENCODER = 0;
+        public static final int FRONT_LEFT_DRIVE_KRAKEN = 1;
+        public static final int FRONT_LEFT_STEER_SPARKMAX = 1;
+        public static final int FRONT_LEFT_ABS_ENCODER = 1;
         //Front Right - Module 1
-        public static final int FRONT_RIGHT_DRIVE_CAN = 1;
-        public static final int FRONT_RIGHT_STEER_CAN = 1;
-        public static final int FRONT_RIGHT_ABS_ENCODER = 1;
+        public static final int FRONT_RIGHT_DRIVE_KRAKEN = 2;
+        public static final int FRONT_RIGHT_STEER_SPARKMAX = 2;
+        public static final int FRONT_RIGHT_ABS_ENCODER = 2;
         //Back Left - Module 2
-        public static final int BACK_LEFT_DRIVE_CAN = 2;
-        public static final int BACK_LEFT_STEER_CAN = 2;
-        public static final int BACK_LEFT_ABS_ENCODER = 2;
+        public static final int BACK_LEFT_DRIVE_KRAKEN = 3;
+        public static final int BACK_LEFT_STEER_SPARKMAX = 3;
+        public static final int BACK_LEFT_ABS_ENCODER = 3;
         //Back Right - Module 3
-        public static final int BACK_RIGHT_DRIVE_CAN = 3;
-        public static final int BACK_RIGHT_STEER_CAN = 3;
-        public static final int BACK_RIGHT_ABS_ENCODER = 3;
+        public static final int BACK_RIGHT_DRIVE_KRAKEN = 4;
+        public static final int BACK_RIGHT_STEER_SPARKMAX = 4;
+        public static final int BACK_RIGHT_ABS_ENCODER = 4;
     }
     public static final class MAP_ELEVATOR
     {
-        public static final int ELEVATOR_LEFT = 10;
-        public static final int ELEVATOR_RIGHT = 11;
-        public static final int ELEVATOR_ROLLERS = 12;
-        public static final int ELEVATOR_SENSOR = 13;
-        public static final int ELEVATOR_ABS_PORT = 1; //TODO Check this
+        public static final int ELEVATOR_LEFT_SPARKMAX = 10;
+        public static final int ELEVATOR_RIGHT_SPARKMAX = 11;
+        public static final int ELEVATOR_ROLLERS_SPARKMAX = 12;
+        public static final int ELEVATOR_CANRANGE = 13;
+        public static final int ELEVATOR_ABS_ENCODER_PWM_PORT = 1; //TODO Check this
     }
     public static final class MAP_ALGAE
     {
         public static final int ALGAE_PITCH = 20;
         public static final int ALGAE_ROLLERS = 21;
-        public static final int ALGAE_SENSOR = 22;
-        public static final int ALGAE_ABS_PORT = 2; //TODO Check this too
+        public static final int ALGAE_CANRANGE = 22;
+        public static final int ALGAE_ABS_ENCODER_PWM_PORT = 2; //TODO Check this too
     }
     public static final class MAP_CLIMBER
     {
-        public static final int CLIMB_LEFT = 30;
-        public static final int CLIMB_RIGHT = 31;
-        public static final int CLIMB_ABS_PORT = 3; //TODO Check this aswell
+        public static final int CLIMB_SPARKMAX = 30;
+        public static final int CLIMB_ABS_ENCODER_PWM_PORT = 3; //TODO Check this aswell
     }
     public static final class MAP_APRIL_TAGS //[id num, height in inches, coordinate x, coordinate y, heading] inches to meters; use field manual image for id reference
     {

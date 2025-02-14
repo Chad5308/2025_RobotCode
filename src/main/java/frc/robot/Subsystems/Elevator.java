@@ -62,11 +62,11 @@ public class Elevator extends SubsystemBase
      */
     public Elevator()
     {
-        absoluteEncoder = new DutyCycleEncoder(MAP_ELEVATOR.ELEVATOR_ABS_PORT);
+        absoluteEncoder = new DutyCycleEncoder(MAP_ELEVATOR.ELEVATOR_ABS_ENCODER_PWM_PORT);
         absoluteEncoder.setInverted(constants_Elevator.ABS_INVERTED);
 
         sensorConfigs = new CANrangeConfiguration();
-        CANrange = new CANrange(MAP_ELEVATOR.ELEVATOR_SENSOR);
+        CANrange = new CANrange(MAP_ELEVATOR.ELEVATOR_CANRANGE);
         CANrange.getConfigurator().apply(sensorConfigs);
 
         LEFT_CONFIG = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Elevator.ELEVATOR_P, constants_Elevator.ELEVATOR_I, constants_Elevator.ELEVATOR_D, constants_Elevator.ELEVATOR_FF, ClosedLoopSlot.kSlot0));
@@ -84,17 +84,17 @@ public class Elevator extends SubsystemBase
         ROLLER_CONFIG.inverted(constants_Elevator.ROLLER_INVERTED);
         ROLLER_CONFIG.idleMode(IdleMode.kBrake);
 
-        ELE_LEFT= new SparkMax(MAP_ELEVATOR.ELEVATOR_LEFT, MotorType.kBrushless);
+        ELE_LEFT= new SparkMax(MAP_ELEVATOR.ELEVATOR_LEFT_SPARKMAX, MotorType.kBrushless);
         ELE_LEFT_ENCODER = ELE_LEFT.getEncoder();
         ELE_LEFT_PID = ELE_LEFT.getClosedLoopController();
         ELE_LEFT.configure(LEFT_CONFIG.inverted(constants_Elevator.LEFT_INVERTED), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
-        ELE_RIGHT= new SparkMax(MAP_ELEVATOR.ELEVATOR_RIGHT, MotorType.kBrushless);
+        ELE_RIGHT= new SparkMax(MAP_ELEVATOR.ELEVATOR_RIGHT_SPARKMAX, MotorType.kBrushless);
         ELE_RIGHT_ENCODER = ELE_RIGHT.getEncoder();
         ELE_RIGHT_PID = ELE_RIGHT.getClosedLoopController();
         ELE_RIGHT.configure(RIGHT_CONFIG.inverted(constants_Elevator.RIGHT_INVERTED), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
 
-        ELE_ROLLER = new SparkMax(MAP_ELEVATOR.ELEVATOR_ROLLERS, MotorType.kBrushless);
+        ELE_ROLLER = new SparkMax(MAP_ELEVATOR.ELEVATOR_ROLLERS_SPARKMAX, MotorType.kBrushless);
         ELE_ROLLER_ENCODER = ELE_ROLLER.getEncoder();
         ELE_ROLLER_PID = ELE_ROLLER.getClosedLoopController();
         ELE_ROLLER.configure(ROLLER_CONFIG, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
