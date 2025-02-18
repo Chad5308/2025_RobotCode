@@ -1,12 +1,15 @@
 package frc.robot.Commands;
 
 
+import java.lang.ModuleLayer.Controller;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Util.Constants.constants_OI;
+import frc.robot.Util.Controllers;
 import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Subsystems.Drive.Swerve;
 
@@ -14,26 +17,26 @@ import frc.robot.Subsystems.Drive.Swerve;
 public class Drive extends Command{
 
     private final Swerve s_Swerve;
-    public final CommandJoystick left, right;
+    public final Controllers controllers;
 
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     private boolean fieldOriented=false;
     public double ySpeed, xSpeed, turningSpeed;
     public ChassisSpeeds chassisSpeeds;
 
+
     
 
 
 
     // public DriveCommand(s_Swerve s_Swerve, CommandXboxController opController, CommandJoystick leftStick, CommandJoystick rightStick) {
-    public Drive(Swerve s_Swerve, CommandJoystick left, CommandJoystick right) {
+    public Drive(Swerve s_Swerve, Controllers controllers) {
 
         this.s_Swerve = s_Swerve;
+        this.controllers = controllers;
         this.xLimiter = new SlewRateLimiter(constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC);
         this.yLimiter = new SlewRateLimiter(constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC);
         this.turningLimiter = new SlewRateLimiter(constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC);
-        this.left = left;
-        this.right = right;
         addRequirements(s_Swerve);
     }
 
@@ -49,9 +52,9 @@ public class Drive extends Command{
 
     @Override
     public void execute() {
-        xSpeed = right.getX();
-        ySpeed = right.getY();
-        turningSpeed = left.getX();
+        xSpeed = controllers.getDriveXAxis();
+        ySpeed = controllers.getDriveYAxis();
+        turningSpeed = controllers.getSteerXAxis();
         fieldOriented = s_Swerve.fieldOriented;
 
         xSpeed = Math.abs(xSpeed) > constants_OI.DEADBAND ? xSpeed : 0.0;

@@ -9,6 +9,7 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,8 +45,11 @@ import frc.robot.Subsystems.Drive.Swerve;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public SendableChooser<String> autoChooser1, autoChooser2, autoChooser3;
-  public String selection1, selection2, selection3, finalSelection;
+  public SendableChooser<String> autoChooser1, autoChooser2, autoChooser3, driveControllerChooser;
+  public String selection1, selection2, selection3, finalSelection, driveControllerSelection;
+
+  public SendableChooser<Boolean> driveHandChooser;
+  public boolean driveHandSelection;
 
   
   public Controllers u_Controllers;
@@ -68,18 +72,22 @@ public class RobotContainer {
     autoChooser1 = new SendableChooser<>();
     autoChooser2 = new SendableChooser<>();
     autoChooser3 = new SendableChooser<>();
+    driveControllerChooser = new SendableChooser<>();
+    driveHandChooser = new SendableChooser<>();
     SmartDashboard.putData(autoChooser1);
     SmartDashboard.putData(autoChooser2);
     SmartDashboard.putData(autoChooser3);
+    SmartDashboard.putData(driveControllerChooser);
+    SmartDashboard.putData(driveHandChooser);
+    updateControls();
+
+
+
 
     configureAutoChoosers();
     configureFiles();
     s_Swerve.setDefaultCommand(c_Drive);
-    configureDriverBindings();
-
-    
-
-
+    // configureDriverBindings(u_Controllers);
 
     gamePieceStoredTrigger_Coral.onTrue(Commands.deferredProxy(
       () -> s_StateMachine.tryState(RobotState.CORAL, s_StateMachine, c_Drive,s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)).andThen(intakeRumble()));
@@ -106,11 +114,11 @@ public class RobotContainer {
 
   public void configureFiles()
   {
-      u_Controllers = new Controllers();
+      u_Controllers = new Controllers(driveControllerChooser.getSelected(), driveHandChooser.getSelected());
       s_Swerve = new Swerve();
       h_Limelight = new LimelightHelpers();
       s_Vision = new Vision(s_Swerve);
-      c_Drive = new Drive(s_Swerve, u_Controllers.leftStick, u_Controllers.rightStick);
+      c_Drive = new Drive(s_Swerve, u_Controllers);
       s_StateMachine = new StateMachine();
       s_Climber = new Climber();
       s_Elevator = new Elevator();
@@ -119,44 +127,61 @@ public class RobotContainer {
       c_Auto = new Auto(s_StateMachine, c_Drive, s_Swerve, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
   }
 
+  public void updateControls()
+  {
+    driveControllerChooser.setDefaultOption("Joysticks", "Joysticks");
+    driveControllerChooser.addOption("Xbox", "Xbox");
 
-  public final void configureDriverBindings() {
+    driveHandChooser.addOption("Left", false);
+    driveHandChooser.setDefaultOption("Right", true);
+
+    // System.out.print("SELECTED CONTROLLER " + driveControllerChooser.getSelected());
+    // System.out.print("SELECTED HAND " + driveHandChooser.getSelected());
+  }
+
+
+  public final void configureDriverBindings(Controllers controllers) {
     
-    // Intake Algae
-    u_Controllers.leftStick.trigger().whileTrue(Commands.deferredProxy(()->
+    controllers.getButton("Algae").whileTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+    // Intake Algae
+    // u_Controllers.leftStick.trigger().whileTrue(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    // .onFalse(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    // Intake Coral
-    u_Controllers.leftStick.button(2).whileTrue(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
-    .onFalse(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+    // Source Intake
+    // u_Controllers.leftStick.button(2).whileTrue(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    // .onFalse(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    //Clean L2
-    u_Controllers.leftStick.button(3).onTrue(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
-    .onFalse(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+    // //Clean L2
+    // u_Controllers.leftStick.button(3).onTrue(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    // .onFalse(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    //Clean L3
-    u_Controllers.leftStick.button(4).onTrue(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.CLEAN_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
-    .onFalse(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+    // //Clean L3
+    // u_Controllers.leftStick.button(4).onTrue(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.CLEAN_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    // .onFalse(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    //Shooting
-    u_Controllers.leftStick.trigger().whileTrue(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
-    .onFalse(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+    // //Score
+    // u_Controllers.rightStick.trigger().whileTrue(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    // .onFalse(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
     
-    //Drive Controls
-    u_Controllers.rightStick.button(2).toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
-    u_Controllers.rightStick.button(3).toggleOnTrue(s_Swerve.fieldOrientedToggle());
-    u_Controllers.rightStick.button(4).onTrue(s_Swerve.resetWheels()); //window looking button
+    // //Drive Controls
+    // u_Controllers.rightStick.button(2).toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
+    // u_Controllers.rightStick.button(3).toggleOnTrue(s_Swerve.fieldOrientedToggle());
+    // u_Controllers.rightStick.button(4).onTrue(s_Swerve.resetWheels()); //window looking button
     
     
     //PREPS For Opperator controller
