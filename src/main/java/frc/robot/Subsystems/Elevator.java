@@ -53,7 +53,7 @@ public class Elevator extends SubsystemBase
      * 2. Put a mark somewhere to indicate the point on the shoot where the coral comes out, right in the middle of the where the coral would be at the end of the shoot, when the elevator is at this point the RELATIVE ENCODERS should read 0
      * 3. move the elevator up to the max height of travel
      * 4. Make sure all of the 3 encoders are increasing positivly when moving upwards, if not, adjust the ones that arent moving the right way by flipping their coresponding "Inverted" boolean in the Constants_Elevator file. Do the same for the roller, when the wheel is rotating such that it spits out the coral that should be positive rotation
-     * 5. Note down that point in the variable named "ELEVATOR_MAX_HEIGHT" under the constants_Elevator class
+     * 5. Measure the from the highest point to the lowest point and note down that distance in the variable named "ELEVATOR_MAX_HEIGHT" under the constants_Elevator class
      * 6. Note down the rotations in the varible named "ELEVATOR_ROTATIONS_AT_MAX_HEIGHT" under the constants_Elevator class
      * 7. Push the code to the robot
      * 8. Bring the elevator all the way down without enabling
