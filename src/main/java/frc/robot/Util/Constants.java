@@ -48,33 +48,33 @@ public final class Constants {
 
     
     //TODO Test and input all module offsets which range from -1 -> 1, Make sure to read the TODO in the "MODULE" file for more info on zeroing the motors
-    public static final double FL_OFFSET = 0;
-    public static final double FR_OFFSET = 0;
-    public static final double BL_OFFSET = 0;
-    public static final double BR_OFFSET = 0;
+    public static final double FL_OFFSET = 0.011230;
+    public static final double FR_OFFSET = 0.159424;
+    public static final double BL_OFFSET = 0.385986;
+    public static final double BR_OFFSET = 0.415527;
 
     //TODO Invert any motor to match controller output
-    public static final boolean FL_STEER_ENCODER_REVERSED = false;
-    public static final boolean FR_STEER_ENCODER_REVERSED = false;
-    public static final boolean BL_STEER_ENCODER_REVERSED = false;
-    public static final boolean BR_STEER_ENCODER_REVERSED = false;
+    public static final boolean FL_STEER_ENCODER_REVERSED = true;//TODO Make sure Counter-Clockwise rotation is considered positive rotation
+    public static final boolean FR_STEER_ENCODER_REVERSED = true;
+    public static final boolean BL_STEER_ENCODER_REVERSED = true;
+    public static final boolean BR_STEER_ENCODER_REVERSED = true;
 
     public static final boolean FL_DRIVE_ENCODER_REVERSED = false;
-    public static final boolean FR_DRIVE_ENCODER_REVERSED = false;
+    public static final boolean FR_DRIVE_ENCODER_REVERSED = true;
     public static final boolean BL_DRIVE_ENCODER_REVERSED = false;
-    public static final boolean BR_DRIVE_ENCODER_REVERSED = false;
+    public static final boolean BR_DRIVE_ENCODER_REVERSED = true;
 
-    public static final boolean FL_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
+    public static final boolean FL_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;//TODO Make sure Counter-Clockwise rotation is considered positive rotation
     public static final boolean FR_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
     public static final boolean BL_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
     public static final boolean BR_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
 
     public static final double MAX_SPEED_METERS_PER_SEC = 6.949; //6.949 for Swerve X, 4.60248 for sd
-    public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC = MAX_SPEED_METERS_PER_SEC/(TRACK_WIDTH/2);
+    public static final double MAX_ANGULAR_SPEED_MPS = MAX_SPEED_METERS_PER_SEC/(TRACK_WIDTH/2);
 
     //For limiting speed while driving
     public static final double TELEDRIVE_MAX_SPEED_METERS_PER_SEC = MAX_SPEED_METERS_PER_SEC / 1.0;
-    public static final double TELEDRIVE_MAX_ANGULAR_SPEED_RAD_PER_SEC = MAX_ANGULAR_SPEED_RAD_PER_SEC / 1.0;
+    public static final double TELEDRIVE_MAX_ANGULAR_SPEED_MPS = MAX_ANGULAR_SPEED_MPS / 1.0;
     public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = 2.0;
     public static final double TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 0.75;
   }
@@ -83,10 +83,11 @@ public final class Constants {
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4);
     public static final double WHEEL_CIRCUMFRENCE_METERS = 2*Math.PI*WHEEL_DIAMETER_METERS;
     public static final double DRIVE_GEAR_RATIO = 4.59; //4.59 for Swerve X, 6.75 for sds
+    public static final double DRIVE_ROT_2_METER = (1/WHEEL_CIRCUMFRENCE_METERS);
+    public static final double DRIVE_MPS_2_RPS = DRIVE_GEAR_RATIO/WHEEL_CIRCUMFRENCE_METERS;
+
     public static final double STEER_GEAR_RATIO = 13.3714; //13.3714 for Swerve X, 12.8 for sds
     public static final double STEER_TO_DEGREES = 360 / STEER_GEAR_RATIO;
-    public static final double DRIVE_ROT_2_METER = (1/WHEEL_CIRCUMFRENCE_METERS);
-    public static final double DRIVE_RPM_2_METERS_PER_SEC = DRIVE_ROT_2_METER / 60;
     public static final double STEER__RPM_2_DEG_PER_SEC = STEER_TO_DEGREES / 60;
 
     //TODO Tune our pid loop for the drives once you add in all the offsets, you can just rotate the wheels to 90 degrees using the flight sticks, then disable and enable the code to set them to 0 degreese and tune off of that vaule
@@ -276,7 +277,7 @@ public final class Constants {
   public static final class constants_Auto {
     public static final double MAX_SPEED_METERS_PER_SEC = constants_Drive.MAX_SPEED_METERS_PER_SEC/2;//0.5;
     public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQRD = constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC/2;//0.25;
-    public static final double MAX_ANGULAR_SPEED_RAD_PER_SEC =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RAD_PER_SEC;
+    public static final double MAX_ANGULAR_SPEED_MPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_MPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
     public static  double P_TRANSLATION = 3.0;
@@ -292,7 +293,7 @@ public final class Constants {
 
     public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = 
             new TrapezoidProfile.Constraints(
-                    MAX_ANGULAR_SPEED_RAD_PER_SEC,
+                    MAX_ANGULAR_SPEED_MPS,
                     MAX_ANGULAR_ACCEL_UNITS_PER_SEC);
     public static final TrapezoidProfile.Constraints LINEAR_CONSTRAINTS = 
             new TrapezoidProfile.Constraints(

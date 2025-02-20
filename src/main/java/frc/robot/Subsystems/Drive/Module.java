@@ -6,6 +6,7 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
@@ -13,6 +14,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.ClosedLoopOutputType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
@@ -108,12 +110,15 @@ public class Module extends SubsystemBase
     driveFeedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(constants_Module.DRIVE_GEAR_RATIO);
     driveMotor.getConfigurator().apply(driveGains);
     driveMotor.getConfigurator().apply(driveFeedbackConfigs, 5);
+    driveMotor.getConfigurator().apply(new MotorOutputConfigs().withInverted(invertDrive?InvertedValue.Clockwise_Positive:InvertedValue.CounterClockwise_Positive));
+    
     
   
     
     this.absoluteReversed = absoluteReversed;
     absoluteEncoder = new CANcoder(absoluteEncoderID, new CANBus());
     CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(absOffset).withAbsoluteSensorDiscontinuityPoint(0.5));
+
     
     absoluteEncoder.getConfigurator().apply(CANConfig);
     
@@ -121,7 +126,7 @@ public class Module extends SubsystemBase
     steerMotor = new SparkMax(steerNum, MotorType.kBrushless);
     steerEncoder = steerMotor.getEncoder();
     steerGains = new SparkMaxConfig()
-    .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(720, 1080));
+    .apply(new ClosedLoopConfig().pidf(0.0075, 0.00000342, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-179.9999999, 180));
     steerGains.encoder.positionConversionFactor(Constants.constants_Module.STEER_TO_DEGREES);
     steerGains.encoder.velocityConversionFactor(constants_Module.STEER__RPM_2_DEG_PER_SEC);
     steerPIDController = steerMotor.getClosedLoopController();
@@ -153,14 +158,14 @@ public class Module extends SubsystemBase
   {
     return driveMotor.getVelocity().getValueAsDouble();
   }
-  public void getUpToSpeed(double velocity)
+  public void getUpToSpeed(double velocityMPS)
   {
-    if(velocity <= 0.01)
+    if(velocityMPS <= 0.01)
     {
       setDriveNeutralOutput();
     }else
     {
-      driveMotor.setControl(motionMagicRequest.withVelocity(velocity));
+      driveMotor.setControl(motionMagicRequest.withVelocity(velocityMPS * constants_Module.DRIVE_MPS_2_RPS));
     }
   }
   public void setDriveNeutralOutput()
@@ -177,7 +182,7 @@ public class Module extends SubsystemBase
   public double getABSPosition()
   {
     //TODO once you find all the offsets using this number that is printed out (Should range from -1 -> 1), multiply by 360 to convert to degrees
-    double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble(); //  * 360 to convert to degrees
+    double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble()*360; //  * 360 to convert to degrees
     return (angle  * (absoluteReversed ? -1 : 1) ) % 720;
   }
   public SwerveModuleState getModuleState()
@@ -198,8 +203,8 @@ public class Module extends SubsystemBase
     state.optimize(state.angle);
     state.cosineScale(state.angle);
     driveMotor.set(state.speedMetersPerSecond / Constants.constants_Drive.MAX_SPEED_METERS_PER_SEC);
+    getUpToSpeed(state.speedMetersPerSecond);
     steerPIDController.setReference(state.angle.getDegrees(), ControlType.kPosition);
-    
   }
 
   public void wheelFaceForward() 

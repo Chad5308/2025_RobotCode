@@ -10,7 +10,6 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.controllers.PathFollowingController;
 import com.pathplanner.lib.events.EventTrigger;
-import com.pathplanner.lib.path.EventMarker;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
