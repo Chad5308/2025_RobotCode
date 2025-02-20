@@ -180,7 +180,7 @@ public final class Constants {
     public static final boolean ANGLE_INVERTED = false;
 
     public static final double ROLLER_ANGLE_TOLERANCE = 1.25;
-    public static final double ROLLER_SENSOR_TOLERANCE = 10; //Inches TODO Change this value to be what we want it to be
+    public static final double CANRANGE_ROLLERS_DISTANCE_LIMIT = 10; //Inches TODO Change this value to be what we want it to be
     public static final double ROLLER_RPM_TOLERANCE = 5;
 
     //TODO TUNE THESE
@@ -194,7 +194,7 @@ public final class Constants {
     public static final double ROLLER_D = 0;
     public static final double ROLLER_FF = 0;//Dont worry about this value, keep it 0
 
-
+    //TODO FIND POSITIONS ONCE INTAKE IS WORKING
     public static final AlgaePositionGroup NONE = new AlgaePositionGroup(0,0);
     public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(0, 0);
     public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(0,0);
