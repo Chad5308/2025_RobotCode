@@ -10,7 +10,7 @@ public class Lights extends SubsystemBase
     public Lights() 
     {
         blinken1 = new Spark(9);
-        blinken2 = new Spark(1);
+        blinken2 = new Spark(8);
         // Spark is a class so blinken is a new instance of it
     }
     // get method

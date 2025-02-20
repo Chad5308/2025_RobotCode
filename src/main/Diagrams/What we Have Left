@@ -4,7 +4,7 @@ _______Commands________
 
 _______States__________
 
-Source State 
+Source State - DONE
     1. Finish coding this
 Algae State
     1.Write code to retract the intake once an Algae has entered our intake
@@ -68,11 +68,11 @@ Elevator
     <!-- 6. Create a distance or beam break sensor that tells us if there is a game piece present
             Check values ie. 51 mm-->
     
-<!-- Lights - Nathan
+<!-- Lights - Nathan DONE
     1. Use the rev robotics api linked to be search for and find the neccesary code to program a "REV Blinken" controller
     2. Create multiple methods for setting a specific pattern or color on the robot
     3. In each of the state files add in specific lighting patterns or colors to show the drivers what state the robot is in -->
-<!-- State Machine
+<!-- State Machine DONE
     1. Change our map slightly to allow cleaning at almost any state
     2. We will have to alter our state machine to then reflect that new map -->
 Vision
