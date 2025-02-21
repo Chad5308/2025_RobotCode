@@ -27,7 +27,7 @@ public class Elevator extends SubsystemBase
     public RelativeEncoder ELE_LEFT_ENCODER;
     public SparkClosedLoopController ELE_LEFT_PID;
     public SparkBaseConfig LEFT_CONFIG;
-
+    
     public SparkMax ELE_RIGHT;
     public RelativeEncoder ELE_RIGHT_ENCODER;
     public SparkClosedLoopController ELE_RIGHT_PID;
