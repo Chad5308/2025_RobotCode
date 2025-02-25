@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Auto;
 import frc.robot.Commands.Drive;
+import frc.robot.Util.Constants.ElevatorPositionGroup;
+import frc.robot.Util.Constants.constants_Elevator;
 import frc.robot.Util.Controllers;
 import frc.robot.Util.LimelightHelpers;
 import frc.robot.Subsystems.AlgaeRollers;
@@ -72,13 +74,9 @@ public class RobotContainer {
     s_Swerve.setDefaultCommand(c_Drive);
     configureDriverBindings();
 
-    
-
-
 
     gamePieceStoredTrigger_Coral.onTrue(Commands.deferredProxy(
       () -> s_StateMachine.tryState(RobotState.CORAL, s_StateMachine, c_Drive,s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)).andThen(intakeRumble()));
-
 
     gamePieceCollectedTrigger_Algae.onTrue(Commands.deferredProxy(
       ()-> s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)).andThen(intakeRumble()));
@@ -116,7 +114,8 @@ public class RobotContainer {
 
 
   public final void configureDriverBindings() {
-    
+
+  
     // Intake Algae
     u_Controllers.leftStick.trigger().whileTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
@@ -129,20 +128,20 @@ public class RobotContainer {
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    //Clean L2
-    u_Controllers.leftStick.button(3).onTrue(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
-    .onFalse(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+    // //Clean L2
+    // u_Controllers.leftStick.button(3).onTrue(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    // .onFalse(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    //Clean L3
-    u_Controllers.leftStick.button(4).onTrue(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.CLEAN_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
-    .onFalse(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+    // //Clean L3
+    // u_Controllers.leftStick.button(4).onTrue(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.CLEAN_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    // .onFalse(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
     //Shooting
-    u_Controllers.leftStick.trigger().whileTrue(Commands.deferredProxy(()->
+    u_Controllers.rightStick.trigger().whileTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
@@ -157,35 +156,34 @@ public class RobotContainer {
     //PREPS For Opperator controller
     
     //PREP_L1
-    u_Controllers.PREP_L1.onTrue(Commands.runOnce(() ->
+    u_Controllers.leftStick.trigger().onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_L1)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_L1, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
-    //PREP_L2
+    // PREP_L2
     u_Controllers.PREP_L2.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_L2)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
     //PREP_L3
-    u_Controllers.PREP_L3.onTrue(Commands.runOnce(() ->
+    u_Controllers.leftStick.trigger().onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_L3)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    //PREP_ALgae
+    // //PREP_ALgae
     u_Controllers.PREP_ALGAE.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_ALGAE)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
-    //PREP_None
+    // //PREP_None
     u_Controllers.PREP_NONE.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_NONE)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
-
   }
 
 

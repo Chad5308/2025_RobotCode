@@ -106,40 +106,39 @@ public final class Constants {
 
   public static final class constants_Elevator
   {
-    public static final double ELEVATOR_GEAR_RATIO = 20;
-    public static final double ELEVATOR_MAX_HEIGHT = 1; //TODO follow the steps in the elvator subsytem to get this number
-    public static final double ELEVATOR_ROTATIONS_AT_MAX_HEIGHT = 1; //TODO follow the steps in the elvator subsytem to get this number
-    public static final double ELEVATOR_TO_INCHES = ELEVATOR_ROTATIONS_AT_MAX_HEIGHT / ELEVATOR_MAX_HEIGHT;
+    public static final double ELEVATOR_GEAR_RATIO = 0.2;
+    public static final double ELEVATOR_BASE_HEIGHT = 25.0625;
+    public static final int ELEVATOR_SPROCKET_TEETH = 22;
+    public static final double ELEVATOR_CHAIN_PITCH = 0.25;
+    public static final boolean ELEVATOR_CASCADING = true;
+    public static final double ELEVATOR_SPROCKET_CIRCUMFRENCE = ELEVATOR_CHAIN_PITCH * ELEVATOR_SPROCKET_TEETH * (ELEVATOR_CASCADING? 2: 1);
     public static final double ELEVATOR_TOLERANCE = 1.5; //inches
-    public static final double ROLLER_SENSOR_TOLERANCE = 10; //Inches TODO Change this value to be what we want it to be
-    public static final boolean LEFT_INVERTED = false;//TODO if the encoder values are decreasing as the elevator moves up flip the "Left-Inverted" && "Right_Inverted" booleans
+    public static final double ROLLER_SENSOR_TOLERANCE = 4; //Inches
+    public static final boolean LEFT_INVERTED = false;
     public static final boolean RIGHT_INVERTED = true;
-    public static final boolean ROLLER_INVERTED = false;
-
-    public static final boolean ABS_INVERTED = false;
-    public static final double ABS_OFFSET = 0;
+    public static final boolean ROLLER_INVERTED = true;
 
     //TODO TUNE THESE
-    public static final double ELEVATOR_P = 0;
-    public static final double ELEVATOR_I = 0;
+    public static final double ELEVATOR_P = 0.05; //a = -vi^2 / 2 (current-wanted distance)
+    public static final double ELEVATOR_I = 0.0;
     public static final double ELEVATOR_D = 0;
     public static final double ELEVATOR_FF = 0;//Dont worry about this value, keep it 0
 
-    public static final double ROLLER_P = 0;
+    public static final double ROLLER_P = 0.1;
     public static final double ROLLER_I = 0;
     public static final double ROLLER_D = 0;
     public static final double ROLLER_FF = 0;//Dont worry about this value, keep it 0
 
   //TODO Find all elevator positions
-    public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(0, 10);
-    public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(0, 10);
-    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(0, -1);
-    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(8.5625, -1);
-    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(24.875, -1);
-    public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(4.5625, -1);
-    public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(20.875, -1);
-    public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(0, 0);
-    public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 20);
+    public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, 0.15);
+    public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(30, 0);
+    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, -1);
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(33, -1);
+    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(49, -1);
+    // public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(4.5625, -1);
+    // public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(20.875, -1);
+    public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(30, 0);
+    public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 0.55);
   }
 
   public static class ElevatorPositionGroup
@@ -153,6 +152,7 @@ public final class Constants {
       this.elevatorRollersRPM = elevatorRollersRPM;
     }
   }
+
   public static final class constants_Climber 
   {
     public static final double CLIMBER_GEAR_RATIO = 0; //TODO
@@ -172,10 +172,12 @@ public final class Constants {
   {
     public double angle;
 
-    public ClimberPositionGroup(double angle) {
+    public ClimberPositionGroup(double angle)
+    {
       this.angle = angle;
     }
   }
+
   public static final class constants_Rollers
   {
     //TODO Find this gear ration and input it here

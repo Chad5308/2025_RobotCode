@@ -127,6 +127,7 @@ public class Swerve extends SubsystemBase{
         frontLeftModule.setDesiredState(moduleStates[1]);
         backRightModule.setDesiredState(moduleStates[2]);
         backLeftModule.setDesiredState(moduleStates[3]);
+        SmartDashboard.putNumber("FL module desired Degrees", moduleStates[1].angle.getDegrees());
     }
     
     //face forward method. Called once the bot is enabled
@@ -191,5 +192,6 @@ public class Swerve extends SubsystemBase{
     //  frModPos = new SwerveModulePosition(frontRightModule.getDrivePosition(), frontRightModule.getSteerState().angle);
     //  blModPos = new SwerveModulePosition(backLeftModule.getDrivePosition(), backLeftModule.getSteerState().angle);
     //  brModPos = new SwerveModulePosition(backRightModule.getDrivePosition(), backRightModule.getSteerState().angle);
+
         }
 }
