@@ -155,8 +155,17 @@ public final class Constants {
 
   public static final class constants_Climber 
   {
-    public static final ClimberPositionGroup NONE = new ClimberPositionGroup(0);
-    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(0);
+    public static final double CLIMBER_GEAR_RATIO = 0; //TODO
+    public static final double CLIMBER_TOLERANCE = 0; //TODO
+    public static final boolean CLIMBER_INVERTED = false; //TODO
+
+    public static final double CLIMBER_P = 0; //TODO
+    public static final double CLIMBER_I = 0; //TODO
+    public static final double CLIMBER_D = 0; //TODO
+    public static final double CLIMBER_FF = 0;//Dont worry about this value, keep it 0
+
+    public static final ClimberPositionGroup NONE = new ClimberPositionGroup(0); //TODO
+    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(0); //TODO
   }
 
   public static final class ClimberPositionGroup

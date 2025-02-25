@@ -6,6 +6,8 @@ import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
+import frc.robot.Util.Constants.constants_Climber;
+import frc.robot.Util.RobotMap.MAP_CLIMBER;
 import frc.robot.Subsystems.Vision;
 
 public class ClimbingState extends Command 
@@ -33,6 +35,7 @@ public class ClimbingState extends Command
     {
         s_StateMachine.setRobotState(RobotState.CLIMBING);
         //Climbing sequence
+        s_Climber.setClimber(constants_Climber.ACTIVE);
     }
     
     @Override
