@@ -39,12 +39,12 @@ public class Elevator extends SubsystemBase
     public SparkClosedLoopController ELE_ROLLER_PID;
     public SparkBaseConfig ROLLER_CONFIG;
     
-    public boolean testBool = false;
+    public boolean CORAL_OVERRIDE = false;
 
     public CANrange CANrange;
     public CANrangeConfiguration sensorConfigs;
 
-    public DutyCycleEncoder absoluteEncoder;    
+    // public DutyCycleEncoder absoluteEncoder;    
 
     //TODO Zeroing the elevator and converting to inches
     /*
@@ -61,25 +61,25 @@ public class Elevator extends SubsystemBase
      */
     public Elevator()
     {
-        absoluteEncoder = new DutyCycleEncoder(MAP_ELEVATOR.ELEVATOR_ABS_ENCODER_PWM_PORT);
-        absoluteEncoder.setInverted(constants_Elevator.ABS_INVERTED);
+        // absoluteEncoder = new DutyCycleEncoder(MAP_ELEVATOR.ELEVATOR_ABS_ENCODER_PWM_PORT);
+        // absoluteEncoder.setInverted(constants_Elevator.ABS_INVERTED);
 
         sensorConfigs = new CANrangeConfiguration();
         CANrange = new CANrange(MAP_ELEVATOR.ELEVATOR_CANRANGE);
         CANrange.getConfigurator().apply(sensorConfigs);
 
         LEFT_CONFIG = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Elevator.ELEVATOR_P, constants_Elevator.ELEVATOR_I, constants_Elevator.ELEVATOR_D, constants_Elevator.ELEVATOR_FF, ClosedLoopSlot.kSlot0));
-        LEFT_CONFIG.encoder.positionConversionFactor(constants_Elevator.ELEVATOR_GEAR_RATIO);
+        LEFT_CONFIG.encoder.positionConversionFactor(constants_Elevator.ELEVATOR_GEAR_RATIO * constants_Elevator.ELEVATOR_SPROCKET_CIRCUMFRENCE);
         LEFT_CONFIG.inverted(constants_Elevator.LEFT_INVERTED);
         LEFT_CONFIG.idleMode(IdleMode.kBrake);
 
         RIGHT_CONFIG = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Elevator.ELEVATOR_P, constants_Elevator.ELEVATOR_I, constants_Elevator.ELEVATOR_D, constants_Elevator.ELEVATOR_FF, ClosedLoopSlot.kSlot0));
-        RIGHT_CONFIG.encoder.positionConversionFactor(constants_Elevator.ELEVATOR_GEAR_RATIO);
+        RIGHT_CONFIG.encoder.positionConversionFactor(constants_Elevator.ELEVATOR_GEAR_RATIO * constants_Elevator.ELEVATOR_SPROCKET_CIRCUMFRENCE);
         RIGHT_CONFIG.inverted(constants_Elevator.RIGHT_INVERTED);
         RIGHT_CONFIG.idleMode(IdleMode.kBrake);
 
         ROLLER_CONFIG = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Elevator.ROLLER_P, constants_Elevator.ROLLER_I, constants_Elevator.ROLLER_D, constants_Elevator.ROLLER_FF, ClosedLoopSlot.kSlot0));
-        ROLLER_CONFIG.encoder.positionConversionFactor(constants_Elevator.ELEVATOR_GEAR_RATIO);
+        ROLLER_CONFIG.encoder.positionConversionFactor(1.0/3);//TODO CHange this later
         ROLLER_CONFIG.inverted(constants_Elevator.ROLLER_INVERTED);
         ROLLER_CONFIG.idleMode(IdleMode.kBrake);
 
@@ -98,13 +98,14 @@ public class Elevator extends SubsystemBase
         ELE_ROLLER_PID = ELE_ROLLER.getClosedLoopController();
         ELE_ROLLER.configure(ROLLER_CONFIG, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        ELE_LEFT_ENCODER.setPosition(0);
-        ELE_RIGHT_ENCODER.setPosition(0);
+        ELE_LEFT_ENCODER.setPosition(constants_Elevator.ELEVATOR_BASE_HEIGHT);
+        ELE_RIGHT_ENCODER.setPosition(constants_Elevator.ELEVATOR_BASE_HEIGHT);
     }
     
     public double getPosition()
     {
-        return (absoluteEncoder.get() * constants_Elevator.ELEVATOR_TO_INCHES) - constants_Elevator.ABS_OFFSET;
+        // return constants_Elevator.ELEVATOR_BASE_HEIGHT + (((ELE_RIGHT_ENCODER.getPosition())) * constants_Elevator.ELEVATOR_SPROCKET_CIRCUMFRENCE);
+        return ELE_LEFT_ENCODER.getPosition();
     }
     
     public double getDistance()
@@ -114,7 +115,7 @@ public class Elevator extends SubsystemBase
     
     public boolean getGamePieceStored()
     {
-       return getDistance() < constants_Elevator.ROLLER_SENSOR_TOLERANCE;
+       return (getDistance() < constants_Elevator.ROLLER_SENSOR_TOLERANCE) || CORAL_OVERRIDE;
     }
     
     public void setElevatorPosition(ElevatorPositionGroup position)
@@ -126,7 +127,7 @@ public class Elevator extends SubsystemBase
         }
         if(position.elevatorRollersRPM >= 0)
         {
-            ELE_ROLLER_PID.setReference(position.elevatorRollersRPM, ControlType.kVelocity);
+            ELE_ROLLER.set(position.elevatorRollersRPM);
         }
     }
 
@@ -142,13 +143,13 @@ public class Elevator extends SubsystemBase
      @Override
     public void periodic()
     {
-        // ELE_LEFT_ENCODER.setPosition(getPosition());
-        // ELE_RIGHT_ENCODER.setPosition(getPosition());
         SmartDashboard.putBoolean("Coral Detection", getGamePieceStored());
         SmartDashboard.putNumber("Elevator ABS Position", getPosition());
         SmartDashboard.putNumber("Left Relative Position", ELE_LEFT_ENCODER.getPosition());
         SmartDashboard.putNumber("Right Relative Position", ELE_RIGHT_ENCODER.getPosition());
         SmartDashboard.putNumber("Roller Position", ELE_ROLLER_ENCODER.getPosition()); //TODO This can be deleted or commented out once it is found if this wheel rotates to push the game piece out is positive rotation
+        SmartDashboard.putNumber("Elevator Canrange", getDistance());
+        SmartDashboard.putBoolean("CANRANGE Coral Detection", getGamePieceStored());
     }
 
 }

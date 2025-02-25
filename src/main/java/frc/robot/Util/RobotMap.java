@@ -9,6 +9,7 @@ public class RobotMap
         public static final int LEFT_JOYSTICK = 0;
         public static final int RIGHT_JOYSTICK = 1;
         public static final int BUTTON_BOARD = 2;
+        public static final int XBOX_CONTROLLER = 2;
         //BUTTON BOARD
     }    
 
@@ -37,14 +38,15 @@ public class RobotMap
         public static final int ELEVATOR_RIGHT_SPARKMAX = 11;
         public static final int ELEVATOR_ROLLERS_SPARKMAX = 12;
         public static final int ELEVATOR_CANRANGE = 13;
-        public static final int ELEVATOR_ABS_ENCODER_PWM_PORT = 9; //TODO Check this
+        public static final int ELEVATOR_ABS_ENCODER_PWM_PORT = 9;
     }
     public static final class MAP_ALGAE
     {
         public static final int ALGAE_PITCH = 20;
         public static final int ALGAE_ROLLERS = 21;
         public static final int ALGAE_CANRANGE = 22;
-        public static final int ALGAE_ABS_ENCODER_PWM_PORT = 8;
+        public static final int ALGAE_ABS_ENCODER_PWM_PORT = 0;
+
     }
     public static final class MAP_CLIMBER
     {
@@ -79,6 +81,8 @@ public class RobotMap
     public static final class MAP_PWM_LIGHTS
     {   // coral = blue; algae = green; color 2 = blue; color 1 = green
         // MAKE PREP STATES A PATTERN OF THEIR PARENT STATE (IF PWM_NONE IS GRAY, MAKE PWM_PREP_NONE FLASHING GRAY OR SOMETHING)
+        public static final int BLINKEN_1_PORT = 9;
+        public static final int BLINKEN_2_PORT = 8;
         public static final double PWM_NONE_COLOR = 0.93; // SOLID WHITE
         public static final double PWM_SOURCE_COLOR = 0.33; // COLOR 2 SHOT
         public static final double PWM_INTAKE_ALGAE_PATTERN = 0.15; // COLOR 1 STROBE

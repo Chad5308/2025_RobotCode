@@ -43,7 +43,7 @@ public class CleanL3State extends Command
     {
         s_StateMachine.setRobotState(RobotState.CLEAN_L3);
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_CLEAN_L3_PATTERN);
-        s_Elevator.setElevatorPosition(constants_Elevator.CLEAN_L3);
+        // s_Elevator.setElevatorPosition(constants_Elevator.CLEAN_L3);
     }
 
 

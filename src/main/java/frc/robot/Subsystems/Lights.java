@@ -2,6 +2,7 @@ package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 
 public class Lights extends SubsystemBase
 {   
@@ -9,8 +10,8 @@ public class Lights extends SubsystemBase
     // constructor method
     public Lights() 
     {
-        blinken1 = new Spark(9);
-        blinken2 = new Spark(8);
+        blinken1 = new Spark(MAP_PWM_LIGHTS.BLINKEN_1_PORT);
+        blinken2 = new Spark(MAP_PWM_LIGHTS.BLINKEN_2_PORT);
         // Spark is a class so blinken is a new instance of it
     }
     // get method

@@ -41,7 +41,7 @@ public class Drive extends Command{
     @Override
     public void initialize()
     {
-    //  s_Swerve.faceAllFoward();
+        s_Swerve.faceAllFoward();
     }
 
  
@@ -49,9 +49,9 @@ public class Drive extends Command{
 
     @Override
     public void execute() {
-        xSpeed = right.getX();
-        ySpeed = right.getY();
-        turningSpeed = left.getX();
+        xSpeed = -right.getX();
+        ySpeed = -right.getY();
+        turningSpeed = -left.getX();
         fieldOriented = s_Swerve.fieldOriented;
 
         xSpeed = Math.abs(xSpeed) > constants_OI.DEADBAND ? xSpeed : 0.0;
