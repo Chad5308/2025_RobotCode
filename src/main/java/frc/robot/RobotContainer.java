@@ -18,8 +18,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Auto;
 import frc.robot.Commands.Drive;
-import frc.robot.Util.Constants.ElevatorPositionGroup;
-import frc.robot.Util.Constants.constants_Elevator;
 import frc.robot.Util.Controllers;
 import frc.robot.Util.LimelightHelpers;
 import frc.robot.Subsystems.AlgaeRollers;
@@ -156,34 +154,49 @@ public class RobotContainer {
     //PREPS For Opperator controller
     
     //PREP_L1
-    u_Controllers.leftStick.trigger().onTrue(Commands.runOnce(() ->
+    u_Controllers.PREP_L1.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_L1)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_L1, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
-    // PREP_L2
+    //PREP_L2
     u_Controllers.PREP_L2.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_L2)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
     //PREP_L3
-    u_Controllers.leftStick.trigger().onTrue(Commands.runOnce(() ->
+    u_Controllers.PREP_L1.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_L3)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    // //PREP_ALgae
+    //PREP_ALgae
     u_Controllers.PREP_ALGAE.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_ALGAE)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
-    // //PREP_None
+    //PREP_None
     u_Controllers.PREP_NONE.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_NONE)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+    u_Controllers.ELE_UP.whileTrue(s_Elevator.moveElevatorUp());
+    u_Controllers.ELE_UP.whileFalse(s_Elevator.stopElevator());
+
+    u_Controllers.ELE_DOWN.whileTrue(s_Elevator.moveElevatorDown());
+    u_Controllers.ELE_DOWN.whileFalse(s_Elevator.stopElevator());
+
+    u_Controllers.CLIMB_DOWN.whileTrue(s_Climber.climberDown());
+    u_Controllers.CLIMB_DOWN.whileFalse(s_Climber.stopClimber());
+    
+    u_Controllers.CLIMB_UP.whileTrue(s_Climber.climberUp());
+    u_Controllers.CLIMB_UP.whileFalse(s_Climber.climberUp());
+
+    u_Controllers.ALGAE_OVERRIDE.onChange(Commands.runOnce(()->{s_Rollers.ALGAE_OVERRIDE = !s_Rollers.ALGAE_OVERRIDE;}));
+    u_Controllers.CORAL_OVERRIDE.onChange(Commands.runOnce(()->{s_Elevator.CORAL_OVERRIDE = !s_Elevator.CORAL_OVERRIDE;}));
   }
 
 

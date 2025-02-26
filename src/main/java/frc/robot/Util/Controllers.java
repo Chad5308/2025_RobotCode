@@ -1,6 +1,5 @@
 package frc.robot.Util;
 
-import javax.crypto.spec.DESKeySpec;
 
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;

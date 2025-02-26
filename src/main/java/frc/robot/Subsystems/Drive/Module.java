@@ -164,7 +164,7 @@ public class Module extends SubsystemBase
     }else
     {
       double rps = velocityMPS * constants_Module.DRIVE_MPS_2_RPS;
-      driveMotor.setControl(new MotionMagicVelocityVoltage(velocityMPS));
+      driveMotor.setControl(new MotionMagicVelocityVoltage(rps));
     }
   }
   public void setDriveNeutralOutput()

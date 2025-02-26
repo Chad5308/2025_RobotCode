@@ -1,7 +1,4 @@
 package frc.robot.Subsystems;
-import edu.wpi.first.units.Units;
-import com.ctre.phoenix6.configs.CANrangeConfiguration;
-import com.ctre.phoenix6.hardware.CANrange;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -13,13 +10,10 @@ import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import 
 
-edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Util.RobotMap;
-import frc.robot.Util.Constants.AlgaePositionGroup;
 import frc.robot.Util.Constants.ClimberPositionGroup;
 import frc.robot.Util.Constants.constants_Climber;
 import frc.robot.Util.RobotMap.MAP_CLIMBER;
@@ -49,20 +43,35 @@ public class Climber extends SubsystemBase
 
         //convert the neos rotation to percentage once we figure out how far the motor has to travel to fully climb
             
-        }
-    
-
-
+    }
 
     public double getPosition()
     {
         return CLIMBER_SPARKMAX.get();
-        
     }
     
-    public void setPosition(double angle)
+     public Command climberDown()
     {
-        CLIMBER_SPARKMAX.set(angle);
+        return Commands.runOnce(()->
+        {
+            CLIMBER_SPARKMAX.set(-1);
+        });
+    }
+
+     public Command climberUp()
+    {
+        return Commands.runOnce(()->
+        {
+            CLIMBER_SPARKMAX.set(1);
+        });
+    }
+
+     public Command stopClimber()
+    {
+        return Commands.runOnce(()->
+        {
+            CLIMBER_SPARKMAX.set(0);
+        });
     }
 
     public void setClimber(ClimberPositionGroup group)
