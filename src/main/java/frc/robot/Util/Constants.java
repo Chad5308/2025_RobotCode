@@ -39,10 +39,10 @@ public final class Constants {
     public static final double WHEEL_BASE = Units.inchesToMeters(23.75);
       // Distance between front and back wheels
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-      new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2), //front left
-        new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), //front right
-        new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2), //back left
-        new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2)); //back right
+      new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), //front left
+        new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2), //front right
+        new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2), //back left
+        new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)); //back right
 
     public static final double MODULE_RADIUS = Units.inchesToMeters(Constants.constants_Drive.TRACK_WIDTH/2); //measured from center of robot to furthest module.
 
@@ -286,16 +286,16 @@ public final class Constants {
 
 
   public static final class constants_Auto {
-    public static final double MAX_SPEED_METERS_PER_SEC = constants_Drive.MAX_SPEED_METERS_PER_SEC/2;//0.5;
-    public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQRD = constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC/2;//0.25;
+    public static final double MAX_SPEED_METERS_PER_SEC = constants_Drive.MAX_SPEED_METERS_PER_SEC;//0.5;
+    public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQRD = constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC;//0.25;
     public static final double MAX_ANGULAR_SPEED_MPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_MPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
-    public static  double P_TRANSLATION = 0.1;
+    public static  double P_TRANSLATION = 2.5;
     public static  double I_TRANSLATION = 0.0;
     public static  double D_TRANSLATION = 0.0;
 
-    public static final double P_THETA = 0.1;
+    public static final double P_THETA = 1.0;
     public static final double I_THETA = 0.0;
     public static final double D_THETA = 0.0;
 

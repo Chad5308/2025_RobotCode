@@ -64,17 +64,12 @@ public class Swerve extends SubsystemBase{
     
     public double getHeading() 
     {
-        return Math.IEEEremainder(-gyro.getAngle(), 360);
+        return Math.IEEEremainder(-gyro.getAngle(), 360); //TODO Should be counter-clockwise as positive rotation
     }
     
     public Rotation2d getRotation2d() 
     {
         return Rotation2d.fromDegrees(getHeading());
-    }
-
-    public Rotation2d getAutoRotation2d() 
-    {
-        return Rotation2d.fromDegrees(-getHeading());
     }
     
     public boolean allianceCheck() 
@@ -106,11 +101,6 @@ public class Swerve extends SubsystemBase{
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
     
-    public void resetAutoOdometry(Pose2d pose) 
-    {
-        odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
-    }
-    
     public static SwerveModulePosition[] getModulePositions()
     {
         return new SwerveModulePosition[]{
@@ -133,19 +123,19 @@ public class Swerve extends SubsystemBase{
     public void setModuleStates(ChassisSpeeds speeds){
         SwerveModuleState[] moduleStates = constants_Drive.kDriveKinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, constants_Drive.MAX_SPEED_METERS_PER_SEC);
-        frontRightModule.setDesiredState(moduleStates[0]);
-        frontLeftModule.setDesiredState(moduleStates[1]);
-        backRightModule.setDesiredState(moduleStates[2]);
-        backLeftModule.setDesiredState(moduleStates[3]);
+        frontLeftModule.setDesiredState(moduleStates[0]);
+        frontRightModule.setDesiredState(moduleStates[1]);
+        backLeftModule.setDesiredState(moduleStates[2]);
+        backRightModule.setDesiredState(moduleStates[3]);
         SmartDashboard.putNumber("FL module desired Degrees", moduleStates[1].angle.getDegrees());
     }
     
     //face forward method. Called once the bot is enabled
     public void faceAllFoward() {
-        backRightModule.wheelFaceForward();
         frontLeftModule.wheelFaceForward();
         frontRightModule.wheelFaceForward();
         backLeftModule.wheelFaceForward();
+        backRightModule.wheelFaceForward();
         System.out.println("exacuted faceAll");
     }
     

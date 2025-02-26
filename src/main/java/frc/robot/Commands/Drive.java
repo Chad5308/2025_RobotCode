@@ -77,7 +77,7 @@ public class Drive extends Command{
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(ySpeed, xSpeed, turningSpeed), s_Swerve.getRotation2d());
         }else
         {
-            chassisSpeeds =new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
+            chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
         }
         s_Swerve.setModuleStates(chassisSpeeds);        
     }
@@ -89,7 +89,8 @@ public class Drive extends Command{
     }
 
     @Override
-    public boolean isFinished() {
+    public boolean isFinished()
+    {
         return false;
     }
 

@@ -160,7 +160,6 @@ public class Module extends SubsystemBase
   }
   public void getUpToSpeed(double velocityMPS)
   {
-   
     double rps = velocityMPS * constants_Module.DRIVE_MPS_2_RPS;
     driveMotor.setControl(new MotionMagicVelocityVoltage(rps));
   }

@@ -44,7 +44,7 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
 
         AutoBuilder.configure(
             s_Swerve::getPose,
-            s_Swerve::resetAutoOdometry,
+            s_Swerve::resetOdometry,
             s_Swerve::getRobotRelativeSpeeds,
             s_Swerve::setModuleStates,
             pathController,
@@ -74,7 +74,6 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
 
         new EventTrigger("SOURCE").onTrue( Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.SOURCE);}).andThen
         (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
-
     }
 
     public PathFollowingController pathController = new PPHolonomicDriveController(
