@@ -48,10 +48,10 @@ public final class Constants {
 
     
     //TODO Test and input all module offsets which range from -1 -> 1, Make sure to read the TODO in the "MODULE" file for more info on zeroing the motors
-    public static final double FL_OFFSET = 0.011230;
-    public static final double FR_OFFSET = 0.159424;
-    public static final double BL_OFFSET = 0.385986;
-    public static final double BR_OFFSET = 0.415527;
+    public static final double FL_OFFSET = 0.012207; //0.011230;
+    public static final double FR_OFFSET = 0.161377; //0.159424;
+    public static final double BL_OFFSET = 0.386230; //0.385986;
+    public static final double BR_OFFSET = 0.415283; // 0.415527;
 
     //TODO Invert any motor to match controller output
     public static final boolean FL_STEER_ENCODER_REVERSED = true;//TODO Make sure Counter-Clockwise rotation is considered positive rotation
@@ -80,10 +80,10 @@ public final class Constants {
   }
   
   public static final class constants_Module {
-    public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4);
-    public static final double WHEEL_CIRCUMFRENCE_METERS = 2*Math.PI*WHEEL_DIAMETER_METERS;
+    public static final double WHEEL_RADIUS_METERS = 0.1016/2; //Inches
+    public static final double WHEEL_CIRCUMFRENCE_METERS = 2*Math.PI*WHEEL_RADIUS_METERS;
     public static final double DRIVE_GEAR_RATIO = 4.59; //4.59 for Swerve X, 6.75 for sds
-    public static final double DRIVE_ROT_2_METER = (1/WHEEL_CIRCUMFRENCE_METERS);
+    public static final double DRIVE_ROT_2_METER = (WHEEL_CIRCUMFRENCE_METERS);
     public static final double DRIVE_MPS_2_RPS = DRIVE_GEAR_RATIO/WHEEL_CIRCUMFRENCE_METERS;
 
     public static final double STEER_GEAR_RATIO = 13.3714; //13.3714 for Swerve X, 12.8 for sds
@@ -133,8 +133,8 @@ public final class Constants {
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, 0.15);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(30, 0);
     public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, -1);
-    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(33, -1);
-    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(49, -1);
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(35, -1);
+    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(50, -1);
     // public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(4.5625, -1);
     // public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(20.875, -1);
     public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(30, 0);
@@ -291,13 +291,13 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED_MPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_MPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
-    public static  double P_TRANSLATION = 3.0;
-    public static  double I_TRANSLATION = 0.1;
-    public static  double D_TRANSLATION = 2;
+    public static  double P_TRANSLATION = 0.1;
+    public static  double I_TRANSLATION = 0.0;
+    public static  double D_TRANSLATION = 0.0;
 
-    public static final double P_THETA = 4.5;
-    public static final double I_THETA = 0.1;
-    public static final double D_THETA = 0;
+    public static final double P_THETA = 0.1;
+    public static final double I_THETA = 0.0;
+    public static final double D_THETA = 0.0;
 
 
     public static final HashMap<String, Command> AUTO_EVENT_MAP = new HashMap<>();

@@ -98,7 +98,8 @@ public class AlgaeRollers extends SubsystemBase
         
     public boolean getGamePieceCollected()
     {      
-       return (getDistance() < constants_Rollers.CANRANGE_ROLLERS_DISTANCE_LIMIT) || ALGAE_OVERRIDE;
+    //    return (getDistance() < constants_Rollers.CANRANGE_ROLLERS_DISTANCE_LIMIT) || ALGAE_OVERRIDE;
+        return ALGAE_OVERRIDE;
     }
 
     public void setAlgaeIntake(AlgaePositionGroup group) //degrees & m/s
