@@ -71,6 +71,11 @@ public class Swerve extends SubsystemBase{
     {
         return Rotation2d.fromDegrees(getHeading());
     }
+
+    public Rotation2d getAutoRotation2d() 
+    {
+        return Rotation2d.fromDegrees(-getHeading());
+    }
     
     public boolean allianceCheck() 
     {
@@ -97,6 +102,11 @@ public class Swerve extends SubsystemBase{
     }
     
     public void resetOdometry(Pose2d pose) 
+    {
+        odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
+    }
+    
+    public void resetAutoOdometry(Pose2d pose) 
     {
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }

@@ -15,6 +15,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.ClosedLoopOutputType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
@@ -49,7 +50,7 @@ public class Module extends SubsystemBase
   public VelocityVoltage velocityRequest;
   public MotionMagicVelocityVoltage motionMagicRequest;
   // public TalonFXConfiguration driveConfig = new TalonFXConfiguration();
-  public NeutralOut neutralOut;
+  public NeutralModeValue neutralModeValue;
   public Slot0Configs driveGains;
   public FeedbackConfigs driveFeedbackConfigs;
   
@@ -108,11 +109,12 @@ public class Module extends SubsystemBase
     driveMotor = new TalonFX(driveNum);
     driveGains = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
     driveFeedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(constants_Module.DRIVE_GEAR_RATIO);
+    neutralModeValue = NeutralModeValue.Brake;
     driveMotor.getConfigurator().apply(driveGains);
     driveMotor.getConfigurator().apply(driveFeedbackConfigs, 5);
-    driveMotor.getConfigurator().apply(new MotorOutputConfigs().withInverted(invertDrive?InvertedValue.Clockwise_Positive:InvertedValue.CounterClockwise_Positive));
+    driveMotor.getConfigurator().apply(new MotorOutputConfigs().withInverted(invertDrive?InvertedValue.Clockwise_Positive:InvertedValue.CounterClockwise_Positive).withNeutralMode(neutralModeValue));
     
-  
+    
     
     this.absoluteReversed = absoluteReversed;
     CANConfig = new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(absOffset).withAbsoluteSensorDiscontinuityPoint(0.5));
@@ -121,7 +123,7 @@ public class Module extends SubsystemBase
     absoluteEncoder.getConfigurator().apply(CANConfig);
     
     steerGains = new SparkMaxConfig()
-    .apply(new ClosedLoopConfig().pidf(0.0075, 0.0, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-179.9999999, 180));
+    .apply(new ClosedLoopConfig().pidf(0.015, 0.00, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-179.9999999, 180));
     steerGains.encoder.positionConversionFactor(Constants.constants_Module.STEER_TO_DEGREES);
     steerGains.encoder.velocityConversionFactor(constants_Module.STEER__RPM_2_DEG_PER_SEC);
     steerGains.inverted(invertSteer);
@@ -158,19 +160,11 @@ public class Module extends SubsystemBase
   }
   public void getUpToSpeed(double velocityMPS)
   {
-    if(velocityMPS <= 0.01)
-    {
-      setDriveNeutralOutput();
-    }else
-    {
-      double rps = velocityMPS * constants_Module.DRIVE_MPS_2_RPS;
-      driveMotor.setControl(new MotionMagicVelocityVoltage(rps));
-    }
+   
+    double rps = velocityMPS * constants_Module.DRIVE_MPS_2_RPS;
+    driveMotor.setControl(new MotionMagicVelocityVoltage(rps));
   }
-  public void setDriveNeutralOutput()
-  {
-    driveMotor.setControl(new NeutralOut()); //TODO see if this is coast or brake
-  }
+  
   
   
   //Steer Methods

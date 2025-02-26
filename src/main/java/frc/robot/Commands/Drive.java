@@ -74,11 +74,10 @@ public class Drive extends Command{
     {
         if(fieldOriented)
         {
-            chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
-            chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(chassisSpeeds, s_Swerve.getRotation2d());
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(ySpeed, xSpeed, turningSpeed), s_Swerve.getRotation2d());
         }else
         {
-            chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
+            chassisSpeeds =new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
         }
         s_Swerve.setModuleStates(chassisSpeeds);        
     }

@@ -166,7 +166,7 @@ public class RobotContainer {
     s_StateMachine.tryState(RobotState.PREP_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
     //PREP_L3
-    u_Controllers.PREP_L1.onTrue(Commands.runOnce(() ->
+    u_Controllers.PREP_L3.onTrue(Commands.runOnce(() ->
     s_StateMachine.setTargetState(TargetState.PREP_L3)))
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
@@ -219,6 +219,7 @@ public class RobotContainer {
     autoChooser1.addOption("3G", selection1 = "3G");
     autoChooser1.addOption("3H", selection1 = "3H");
     autoChooser1.addOption("3I", selection1 = "3I");
+    autoChooser1.addOption("Test", selection1 = "Test");
   
     //X Paths
     autoChooser2.addOption("AX", selection2 = "AX");

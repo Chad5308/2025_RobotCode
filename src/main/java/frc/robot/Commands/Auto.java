@@ -44,7 +44,7 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
 
         AutoBuilder.configure(
             s_Swerve::getPose,
-            s_Swerve::resetOdometry,
+            s_Swerve::resetAutoOdometry,
             s_Swerve::getRobotRelativeSpeeds,
             s_Swerve::setModuleStates,
             pathController,
@@ -81,8 +81,8 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
         new com.pathplanner.lib.config.PIDConstants(translationConstants.getP(), translationConstants.getI(), translationConstants.getD()),
         new com.pathplanner.lib.config.PIDConstants(rotationConstants.getP(), rotationConstants.getI(), rotationConstants.getD()));
 
-    public ModuleConfig moduleConfig = new ModuleConfig(constants_Module.WHEEL_DIAMETER_METERS/2, constants_Drive.MAX_SPEED_METERS_PER_SEC, constants_Drive.COF, DCMotor.getKrakenX60(1).withReduction(constants_Module.DRIVE_GEAR_RATIO), 21, 1);
-    public RobotConfig robotConfig = new RobotConfig(25.8, 6.883, moduleConfig, constants_Drive.TRACK_WIDTH);
+    public ModuleConfig moduleConfig = new ModuleConfig(constants_Module.WHEEL_RADIUS_METERS, constants_Drive.MAX_SPEED_METERS_PER_SEC, constants_Drive.COF, DCMotor.getKrakenX60(1).withReduction(constants_Module.DRIVE_GEAR_RATIO), 21, 1);
+    public RobotConfig robotConfig = new RobotConfig(63.5029, 6.883, moduleConfig, constants_Drive.TRACK_WIDTH);
 
 
 }

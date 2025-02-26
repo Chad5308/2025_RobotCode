@@ -127,6 +127,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentState)
         {
           case NONE:
+          case SOURCE:
           case INTAKE_ALGAE:
           if(s_Elevator.getGamePieceStored())
           {
