@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import org.opencv.core.Mat;
+
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.hardware.CANrange;
 import com.revrobotics.RelativeEncoder;
@@ -28,11 +30,6 @@ public class AlgaeRollers extends SubsystemBase
     public RelativeEncoder ROLLERS_ENCODER;
     public SparkClosedLoopController ROLLERS_PID;
     public SparkBaseConfig configRollers;
-
-    public SparkMax PITCH;
-    public RelativeEncoder PITCH_ENCODER;
-    public SparkClosedLoopController PITCH_PID;
-    public SparkBaseConfig configPitch;
 
     public CANrange CANrange;
     public CANrangeConfiguration sensorConfigs;
@@ -63,20 +60,10 @@ public class AlgaeRollers extends SubsystemBase
         ROLLERS_PID = ROLLERS.getClosedLoopController();
         ROLLERS.configure(configRollers.inverted(constants_Rollers.ROLLER_INVERTED), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-
-        configPitch = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Rollers.PITCH_P, constants_Rollers.PITCH_I, constants_Rollers.PITCH_D, constants_Rollers.PITCH_FF, ClosedLoopSlot.kSlot0));
-        configPitch.encoder.positionConversionFactor(constants_Rollers.ROLLER_GEAR_RATIO);
-        configPitch.idleMode(IdleMode.kCoast);
-        PITCH = new SparkMax(MAP_ALGAE.ALGAE_PITCH, MotorType.kBrushless);
-        PITCH_ENCODER = PITCH.getEncoder();
-        PITCH_PID = PITCH.getClosedLoopController();
-        PITCH.configure(configPitch.inverted(constants_Rollers.ANGLE_INVERTED), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
         CANrange = new CANrange(MAP_ALGAE.ALGAE_CANRANGE);
         sensorConfigs = new CANrangeConfiguration();
         CANrange.getConfigurator().apply(sensorConfigs);
 
-        PITCH_ENCODER.setPosition(0);
     }
 
 
@@ -102,15 +89,36 @@ public class AlgaeRollers extends SubsystemBase
         return ALGAE_OVERRIDE;
     }
 
-    public void setAlgaeIntake(AlgaePositionGroup group) //degrees & m/s
+    // public void setAlgaeIntake(AlgaePositionGroup group) //degrees & m/s
+    // {
+    //     ROLLERS_PID.setReference(group.rollersRPM, ControlType.kVelocity);
+    // }
+
+    public void intakeAlgae()
     {
-        PITCH_PID.setReference(group.intakeAngle, ControlType.kPosition);
-        ROLLERS_PID.setReference(group.rollersRPM, ControlType.kVelocity);
+        ROLLERS.set(0.5);
     }
 
-    public boolean isRollersInPosition(AlgaePositionGroup position)
+    public void retractIntakeNone()
     {
-        return (Math.abs(getPosition() - position.intakeAngle) < constants_Rollers.ROLLER_ANGLE_TOLERANCE) && (Math.abs(getSpeed() - position.rollersRPM) < constants_Rollers.ROLLER_RPM_TOLERANCE);
+        while(!isRollersInPosition(90))
+        {
+            ROLLERS.set(-0.25);
+        }
+    }
+
+    public void retractIntakeAlgae()
+    {
+        while(!isRollersInPosition(60))
+        {
+            ROLLERS.set(-0.25);
+        }
+    }
+
+    public boolean isRollersInPosition(double position)
+    {
+        // return (Math.abs(getPosition()- position) < constants_Rollers.ROLLER_ANGLE_TOLERANCE);
+        return true;
     }
 
 
@@ -118,9 +126,7 @@ public class AlgaeRollers extends SubsystemBase
     public void periodic()
     {
         SmartDashboard.putBoolean("Algae Detection", getGamePieceCollected());
-        SmartDashboard.putNumber("Algae Relative Angle Encoder", PITCH_ENCODER.getPosition());
         SmartDashboard.putNumber("Algae Absolute Angle Encoder", getPosition());
         SmartDashboard.putNumber("Algae Relative Roller Encoder", ROLLERS_ENCODER.getPosition());
-
     }
 }

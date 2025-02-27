@@ -5,13 +5,13 @@
 package frc.robot.Commands.States;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
-import frc.robot.Util.Constants.ElevatorPositionGroup;
 import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 import frc.robot.Util.Constants.*;
 
@@ -54,16 +54,24 @@ public class PrepTargetState extends Command {
 
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
-      s_Rollers.setAlgaeIntake(constants_Rollers.PREP_ALGAE);
+      s_Rollers.retractIntakeAlgae();;
       s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
-    } else { 
+    } else
+    { 
+
+      if(desiredElevatorPosition == constants_Elevator.PREP_L1)
+      {
+        s_Elevator.setElevatorPosition(constants_Elevator.PREP_L1);
+        Commands.waitSeconds(0.1);
+        s_Elevator.setElevatorPosition(desiredElevatorPosition);
+      }
       s_Elevator.setElevatorPosition(desiredElevatorPosition);
       if(s_Rollers.getGamePieceCollected())
       {
-        s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
+        s_Rollers.retractIntakeAlgae();
       }else
       {
-        s_Rollers.setAlgaeIntake(constants_Rollers.NONE);
+        s_Rollers.retractIntakeNone();
       }
     }
 
@@ -97,11 +105,11 @@ public class PrepTargetState extends Command {
   {
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
-      s_Rollers.setAlgaeIntake(constants_Rollers.PREP_ALGAE);
+      s_Rollers.retractIntakeAlgae();
       s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
     } else { 
       s_Elevator.setElevatorPosition(desiredElevatorPosition);
-      s_Rollers.setAlgaeIntake(constants_Rollers.NONE);
+      s_Rollers.retractIntakeNone();
     }
     //When the command ends we try and move again just incase
   }
@@ -112,7 +120,7 @@ public class PrepTargetState extends Command {
     
     if(s_StateMachine.getTargetState() == TargetState.PREP_ALGAE)
     {
-      return s_Rollers.isRollersInPosition(constants_Rollers.PREP_ALGAE);
+      return s_Rollers.isRollersInPosition(60);
     } else { 
       return s_Elevator.isElevatorInPosition(desiredElevatorPosition);
     }

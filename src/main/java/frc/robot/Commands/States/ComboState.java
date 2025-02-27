@@ -43,7 +43,7 @@ public class ComboState extends Command
     public void initialize()
     {
         s_Elevator.setElevatorPosition(constants_Elevator.CORAL); 
-        s_Rollers.setAlgaeIntake(constants_Rollers.ALGAE);
+        s_Rollers.retractIntakeAlgae();;
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_COMBO_COLOR);
         s_StateMachine.setRobotState(RobotState.COMBO);
     }

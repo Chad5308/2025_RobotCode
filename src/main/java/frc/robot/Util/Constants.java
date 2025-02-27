@@ -29,14 +29,42 @@ import frc.robot.Subsystems.StateMachine.TargetState;;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    
+  public static final class constants_Module {
+    public static final double WHEEL_RADIUS_METERS = 0.1016/2; //Inches
+    public static final double WHEEL_CIRCUMFRENCE_METERS = 2*Math.PI*WHEEL_RADIUS_METERS;
+    public static final double DRIVE_GEAR_RATIO = 4.59; //4.59 for Swerve X, 6.75 for sds
+    public static final double DRIVE_ROT_2_METER = (WHEEL_CIRCUMFRENCE_METERS);
+    public static final double DRIVE_MPS_2_RPS = DRIVE_GEAR_RATIO/WHEEL_CIRCUMFRENCE_METERS;
+
+    public static final double STEER_GEAR_RATIO = 13.3714; //13.3714 for Swerve X, 12.8 for sds
+    public static final double STEER_TO_DEGREES = 360 / STEER_GEAR_RATIO;
+    public static final double STEER__RPM_2_DEG_PER_SEC = STEER_TO_DEGREES / 60;
+
+    //TODO Tune our pid loop for the drives once you add in all the offsets, you can just rotate the wheels to 90 degrees using the flight sticks, then disable and enable the code to set them to 0 degreese and tune off of that vaule
+    public static final double P_TURNING = 0.0075;
+    public static final double I_TURNING = 0.0;
+    public static final double D_TURNING = 0.75;
+    public static final double FF_TURNING = 0;
+
+    //TODO Dont worry about changing these values
+    public static final double S_DRIVE = 0.4;
+    public static final double V_DRIVE = 0.124;
+    public static final double A_DRIVE = 0.1;
+    public static final double P_DRIVE = 0.1;
+    public static final double I_DRIVE = 0.1;
+  }
+
+
   public static final class constants_Drive {
 
     public static final Measure<DistanceUnit> WHEEL_RADIUS = edu.wpi.first.units.Units.Inches.of(1.5);
     public static final double COF = 1.2;
     //TODO Measure from the center of each wheel to get these, Front to back for "WHEEL_BASE", Left to right for "TRACK_WIDTH"
-    public static final double TRACK_WIDTH = Units.inchesToMeters(23.75);
+    public static final double TRACK_WIDTH = Units.inchesToMeters(29);
       // Distance between left and right wheels
-    public static final double WHEEL_BASE = Units.inchesToMeters(23.75);
+    public static final double WHEEL_BASE = Units.inchesToMeters(29);
       // Distance between front and back wheels
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
       new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), //front left
@@ -70,39 +98,15 @@ public final class Constants {
     public static final boolean BR_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
 
     public static final double MAX_SPEED_METERS_PER_SEC = 6.949; //6.949 for Swerve X, 4.60248 for sd
-    public static final double MAX_ANGULAR_SPEED_MPS = MAX_SPEED_METERS_PER_SEC/(TRACK_WIDTH/2);
+    public static final double MAX_ANGULAR_SPEED_MPS = MAX_SPEED_METERS_PER_SEC* Math.PI;
 
     //For limiting speed while driving
     public static final double TELEDRIVE_MAX_SPEED_METERS_PER_SEC = MAX_SPEED_METERS_PER_SEC / 1.0;
-    public static final double TELEDRIVE_MAX_ANGULAR_SPEED_MPS = MAX_ANGULAR_SPEED_MPS / 1.0;
-    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = 2.0;
+    public static final double TELEDRIVE_MAX_ANGULAR_SPEED_MPS = MAX_ANGULAR_SPEED_MPS / 5.0;
+    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = 1;
     public static final double TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 0.75;
   }
-  
-  public static final class constants_Module {
-    public static final double WHEEL_RADIUS_METERS = 0.1016/2; //Inches
-    public static final double WHEEL_CIRCUMFRENCE_METERS = 2*Math.PI*WHEEL_RADIUS_METERS;
-    public static final double DRIVE_GEAR_RATIO = 4.59; //4.59 for Swerve X, 6.75 for sds
-    public static final double DRIVE_ROT_2_METER = (WHEEL_CIRCUMFRENCE_METERS);
-    public static final double DRIVE_MPS_2_RPS = DRIVE_GEAR_RATIO/WHEEL_CIRCUMFRENCE_METERS;
 
-    public static final double STEER_GEAR_RATIO = 13.3714; //13.3714 for Swerve X, 12.8 for sds
-    public static final double STEER_TO_DEGREES = 360 / STEER_GEAR_RATIO;
-    public static final double STEER__RPM_2_DEG_PER_SEC = STEER_TO_DEGREES / 60;
-
-    //TODO Tune our pid loop for the drives once you add in all the offsets, you can just rotate the wheels to 90 degrees using the flight sticks, then disable and enable the code to set them to 0 degreese and tune off of that vaule
-    public static final double P_TURNING = 0.0075;
-    public static final double I_TURNING = 0.0;
-    public static final double D_TURNING = 0.75;
-    public static final double FF_TURNING = 0;
-
-    //TODO Dont worry about changing these values
-    public static final double S_DRIVE = 0.4;
-    public static final double V_DRIVE = 0.124;
-    public static final double A_DRIVE = 0.1;
-    public static final double P_DRIVE = 0.1;
-    public static final double I_DRIVE = 0.1;
-  }
 
   public static final class constants_Elevator
   {
@@ -119,7 +123,7 @@ public final class Constants {
     public static final boolean ROLLER_INVERTED = true;
 
     //TODO TUNE THESE
-    public static final double ELEVATOR_P = 0.05; //a = -vi^2 / 2 (current-wanted distance)
+    public static final double ELEVATOR_P = 0.04; //a = -vi^2 / 2 (current-wanted distance)
     public static final double ELEVATOR_I = 0.0;
     public static final double ELEVATOR_D = 0;
     public static final double ELEVATOR_FF = 0;//Dont worry about this value, keep it 0
@@ -133,12 +137,13 @@ public final class Constants {
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, 0.15);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(30, 0);
     public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, -1);
-    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(35, -1);
-    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(50, -1);
-    // public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(4.5625, -1);
-    // public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(20.875, -1);
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(36, -1);
+    public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(51, -1);
+    public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(30, -1);
+    public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(45, -1);
     public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(30, 0);
     public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 0.55);
+    public static final ElevatorPositionGroup SCORE_L1 = new ElevatorPositionGroup(-1, 0.35);
   }
 
   public static class ElevatorPositionGroup
@@ -185,7 +190,7 @@ public final class Constants {
     public static final double ANGLE_TO_DEGREES = 360 / ROLLER_GEAR_RATIO;
 
     public static final boolean ABS_INVERTED = false; //TODO follow the steps in the elvator subsytem to get this number
-    public static final double ABS_OFFSET = 0; //TODO follow the steps in the elvator subsytem to get this number
+    public static final double ABS_OFFSET = 248.707563; //TODO follow the steps in the elvator subsytem to get this number
 
     public static final boolean ROLLER_INVERTED = false;
     public static final boolean ANGLE_INVERTED = false;
@@ -291,11 +296,11 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED_MPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_MPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
-    public static  double P_TRANSLATION = 2.5;
+    public static  double P_TRANSLATION = 5;
     public static  double I_TRANSLATION = 0.0;
     public static  double D_TRANSLATION = 0.0;
 
-    public static final double P_THETA = 1.0;
+    public static final double P_THETA = 5;
     public static final double I_THETA = 0.0;
     public static final double D_THETA = 0.0;
 

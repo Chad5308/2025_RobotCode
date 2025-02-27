@@ -9,7 +9,6 @@ import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
-import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -123,7 +122,7 @@ public class Module extends SubsystemBase
     absoluteEncoder.getConfigurator().apply(CANConfig);
     
     steerGains = new SparkMaxConfig()
-    .apply(new ClosedLoopConfig().pidf(0.015, 0.00, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-179.9999999, 180));
+    .apply(new ClosedLoopConfig().pidf(0.0225, 0.000001, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-179.9999999, 180));
     steerGains.encoder.positionConversionFactor(Constants.constants_Module.STEER_TO_DEGREES);
     steerGains.encoder.velocityConversionFactor(constants_Module.STEER__RPM_2_DEG_PER_SEC);
     steerGains.inverted(invertSteer);
@@ -186,7 +185,7 @@ public class Module extends SubsystemBase
     return new SwerveModulePosition(getDrivePosition(), getModuleState().angle);
   }
 
-
+//ben is awesome
       
   //This is our setDesiredState alg. Takes the current state and the desired state shown by the controller and points the wheels to that location
   public void setDesiredState(SwerveModuleState state) 

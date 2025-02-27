@@ -51,7 +51,7 @@ public class NoneState extends Command
       s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_NONE_COLOR);
       //run our homeing sequence
       s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
-      s_Rollers.setAlgaeIntake(constants_Rollers.NONE);
+      s_Rollers.retractIntakeNone();
     }
     
     

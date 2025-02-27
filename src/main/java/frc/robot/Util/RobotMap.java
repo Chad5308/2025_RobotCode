@@ -42,8 +42,7 @@ public class RobotMap
     }
     public static final class MAP_ALGAE
     {
-        public static final int ALGAE_PITCH = 20;
-        public static final int ALGAE_ROLLERS = 21;
+        public static final int ALGAE_ROLLERS = 20;
         public static final int ALGAE_CANRANGE = 22;
         public static final int ALGAE_ABS_ENCODER_PWM_PORT = 0;
 
