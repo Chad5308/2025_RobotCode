@@ -40,6 +40,7 @@ public class Controllers
         ELE_UP = buttonBoard.button(10);
         ELE_DOWN = buttonBoard.button(11);
         ELE_ROLLER = buttonBoard.button(12);
+    
     }
     public void initialize_Xbox_Controls()
     {
@@ -54,6 +55,8 @@ public class Controllers
         ELE_DOWN = xbox.a();
         ELE_ROLLER = xbox.x();
         CORAL_OVERRIDE = xbox.povLeft();
-        ALGAE_OVERRIDE = xbox.povRight();
+        //ALGAE_OVERRIDE = xbox.povRight();
+
     }
+
 }
