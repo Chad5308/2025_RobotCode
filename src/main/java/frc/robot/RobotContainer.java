@@ -79,6 +79,12 @@ public class RobotContainer {
     gamePieceCollectedTrigger_Algae.onTrue(Commands.deferredProxy(
       ()-> s_StateMachine.tryState(RobotState.ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)).andThen(intakeRumble()));
 
+    gamePieceStoredTrigger_Coral.onFalse(Commands.deferredProxy(
+      ()-> s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)).andThen(intakeRumble()));
+
+    gamePieceCollectedTrigger_Algae.onFalse(Commands.deferredProxy(
+      ()-> s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)).andThen(intakeRumble()));
+
   }
 
   public SequentialCommandGroup intakeRumble()

@@ -89,11 +89,6 @@ public class AlgaeRollers extends SubsystemBase
         return ALGAE_OVERRIDE;
     }
 
-    // public void setAlgaeIntake(AlgaePositionGroup group) //degrees & m/s
-    // {
-    //     ROLLERS_PID.setReference(group.rollersRPM, ControlType.kVelocity);
-    // }
-
     public void intakeAlgae()
     {
         ROLLERS.set(0.5);
