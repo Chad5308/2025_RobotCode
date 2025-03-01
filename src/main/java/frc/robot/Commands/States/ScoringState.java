@@ -47,8 +47,8 @@ public class ScoringState extends Command
 
         if(s_StateMachine.getRobotState() == RobotState.PREP_ALGAE)
         {
-            s_Rollers.retractIntakeAlgae();
             s_StateMachine.setRobotState(RobotState.SCORING);
+            s_Rollers.retractIntakeNone();
         }
         else if(s_StateMachine.getRobotState() == RobotState.PREP_L1)
         {

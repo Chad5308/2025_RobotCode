@@ -60,7 +60,7 @@ public class Drive extends Command{
 
         xSpeed = xLimiter.calculate(xSpeed) * constants_Drive.TELEDRIVE_MAX_SPEED_METERS_PER_SEC;
         ySpeed = yLimiter.calculate(ySpeed) * constants_Drive.TELEDRIVE_MAX_SPEED_METERS_PER_SEC;
-        turningSpeed = turningLimiter.calculate(turningSpeed) * constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_MPS;
+        turningSpeed = turningLimiter.calculate(turningSpeed) * constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RPS;
 
         drive();
 

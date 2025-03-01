@@ -98,13 +98,13 @@ public final class Constants {
     public static final boolean BR_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
 
     public static final double MAX_SPEED_METERS_PER_SEC = 6.949; //6.949 for Swerve X, 4.60248 for sd
-    public static final double MAX_ANGULAR_SPEED_MPS = MAX_SPEED_METERS_PER_SEC* Math.PI;
+    public static final double MAX_ANGULAR_SPEED_RPS = MAX_SPEED_METERS_PER_SEC/TRACK_WIDTH;
 
     //For limiting speed while driving
     public static final double TELEDRIVE_MAX_SPEED_METERS_PER_SEC = MAX_SPEED_METERS_PER_SEC / 1.0;
-    public static final double TELEDRIVE_MAX_ANGULAR_SPEED_MPS = MAX_ANGULAR_SPEED_MPS / 5.0;
-    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = 1;
-    public static final double TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 0.75;
+    public static final double TELEDRIVE_MAX_ANGULAR_SPEED_RPS = MAX_ANGULAR_SPEED_RPS / 1.0;
+    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = MAX_SPEED_METERS_PER_SEC/1.5;
+    public static final double TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC/(TRACK_WIDTH/2);
   }
 
 
@@ -136,14 +136,14 @@ public final class Constants {
   //TODO Find all elevator positions
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, 0.15);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(30, 0);
-    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, -1);
+    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(36, -1);
     public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(36, -1);
     public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(51, -1);
     public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(30, -1);
     public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(45, -1);
     public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(30, 0);
     public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 0.55);
-    public static final ElevatorPositionGroup SCORE_L1 = new ElevatorPositionGroup(-1, 0.35);
+    public static final ElevatorPositionGroup SCORE_L1 = new ElevatorPositionGroup(-1, 0.15);
   }
 
   public static class ElevatorPositionGroup
@@ -190,7 +190,7 @@ public final class Constants {
     public static final double ANGLE_TO_DEGREES = 360 / ROLLER_GEAR_RATIO;
 
     public static final boolean ABS_INVERTED = false; //TODO follow the steps in the elvator subsytem to get this number
-    public static final double ABS_OFFSET = 248.707563; //TODO follow the steps in the elvator subsytem to get this number
+    public static final double ABS_OFFSET = 320; //TODO follow the steps in the elvator subsytem to get this number
 
     public static final boolean ROLLER_INVERTED = false;
     public static final boolean ANGLE_INVERTED = false;
@@ -293,10 +293,10 @@ public final class Constants {
   public static final class constants_Auto {
     public static final double MAX_SPEED_METERS_PER_SEC = constants_Drive.MAX_SPEED_METERS_PER_SEC;//0.5;
     public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQRD = constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC;//0.25;
-    public static final double MAX_ANGULAR_SPEED_MPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_MPS;
+    public static final double MAX_ANGULAR_SPEED_RPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
-    public static  double P_TRANSLATION = 5;
+    public static  double P_TRANSLATION = 3;
     public static  double I_TRANSLATION = 0.0;
     public static  double D_TRANSLATION = 0.0;
 
@@ -309,7 +309,7 @@ public final class Constants {
 
     public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = 
             new TrapezoidProfile.Constraints(
-                    MAX_ANGULAR_SPEED_MPS,
+                    MAX_ANGULAR_SPEED_RPS,
                     MAX_ANGULAR_ACCEL_UNITS_PER_SEC);
     public static final TrapezoidProfile.Constraints LINEAR_CONSTRAINTS = 
             new TrapezoidProfile.Constraints(

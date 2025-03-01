@@ -36,8 +36,8 @@ public class AlgaeState extends Command
     {
         s_StateMachine.setRobotState(RobotState.ALGAE);
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_ALGAE_COLOR);
-        s_Rollers.retractIntakeAlgae();
        // insert vision command 
+       s_Rollers.ROLLERS.set(0);
     }
 
 

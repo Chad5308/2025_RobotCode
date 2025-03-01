@@ -78,6 +78,8 @@ public class StateMachine extends SubsystemBase {
           case SCORING:
           case CLEAN_L2:
           case CLEAN_L3:
+          case CORAL:
+          case ALGAE:
           case NONE:
             if(s_Rollers.getGamePieceCollected() && s_Elevator.getGamePieceStored())
             {

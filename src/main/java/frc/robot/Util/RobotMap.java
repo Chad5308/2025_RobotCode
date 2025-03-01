@@ -52,7 +52,7 @@ public class RobotMap
         public static final int CLIMB_SPARKMAX = 30;
         public static final int CLIMB_ABS_ENCODER_PWM_PORT = 3; //TODO Check this aswell
     }
-    public static final class MAP_APRIL_TAGS //[id num, height in inches, coordinate x, coordinate y, heading] inches to meters; use field manual image for id reference
+    public static final class MAP_APRIL_TAGS //[id num, height in inches, co=ordinate x, coordinate y, heading] inches to meters; use field manual image for id reference==
     {
         public static final double[] RED_CS_X = {1, 1.4859, 16.6992, 0.6553, 126};
         public static final double[] RED_CS_Y = {2, 1.4859, 16.6992, 7.4048, 234};
