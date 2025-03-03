@@ -20,7 +20,6 @@ import frc.robot.Commands.States.ComboState;
 import frc.robot.Commands.States.IntakingAlgaeState;
 import frc.robot.Commands.States.NoneState;
 import frc.robot.Commands.States.PrepTargetState;
-import frc.robot.Commands.States.PrepVision;
 import frc.robot.Commands.States.ScoringState;
 import frc.robot.Commands.States.SourceState;
 import frc.robot.Commands.States.CoralState;
@@ -272,14 +271,14 @@ public class StateMachine extends SubsystemBase {
   
   }
 
-  public Command tryTargetState(StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Lights s_Lights) 
-  {
-    if (currentTargetState.equals(TargetState.PREP_VISION))
-    {
-      return new PrepVision(s_StateMachine, c_Drive, s_Elevator, s_Lights);
-    }
-    return new PrepTargetState(s_StateMachine, s_Elevator, null, s_Lights, currentTargetState);
-  }
+  // public Command tryTargetState(StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Vision s_Vision, Lights s_Lights) 
+  // {
+  //   if (currentTargetState.equals(TargetState.PREP_VISION))
+  //   {
+  //     return new PrepVision(s_StateMachine, c_Drive, s_Vision, s_Lights);
+  //   }
+  //   return new PrepTargetState(s_StateMachine, s_Elevator, null, s_Lights, currentTargetState);
+  // }
 
     /**
    * Determines if our current robot state is also a target state.

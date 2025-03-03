@@ -26,16 +26,14 @@ public Swerve s_swerve;
 public NetworkTable networkTables;
 public IntegerSubscriber pipeline;
 public IntegerPublisher pipelinePublisher;
-public double xAng_Coral, yAng_Coral, ySpeed, xSpeed, turningSpeed, targetID_Coral, targetArea_Coral, correctionX, correctionZ, correctionT, distanceX, distanceY, yAngToRadians_Coral, xAngToRadians_Coral;
+public double ySpeed, xSpeed, turningSpeed, correctionX, correctionZ, correctionT, distanceX, distanceY;
 public double[] localizedPose;
 public double[] botPose_targetSpace, targetPose_robotSpace;
 public ProfiledPIDController thetaPIDController;
 public ProfiledPIDController xPIDController, yPIDController;
-public boolean autoDriveToggle;
-public boolean hasTargets_Coral;
 public BooleanSupplier interrupted;
-public String limelight_Coral = "limelight-coral";
-public String limelight_Tags = "liemlight-tags";
+public String limelight_Coral = "limelight-Coral";
+public String limelight_Algae = "liemlight-Algae";
 
 public LimelightResults r_limelight;
 
@@ -56,14 +54,13 @@ public LimelightHelpers.PoseEstimate mt2;
         xPIDController = new ProfiledPIDController(constants_Limelight.LINEAR_P, constants_Limelight.LINEAR_I, constants_Limelight.LINEAR_D, constants_Auto.LINEAR_CONSTRAINTS);
         yPIDController = new ProfiledPIDController(constants_Limelight.LINEAR_P, constants_Limelight.LINEAR_I, constants_Limelight.LINEAR_D, constants_Auto.LINEAR_CONSTRAINTS);
         setPIDControllers();
-
     }
 
-    public Optional<Pose2d> getPoseFromAprilTags() {
-        double[] botpose = localizedPose;
-        if(botpose.length < 7 || targetID_Coral == -1) return Optional.empty();
-        return Optional.of(new Pose2d(botpose[0], botpose[1], new Rotation2d(botpose[5])));
-    }
+    // public Optional<Pose2d> getPoseFromAprilTags() {
+    //     double[] botpose = localizedPose;
+    //     if(botpose.length < 7 || targetID_Coral == -1) return Optional.empty();
+    //     return Optional.of(new Pose2d(botpose[0], botpose[1], new Rotation2d(botpose[5])));
+    // }
   
 
     public void setPIDControllers()
@@ -78,37 +75,7 @@ public LimelightHelpers.PoseEstimate mt2;
         yPIDController.setTolerance(0.05);//meters
     }
 
-    // public Command autoDrive = new Command() 
-    // {
-
-        
-    //     @Override
-    //     public void execute()
-    //     {
-    //         updateDriveValues();
-    //     }
-
-    //     @Override
-    //     public boolean isFinished()
-    //     {
-    //         return atGoal();
-    //     }
-
-    //     @Override
-    //     public void end(boolean interrupted)
-    //     {
-    //         resetDriveValues();
-    //     }
-    // };
-
-
     
-    
-    public void updateDriveValues()
-    {
-        turningSpeed = thetaPIDController.calculate(xAngToRadians_Coral); /*Rads / sec */
-        ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
-    }
     public void resetDriveValues()
     {
         turningSpeed = 0;
@@ -121,22 +88,9 @@ public LimelightHelpers.PoseEstimate mt2;
     }
 
 
-    // public Command autoDriveToggle()
-    // {
-    //     return Commands.runOnce(()->
-    //     {
-    //         autoDriveToggle = !autoDriveToggle;
-    //     });
-    // }
-
-    // public Command autoDriveCheck()
-    // {
-    //     return Commands.waitUntil(this::atGoal);
-    // }
-
-    public Command autoDrive = new Command() {
+    public Command autoAlgae = new Command()
+    {
         
-
         @Override
         public void initialize()
         {
@@ -146,69 +100,175 @@ public LimelightHelpers.PoseEstimate mt2;
         @Override
         public void execute()
         {
-            updateDriveValues();
-            autoDriveToggle = true;
+            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
+            ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
             s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
         }
 
         @Override
         public boolean isFinished()
         {
-            return atGoal() || !hasTargets_Coral;
+            return atGoal() || !hasTarget(limelight_Algae);
         }
 
         @Override
         public void end(boolean interrupted)
         {
-            autoDriveToggle = false;
+            resetDriveValues();
         }
     };
 
+    public Command autoProcessor = new Command()
+    {
+        
+        @Override
+        public void initialize()
+        {
+            s_swerve.faceAllFoward();
+        }
+        
+        @Override
+        public void execute()
+        {
+            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
+            // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
+            s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
+        }
 
+        @Override
+        public boolean isFinished()
+        {
+            return atGoal() || !hasTarget(limelight_Algae);
+        }
+
+        @Override
+        public void end(boolean interrupted)
+        {
+            resetDriveValues();
+        }
+    };
+
+    public Command autoReef = new Command()
+    {
+        
+        @Override
+        public void initialize()
+        {
+            s_swerve.faceAllFoward();
+        }
+        
+        @Override
+        public void execute()
+        {
+            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
+            // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
+            s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
+        }
+
+        @Override
+        public boolean isFinished()
+        {
+            return atGoal() || !hasTarget(limelight_Algae);
+        }
+
+        @Override
+        public void end(boolean interrupted)
+        {
+            resetDriveValues();
+        }
+    };
+
+    public Command autoSource = new Command()
+    {
+        
+        @Override
+        public void initialize()
+        {
+            s_swerve.faceAllFoward();
+        }
+        
+        @Override
+        public void execute()
+        {
+            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
+            // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
+            s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
+        }
+
+        @Override
+        public boolean isFinished()
+        {
+            return atGoal() || !hasTarget(limelight_Algae);
+        }
+
+        @Override
+        public void end(boolean interrupted)
+        {
+            resetDriveValues();
+        }
+    };
+
+    
+
+
+
+    public double getXAng_Rad(String camera)
+    {
+        return Math.toRadians(LimelightHelpers.getTX(camera));
+    }
+
+    public double getYAng_Rad(String camera)
+    {
+        return Math.toRadians(LimelightHelpers.getTY(camera));
+    }
+
+    public boolean hasTarget(String camera)
+    {
+        return LimelightHelpers.getTV(camera);
+    }
+
+    public double distanceY(String camera)
+    {
+        return (((13 - constants_Limelight.getCameraList(camera).get(3)) / (Math.tan(Math.toRadians(getYAng_Rad(camera)+constants_Limelight.getCameraList(camera).get(0))))) + constants_Limelight.getCameraList(camera).get(1)) * 0.0254; //meters from target to center of robot
+    }
+
+    // public double distanceX(String camera)
+    // {
+    //     return (Math.cos(Math.toRadians(distanceY/xAng_Coral))) * 0.0254;//meters to center of robot
+    // }
 
     @Override
-    public void periodic(){
-        
-        
+    public void periodic()
+    {
         
         // botPose_targetSpace = LimelightHelpers.getBotPose_TargetSpace(limelight_Coral);
         // targetPose_robotSpace = LimelightHelpers.getTargetPose_RobotSpace(limelight_Coral);
         // localizedPose = LimelightHelpers.getBotPose_wpiBlue(limelight_Coral);
-        LimelightHelpers.setPipelineIndex(limelight_Coral, 1);
-        LimelightHelpers.setPipelineIndex(limelight_Tags, 0);
-        xAng_Coral = LimelightHelpers.getTX(limelight_Coral);
-        xAngToRadians_Coral = Math.toRadians(xAng_Coral);
-        yAng_Coral = LimelightHelpers.getTY(limelight_Coral);
-        yAngToRadians_Coral = Math.toRadians(yAng_Coral);
-        hasTargets_Coral = LimelightHelpers.getTV(limelight_Coral);
-        // targetID = LimelightHelpers.getFiducialID(limelight_Coral);
-        // targetArea = LimelightHelpers.getTA(limelight_Coral);
+        LimelightHelpers.setPipelineIndex(limelight_Coral, 0);
+        LimelightHelpers.setPipelineIndex(limelight_Algae, 0);
         
-        distanceY = (((13 - constants_Limelight.HEIGHT_CORAL) / (Math.tan(Math.toRadians(yAng_Coral+constants_Limelight.ANGLE_CORAL)))) + constants_Limelight.DISTANCE_FORWARD_CORAL) * 0.0254; //meters from target to center of robot
-        distanceX = (Math.cos(Math.toRadians(distanceY/xAng_Coral))) * 0.0254;//meters to center of robot
+        // distanceY = (((13 - constants_Limelight.HEIGHT_CORAL) / (Math.tan(Math.toRadians(yAng_Coral+constants_Limelight.ANGLE_CORAL)))) + constants_Limelight.DISTANCE_FORWARD_CORAL) * 0.0254; //meters from target to center of robot
+        // distanceX = (Math.cos(Math.toRadians(distanceY/xAng_Coral))) * 0.0254;//meters to center of robot
         
-        updateDriveValues();
-
-        // xSpeed = -1 * xPIDController.calculate(correctionX); //m/sec
 
 
         // s_swerve.m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
         // s_swerve.m_poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
 
-        SmartDashboard.putNumber("Distance Horizontal", distanceX);
-        SmartDashboard.putNumber("Distance Forward", distanceY);
-        SmartDashboard.putNumber("Turning Speed", turningSpeed);
-        // SmartDashboard.putNumber("TA Value", targetArea);
-        // SmartDashboard.putNumber("X Speed", xSpeed);
-        SmartDashboard.putBoolean("Has Targets", hasTargets_Coral);
-        SmartDashboard.putNumber("Y Speed", ySpeed);
-        SmartDashboard.putNumber("TX Value", xAng_Coral);
-        SmartDashboard.putNumber("TY Value", yAng_Coral);
+        // SmartDashboard.putNumber("Distance Horizontal", distanceX);
+        // SmartDashboard.putNumber("Distance Forward", distanceY);
+        // SmartDashboard.putNumber("Turning Speed", turningSpeed);
+        // // SmartDashboard.putNumber("TA Value", targetArea);
+        // // SmartDashboard.putNumber("X Speed", xSpeed);
+        // SmartDashboard.putBoolean("Has Targets", hasTargets_Coral);
+        // SmartDashboard.putNumber("Y Speed", ySpeed);
+        // SmartDashboard.putNumber("TX Value", xAng_Coral);
+        // SmartDashboard.putNumber("TY Value", yAng_Coral);
 
-        SmartDashboard.putBoolean("autoDrive", autoDriveToggle);
+        // SmartDashboard.putBoolean("autoDrive", autoDriveToggle);
 
-        SmartDashboard.putBoolean("Thetha goal", thetaPIDController.atSetpoint());
-        SmartDashboard.putBoolean("Linear goal", yPIDController.atSetpoint());
+        // SmartDashboard.putBoolean("Thetha goal", thetaPIDController.atSetpoint());
+        // SmartDashboard.putBoolean("Linear goal", yPIDController.atSetpoint());
 
         // SmartDashboard.putString("Pose Estimate", mt2.pose.toString());
 

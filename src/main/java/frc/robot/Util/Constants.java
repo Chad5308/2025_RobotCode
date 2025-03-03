@@ -4,7 +4,9 @@
 
 package frc.robot.Util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -278,15 +280,14 @@ public final class Constants {
     public static final double LINEAR_I = 0.001;
     public static final double LINEAR_D = 0.05;
 
-    public static final double ANGLE_CORAL = -15;
-    public static final double DISTANCE_FORWARD_CORAL = 5; //inches
-    public static final double DISTANCE_RIGHT_CORAL = -3; //inches
-    public static final double HEIGHT_CORAL = 23.75; //inches
+    public static List<Double> coral_Dimensions = List.of(Math.toRadians(0), 0.0, 0.0, 0.0, 12.0, 58.5); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightReef, HeightSource
+    public static List<Double> algae_Dimensions = List.of(Math.toRadians(0), 0.0, 0.0, 0.0, 8.0, 55.88); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightAlgae, HeightProcessor
 
-    public static final double ANGLE_TAGS = 15;
-    public static final double DISTANCE_FORWARD_TAGS = 3; //inches
-    public static final double DISTANCE_RIGHT_TAGS = -3; //inches
-    public static final double HEIGHT_TAGS = 24.5; //inches
+
+    public static List<Double> getCameraList(String camera)
+    {
+      return camera.equals("limelight-Coral") ? coral_Dimensions : algae_Dimensions;
+    }
   }
 
 
