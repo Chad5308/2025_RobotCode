@@ -45,7 +45,7 @@ public class Swerve extends SubsystemBase{
             Thread.sleep(500);
             zeroHeading();
         } catch (Exception e) {}}).start();    
-        alliance = getAlliance();
+        // alliance = getAlliance();
     }
         
     //gyro int and heading code
@@ -74,15 +74,15 @@ public class Swerve extends SubsystemBase{
     
     public boolean allianceCheck() 
     {
-        if (alliance.isPresent() && (alliance.get() == Alliance.Red)) {isRedAlliance = true;}else{isRedAlliance = false;}
-        return isRedAlliance;
+        // if (alliance.isPresent() && (alliance.get() == Alliance.Red)) {isRedAlliance = true;}else{isRedAlliance = false;}
+        // return isRedAlliance;
+        var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
     }
-    
-    public Optional<Alliance> getAlliance() 
-    {
-        return DriverStation.getAlliance();
-    }
-    
+
     //Odometer code
     public final SwerveDriveOdometry odometer = new SwerveDriveOdometry
     (
@@ -93,12 +93,12 @@ public class Swerve extends SubsystemBase{
     
     public Pose2d getPose() 
     {
-        return odometer.getPoseMeters();
+        return odometer.getPoseMeters().rotateBy(Rotation2d.fromDegrees(180));
     }
     
     public void resetOdometry(Pose2d pose) 
     {
-        odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
+        odometer.resetPosition(getRotation2d(), getModulePositions(), pose.rotateBy(Rotation2d.fromDegrees(180)));
     }
     
     public static SwerveModulePosition[] getModulePositions()
@@ -169,16 +169,16 @@ public class Swerve extends SubsystemBase{
         SmartDashboard.putBoolean("fieldOriented", fieldOriented);
         
         //AE Degrees Reading
-        SmartDashboard.putNumber("Back Left AE Value", backLeftModule.getABSPosition());
-        SmartDashboard.putNumber("Back Right AE Value", backRightModule.getABSPosition());
         SmartDashboard.putNumber("Front Left AE Value", frontLeftModule.getABSPosition());
         SmartDashboard.putNumber("Front Right AE Value", frontRightModule.getABSPosition());
+        SmartDashboard.putNumber("Back Left AE Value", backLeftModule.getABSPosition());
+        SmartDashboard.putNumber("Back Right AE Value", backRightModule.getABSPosition());
 
         //RE Degrees Reading
-        SmartDashboard.putNumber("Back left RE Value", backLeftModule.getModulePosition().angle.getDegrees());
-        SmartDashboard.putNumber("Back Right RE Value", backRightModule.getModulePosition().angle.getDegrees());
         SmartDashboard.putNumber("Front left RE Value", frontLeftModule.getModulePosition().angle.getDegrees());
         SmartDashboard.putNumber("Front Right RE Value", frontRightModule.getModulePosition().angle.getDegrees());
+        SmartDashboard.putNumber("Back left RE Value", backLeftModule.getModulePosition().angle.getDegrees());
+        SmartDashboard.putNumber("Back Right RE Value", backRightModule.getModulePosition().angle.getDegrees());
         //RE Distance Reading
         SmartDashboard.putNumber("Front Left Drive Position", frontLeftModule.getDrivePosition());
         SmartDashboard.putNumber("Front Right Drive Position", frontRightModule.getDrivePosition());

@@ -71,7 +71,7 @@ public final class Constants {
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
       new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), //front left
         new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2), //front right
-        new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2), //back left
+        new Translation2d(-WHEEL_BASE / 2,  TRACK_WIDTH / 2), //back left
         new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)); //back right
 
     public static final double MODULE_RADIUS = Units.inchesToMeters(Constants.constants_Drive.TRACK_WIDTH/2); //measured from center of robot to furthest module.
@@ -105,7 +105,7 @@ public final class Constants {
     //For limiting speed while driving
     public static final double TELEDRIVE_MAX_SPEED_METERS_PER_SEC = MAX_SPEED_METERS_PER_SEC / 1.0;
     public static final double TELEDRIVE_MAX_ANGULAR_SPEED_RPS = MAX_ANGULAR_SPEED_RPS / 1.0;
-    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = MAX_SPEED_METERS_PER_SEC/1.5;
+    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = MAX_SPEED_METERS_PER_SEC/1.25;
     public static final double TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC/(TRACK_WIDTH/2);
   }
 
@@ -301,7 +301,7 @@ public final class Constants {
     public static  double I_TRANSLATION = 0.0;
     public static  double D_TRANSLATION = 0.0;
 
-    public static final double P_THETA = 5;
+    public static final double P_THETA = 3;
     public static final double I_THETA = 0.0;
     public static final double D_THETA = 0.0;
 
