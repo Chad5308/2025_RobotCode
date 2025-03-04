@@ -80,8 +80,7 @@ public class RobotMap
     public static final class MAP_PWM_LIGHTS
     {   // coral = blue; algae = green; color 2 = blue; color 1 = green
         // MAKE PREP STATES A PATTERN OF THEIR PARENT STATE (IF PWM_NONE IS GRAY, MAKE PWM_PREP_NONE FLASHING GRAY OR SOMETHING)
-        public static final int BLINKEN_1_PORT = 9;
-        public static final int BLINKEN_2_PORT = 8;
+        public static final int BLINKEN_PORT = 9;
         public static final double PWM_NONE_COLOR = 0.93; // SOLID WHITE
         public static final double PWM_SOURCE_COLOR = 0.33; // COLOR 2 SHOT
         public static final double PWM_INTAKE_ALGAE_PATTERN = 0.15; // COLOR 1 STROBE
