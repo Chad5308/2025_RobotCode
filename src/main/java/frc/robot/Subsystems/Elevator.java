@@ -177,7 +177,6 @@ public class Elevator extends SubsystemBase
         SmartDashboard.putNumber("Right Relative Position", ELE_RIGHT_ENCODER.getPosition());
         SmartDashboard.putNumber("Roller Position", ELE_ROLLER_ENCODER.getPosition()); //TODO This can be deleted or commented out once it is found if this wheel rotates to push the game piece out is positive rotation
         SmartDashboard.putNumber("Elevator Canrange", getDistance());
-        SmartDashboard.putBoolean("CANRANGE Coral Detection", getGamePieceStored());
     }
 
 }

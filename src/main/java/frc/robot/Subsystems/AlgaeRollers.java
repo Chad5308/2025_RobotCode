@@ -91,31 +91,30 @@ public class AlgaeRollers extends SubsystemBase
 
     public void intakeAlgae()
     {
-        //ROLLERS.set(0.25);
+        ROLLERS.set(0.25);
     }
 
     public void retractIntakeNone()
     {
-        // while(!isRollersInPosition(90))
-        // {
-        //     ROLLERS.set(-0.25);
-        // }
-        // ROLLERS.set(0);
+        while(!isRollersInPosition(0))
+        {
+            ROLLERS.set(-0.25);
+        }
+        ROLLERS.set(0);
     }
     
 
-    // public void retractIntakeAlgae()
-    // {
-    //     while(!isRollersInPosition(60))
-    //     {
-    //         ROLLERS.set(-0.25);
-    //     }
-    // }
+    public void retractIntakeAlgae()
+    {
+        while(!isRollersInPosition(25))
+        {
+            ROLLERS.set(-0.25);
+        }
+    }
 
     public boolean isRollersInPosition(double position)
     {
-        // return (Math.abs(getPosition()- position) < constants_Rollers.ROLLER_ANGLE_TOLERANCE);
-        return true;
+        return (Math.abs(getPosition()- position) < constants_Rollers.ROLLER_ANGLE_TOLERANCE);
     }
 
 
