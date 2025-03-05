@@ -4,11 +4,9 @@
 
 package frc.robot.Util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -232,8 +230,6 @@ public final class Constants {
     }
   }
 
-
-
   public static final class constants_OI {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OP_CONTROLLER_PORT = 1;
@@ -243,7 +239,6 @@ public final class Constants {
   }
  
 
-  
   public static final class constants_AprilTags{ //[id num, height in inches, coordinate x, coordinate y, heading] inches to meters; use field manual image for id reference
     public static final double[] RED_CS_X = {1, 1.4859, 16.6992, 0.6553, 126};
     public static final double[] RED_CS_Y = {2, 1.4859, 16.6992, 7.4048, 234};

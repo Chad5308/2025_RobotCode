@@ -5,18 +5,13 @@ package frc.robot.Commands;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.controllers.PathFollowingController;
 import com.pathplanner.lib.events.EventTrigger;
-
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Util.Constants.constants_Auto;
-import frc.robot.Util.Constants.constants_Drive;
-import frc.robot.Util.Constants.constants_Module;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Elevator;
@@ -62,16 +57,9 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
 
             
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Swerve.faceAllFoward()));
-        // NamedCommands.registerCommand("AutoDrive", Commands.runOnce(() -> s_Vision.autoDrive.schedule()));
-
-        NamedCommands.registerCommand("PREP_ALGAE", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_ALGAE);}).andThen
-        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
 
         NamedCommands.registerCommand("SCORING", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.SCORING);}).andThen
         (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))).andThen((Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))));
-
-        NamedCommands.registerCommand("PREP_NONE", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_NONE);}).andThen
-        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
         
 
         new EventTrigger("PREP_L3").onTrue(Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L3);}).andThen

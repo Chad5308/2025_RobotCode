@@ -131,7 +131,7 @@ public LimelightHelpers.PoseEstimate mt2;
         public void execute()
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-            // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
+            ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
             s_swerve.setModuleStates(new ChassisSpeeds(-ySpeed, 0, turningSpeed));
         }
 
@@ -178,35 +178,35 @@ public LimelightHelpers.PoseEstimate mt2;
         }
     };
 
-    public Command autoSource = new Command()
-    {
+    // public Command autoSource = new Command()
+    // {
         
-        @Override
-        public void initialize()
-        {
-            s_swerve.faceAllFoward();
-        }
+    //     @Override
+    //     public void initialize()
+    //     {
+    //         s_swerve.faceAllFoward();
+    //     }
         
-        @Override
-        public void execute()
-        {
-            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-            // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
-            s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
-        }
+    //     @Override
+    //     public void execute()
+    //     {
 
-        @Override
-        public boolean isFinished()
-        {
-            return atGoal() || !hasTarget(limelight_Algae);
-        }
+    //         // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
+    //         // s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
+    //     }
 
-        @Override
-        public void end(boolean interrupted)
-        {
-            resetDriveValues();
-        }
-    };
+    //     @Override
+    //     public boolean isFinished()
+    //     {
+    //         return atGoal() || !hasTarget(limelight_Algae);
+    //     }
+
+    //     @Override
+    //     public void end(boolean interrupted)
+    //     {
+    //         resetDriveValues();
+    //     }
+    // };
 
     
 

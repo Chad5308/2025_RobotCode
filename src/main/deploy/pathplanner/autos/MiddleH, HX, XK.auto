@@ -1,0 +1,74 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "FaceForward Wheels"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SOURCE"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle_H"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HX"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SOURCE"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "XK"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "2 Piece",
+  "choreoAuto": false
+}

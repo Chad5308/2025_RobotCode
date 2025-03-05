@@ -1,0 +1,50 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "FaceForward Wheels"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SOURCE"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right_E"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "EY"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "1 Piece",
+  "choreoAuto": false
+}
