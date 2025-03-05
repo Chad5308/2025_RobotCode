@@ -241,38 +241,22 @@ public LimelightHelpers.PoseEstimate mt2;
     public void periodic()
     {
         
-        // botPose_targetSpace = LimelightHelpers.getBotPose_TargetSpace(limelight_Coral);
-        // targetPose_robotSpace = LimelightHelpers.getTargetPose_RobotSpace(limelight_Coral);
-        // localizedPose = LimelightHelpers.getBotPose_wpiBlue(limelight_Coral);
         LimelightHelpers.setPipelineIndex(limelight_Coral, 0);
         LimelightHelpers.setPipelineIndex(limelight_Algae, 0);
         
+        SmartDashboard.putNumberArray(limelight_Algae + " Debugging values", new Double[]{getXAng_Rad(limelight_Algae), getYAng_Rad(limelight_Algae),turningSpeed});
+        // SmartDashboard.putNumberArray(limelight_Coral + " Debugging values", new Double[]{getXAng_Rad(limelight_Coral), getYAng_Rad(limelight_Coral),turningSpeed, ySpeed, distanceY(limelight_Coral)});
+        
         // distanceY = (((13 - constants_Limelight.HEIGHT_CORAL) / (Math.tan(Math.toRadians(yAng_Coral+constants_Limelight.ANGLE_CORAL)))) + constants_Limelight.DISTANCE_FORWARD_CORAL) * 0.0254; //meters from target to center of robot
         // distanceX = (Math.cos(Math.toRadians(distanceY/xAng_Coral))) * 0.0254;//meters to center of robot
-        
-
-
+ 
         // s_swerve.m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
         // s_swerve.m_poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
-
-        // SmartDashboard.putNumber("Distance Horizontal", distanceX);
-        // SmartDashboard.putNumber("Distance Forward", distanceY);
-        // SmartDashboard.putNumber("Turning Speed", turningSpeed);
-        // // SmartDashboard.putNumber("TA Value", targetArea);
-        // // SmartDashboard.putNumber("X Speed", xSpeed);
-        // SmartDashboard.putBoolean("Has Targets", hasTargets_Coral);
-        // SmartDashboard.putNumber("Y Speed", ySpeed);
-        // SmartDashboard.putNumber("TX Value", xAng_Coral);
-        // SmartDashboard.putNumber("TY Value", yAng_Coral);
-
-        // SmartDashboard.putBoolean("autoDrive", autoDriveToggle);
-
-        // SmartDashboard.putBoolean("Thetha goal", thetaPIDController.atSetpoint());
-        // SmartDashboard.putBoolean("Linear goal", yPIDController.atSetpoint());
-
         // SmartDashboard.putString("Pose Estimate", mt2.pose.toString());
-
-
+        // SmartDashboard.putBoolean("Has Targets", hasTargets_Coral);
+        // botPose_targetSpace = LimelightHelpers.getBotPose_TargetSpace(limelight_Coral);
+        // targetPose_robotSpace = LimelightHelpers.getTargetPose_RobotSpace(limelight_Coral);
+        // localizedPose = LimelightHelpers.getBotPose_wpiBlue(limelight_Coral);
         // SmartDashboard.putNumber("BotPose X", botPose_targetSpace[0]);
         // SmartDashboard.putNumber("BotPose Y", botPose_targetSpace[1]);
         // SmartDashboard.putNumber("BotPose Z", botPose_targetSpace[2]);
