@@ -40,7 +40,7 @@ import frc.robot.Subsystems.Drive.Swerve;
  */
 public class RobotContainer {
   public SendableChooser<String> autoChooser1, autoChooser2, autoChooser3;
-  public String selection1, selection2, selection3, finalSelection;
+  public String finalSelection;
 
   
   public Controllers u_Controllers;
@@ -212,49 +212,49 @@ public class RobotContainer {
   
   public void configureAutoChoosers()
   {
-    //1 Paths
-    autoChooser1.addOption("1A", selection1 = "1A");
-    autoChooser1.addOption("1J", selection1 = "1J");
-    autoChooser1.addOption("1K", selection1 = "1K");
-    autoChooser1.addOption("1L", selection1 = "1L");
-    //2 Paths
-    autoChooser1.addOption("2H", selection1 = "2H");
-    autoChooser1.addOption("2I", selection1 = "2I");
-    autoChooser1.addOption("2J", selection1 = "2J");
-    autoChooser1.addOption("2K", selection1 = "2K");
-    //3 Paths
-    autoChooser1.addOption("3E", selection1 = "3E");
-    autoChooser1.addOption("3F", selection1 = "3F");
-    autoChooser1.addOption("3G", selection1 = "3G");
-    autoChooser1.addOption("3H", selection1 = "3H");
-    autoChooser1.addOption("3I", selection1 = "3I");
-  
+    //Left Paths
+    autoChooser1.addOption("Left_I", "Left_I");
+    autoChooser1.addOption("Left_J", "Left_J");
+    autoChooser1.addOption("Left_Leave", "Left_Leave");
+
+    //Middle Paths
+    autoChooser1.addOption("Middle_G", "Middle_G");
+    autoChooser1.addOption("Middle_H", "Middle_H");
+    autoChooser1.addOption("Middle_Leave", "Middle_Leave");
+    
+    
+    //Right Paths
+    autoChooser1.addOption("Right_E", "Right_E");
+    autoChooser1.addOption("Right_F", "Right_F");
+    autoChooser1.addOption("Right_Leave", "Right_Leave");
+
     //X Paths
-    autoChooser2.addOption("AX", selection2 = "AX");
-    autoChooser2.addOption("IX", selection2 = "IX");
-    autoChooser2.addOption("JX", selection2 = "JX");
-    autoChooser2.addOption("KX", selection2 = "KX");
-    autoChooser2.addOption("LX", selection2 = "LX");
+    autoChooser2.addOption("AX", "AX");
+    autoChooser2.addOption("IX", "IX");
+    autoChooser2.addOption("JX", "JX");
+    autoChooser2.addOption("KX", "KX");
+    autoChooser2.addOption("LX", "LX");
+    autoChooser2.addOption("HX", "HX");
     //Y Paths
-    autoChooser2.addOption("AY", selection2 = "AY");
-    autoChooser2.addOption("EY", selection2 = "EY");
-    autoChooser2.addOption("FY", selection2 = "FY");
-    autoChooser2.addOption("GY", selection2 = "GY");
-    autoChooser2.addOption("HY", selection2 = "HY");
+    autoChooser2.addOption("AY", "AY");
+    autoChooser2.addOption("EY", "EY");
+    autoChooser2.addOption("FY", "FY");
+    autoChooser2.addOption("GY", "GY");
+    autoChooser2.addOption("HY", "HY");
 
     //Return X Paths
-    autoChooser3.addOption("XA", selection3 = "XA");
-    autoChooser3.addOption("XI", selection3 = "XI");
-    autoChooser3.addOption("XJ", selection3 = "XJ");
-    autoChooser3.addOption("XK", selection3 = "XK");
-    autoChooser3.addOption("XL", selection3 = "XL");
+    autoChooser3.addOption("XA", "XA");
+    autoChooser3.addOption("XI", "XI");
+    autoChooser3.addOption("XJ", "XJ");
+    autoChooser3.addOption("XK", "XK");
+    autoChooser3.addOption("XL", "XL");
     //Return Y Paths
-    autoChooser3.addOption("YA", selection3 = "YA");
-    autoChooser3.addOption("YB", selection3 = "YB");
-    autoChooser3.addOption("YC", selection3 = "YC");
-    autoChooser3.addOption("YD", selection3 = "YD");
-    autoChooser3.addOption("YE", selection3 = "YE");
-    autoChooser3.addOption("YF", selection3 = "YF");
+    autoChooser3.addOption("YA", "YA");
+    autoChooser3.addOption("YB", "YB");
+    autoChooser3.addOption("YC", "YC");
+    autoChooser3.addOption("YD", "YD");
+    autoChooser3.addOption("YE", "YE");
+    autoChooser3.addOption("YF", "YF");
   }
 
 
@@ -265,32 +265,29 @@ public class RobotContainer {
 
     // Before initializing finalSelection, get the current
     // choice for each autoChooser object.
-    selection1 = autoChooser1.getSelected();
-    selection2 = autoChooser2.getSelected();
-    selection3 = autoChooser3.getSelected();
     System.out.printf("***** Auto selected: %s %s %s\n", 
-                      selection1, 
-                      selection2, 
-                      selection3);
+                      autoChooser1.getSelected(), 
+                      autoChooser2.getSelected(), 
+                      autoChooser3.getSelected());
 
     // We need some logic to handle the case when the path is only
     // one or two legs.  Below is a sample of one way to deal with 
     // that.  Question: What should we do if the selection1 is null?
-    finalSelection = selection1;
+    finalSelection = autoChooser1.getSelected();
     if(finalSelection == null)
     {
       System.out.print("***** WARNING: No auto path selected.");
     }
     else
     {
-      if(selection2 != null)
+      if(autoChooser2.getSelected() != null)
       {
-        finalSelection += ", " + selection2;
+        finalSelection += ", " + autoChooser2.getSelected();
       }
 
-      if(selection3 != null)
+      if(autoChooser3.getSelected() != null)
       {
-        finalSelection += ", " + selection3;
+        finalSelection += ", " + autoChooser3.getSelected();
       }
    }
 

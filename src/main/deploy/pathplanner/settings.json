@@ -4,17 +4,19 @@
   "holonomicMode": true,
   "pathFolders": [
     "Left",
-    "Right",
     "Middle",
+    "Leave Paths",
     "Return-X",
     "Return-Y",
+    "Right",
     "X",
     "Y"
   ],
   "autoFolders": [
     "1 Piece",
     "2 Piece",
-    "3 Piece"
+    "3 Piece",
+    "Leave Autos"
   ],
   "defaultMaxVel": 6.5,
   "defaultMaxAccel": 4.0,

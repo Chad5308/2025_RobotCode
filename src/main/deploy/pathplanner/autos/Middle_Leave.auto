@@ -26,25 +26,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right_F"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SCORING"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FY"
+            "pathName": "Middle_Leave"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "1 Piece",
+  "folder": "Leave Autos",
   "choreoAuto": false
 }

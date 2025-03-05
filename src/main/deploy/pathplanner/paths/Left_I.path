@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.182277397260274,
-        "y": 6.151134417808219
+        "x": 6.221859809073303,
+        "y": 5.731373768796698
       },
       "isLocked": false,
-      "linkedName": "Left Wing"
+      "linkedName": "Left_Wing"
     },
     {
       "anchor": {
-        "x": 5.3,
-        "y": 5.1
+        "x": 5.099756493506494,
+        "y": 5.193100649350649
       },
       "prevControl": {
-        "x": 5.243450342465753,
-        "y": 5.535338184931506
+        "x": 5.434756652710437,
+        "y": 5.354846030595841
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "PREP_L3",
+      "name": "PREP_L2",
       "waypointRelativePos": 0.85,
       "endWaypointRelativePos": null,
       "command": null

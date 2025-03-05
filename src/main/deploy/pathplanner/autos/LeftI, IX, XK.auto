@@ -5,6 +5,25 @@
     "data": {
       "commands": [
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "FaceForward Wheels"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SOURCE"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Left_I"
@@ -37,7 +56,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "XA"
+            "pathName": "XK"
           }
         },
         {

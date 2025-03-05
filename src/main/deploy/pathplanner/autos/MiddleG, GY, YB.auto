@@ -5,9 +5,28 @@
     "data": {
       "commands": [
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "FaceForward Wheels"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SOURCE"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Right_F"
+            "pathName": "Middle_G"
           }
         },
         {
@@ -19,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FY"
+            "pathName": "GY"
           }
         },
         {
@@ -37,7 +56,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "YD"
+            "pathName": "YB"
           }
         },
         {
