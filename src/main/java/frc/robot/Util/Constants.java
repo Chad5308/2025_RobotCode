@@ -276,12 +276,29 @@ public final class Constants {
     public static final double LINEAR_D = 0.05;
 
     public static List<Double> coral_Dimensions = List.of(Math.toRadians(0), 0.0, 0.0, 0.0, 12.0, 58.5); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightReef, HeightSource
-    public static List<Double> algae_Dimensions = List.of(Math.toRadians(0), 0.0, 0.0, 0.0, 8.0, 55.88); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightAlgae, HeightProcessor
+    public static List<Double> algae_Dimensions = List.of(Math.toRadians(-25), 0.0, 0.0, 0.0, 8.0, 55.88); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightAlgae, HeightProcessor
 
 
     public static List<Double> getCameraList(String camera)
     {
       return camera.equals("limelight-Coral") ? coral_Dimensions : algae_Dimensions;
+    }
+
+    public static double getTargetHeight(String target)
+    {
+      switch(target)
+      {
+        case "Reef":
+          return coral_Dimensions.get(4);
+        case "Source":
+          return coral_Dimensions.get(5);
+        case "Algae":
+          return algae_Dimensions.get(4);
+        case "Processor":
+          return algae_Dimensions.get(5);
+      }
+
+      return 0;
     }
   }
 

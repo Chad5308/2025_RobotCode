@@ -33,7 +33,7 @@ public ProfiledPIDController thetaPIDController;
 public ProfiledPIDController xPIDController, yPIDController;
 public BooleanSupplier interrupted;
 public String limelight_Coral = "limelight-coral";
-public String limelight_Algae = "liemlight-algae";
+public String limelight_Algae = "limelight-algae";
 
 public LimelightResults r_limelight;
 
@@ -101,7 +101,7 @@ public LimelightHelpers.PoseEstimate mt2;
         public void execute()
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-            ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
+            ySpeed = yPIDController.calculate(distanceY); /*m/sec */
             s_swerve.setModuleStates(new ChassisSpeeds(-ySpeed, 0, turningSpeed));
         }
 
@@ -131,7 +131,7 @@ public LimelightHelpers.PoseEstimate mt2;
         public void execute()
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-            ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
+            ySpeed = yPIDController.calculate(distanceY); /*m/sec */
             s_swerve.setModuleStates(new ChassisSpeeds(-ySpeed, 0, turningSpeed));
         }
 
@@ -227,9 +227,9 @@ public LimelightHelpers.PoseEstimate mt2;
         return LimelightHelpers.getTV(camera);
     }
 
-    public double distanceY(String camera)
+    public double distanceY(String camera, String target)
     {
-        return (((13 - constants_Limelight.getCameraList(camera).get(3)) / (Math.tan(Math.toRadians(getYAng_Rad(camera)+constants_Limelight.getCameraList(camera).get(0))))) + constants_Limelight.getCameraList(camera).get(1)) * 0.0254; //meters from target to center of robot
+        return (((constants_Limelight.getTargetHeight(target) - constants_Limelight.getCameraList(camera).get(3)) / (Math.tan(Math.toRadians(getYAng_Rad(camera)+constants_Limelight.getCameraList(camera).get(0))))) + constants_Limelight.getCameraList(camera).get(1)) * 0.0254; //meters from target to center of robot
     }
 
     // public double distanceX(String camera)
