@@ -64,10 +64,6 @@ public class Drive extends Command{
 
         drive();
 
-        SmartDashboard.putNumber("Xspeed", xSpeed);
-        SmartDashboard.putNumber("Yspeed", ySpeed);
-        SmartDashboard.putNumber("Thetaspeed", turningSpeed);
-
     }
     
     public void drive()

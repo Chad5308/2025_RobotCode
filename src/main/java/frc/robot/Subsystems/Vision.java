@@ -32,8 +32,8 @@ public double[] botPose_targetSpace, targetPose_robotSpace;
 public ProfiledPIDController thetaPIDController;
 public ProfiledPIDController xPIDController, yPIDController;
 public BooleanSupplier interrupted;
-public String limelight_Coral = "limelight-Coral";
-public String limelight_Algae = "liemlight-Algae";
+public String limelight_Coral = "limelight-coral";
+public String limelight_Algae = "liemlight-algae";
 
 public LimelightResults r_limelight;
 
@@ -102,7 +102,7 @@ public LimelightHelpers.PoseEstimate mt2;
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
             ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
-            s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
+            s_swerve.setModuleStates(new ChassisSpeeds(-ySpeed, 0, turningSpeed));
         }
 
         @Override
@@ -132,7 +132,7 @@ public LimelightHelpers.PoseEstimate mt2;
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
             // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
-            s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
+            s_swerve.setModuleStates(new ChassisSpeeds(-ySpeed, 0, turningSpeed));
         }
 
         @Override
@@ -162,7 +162,7 @@ public LimelightHelpers.PoseEstimate mt2;
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
             // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
-            s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
+            s_swerve.setModuleStates(new ChassisSpeeds(0, 0, turningSpeed));
         }
 
         @Override

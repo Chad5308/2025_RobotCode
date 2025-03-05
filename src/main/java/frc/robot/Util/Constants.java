@@ -192,7 +192,7 @@ public final class Constants {
     public static final double ANGLE_TO_DEGREES = 360 / ROLLER_GEAR_RATIO;
 
     public static final boolean ABS_INVERTED = false; //TODO follow the steps in the elvator subsytem to get this number
-    public static final double ABS_OFFSET = 320; //TODO follow the steps in the elvator subsytem to get this number
+    public static final double ABS_OFFSET = 315; //TODO follow the steps in the elvator subsytem to get this number
 
     public static final boolean ROLLER_INVERTED = false;
     public static final boolean ANGLE_INVERTED = false;

@@ -201,9 +201,11 @@ public class RobotContainer {
     u_Controllers.CLIMB_UP.whileTrue(s_Climber.climberUp());
     u_Controllers.CLIMB_UP.whileFalse(s_Climber.climberUp());
 
-    // u_Controllers.ALGAE_OVERRIDE.onChange(Commands.runOnce(()->{s_Rollers.ALGAE_OVERRIDE = !s_Rollers.ALGAE_OVERRIDE;}));
-    u_Controllers.ALGAE_OVERRIDE.onChange(Commands.runOnce(()->{if(s_Rollers.getSpeed() > 0){s_Rollers.ROLLERS.set(0.25);} else {s_Rollers.ROLLERS.set(0);} }));
-    u_Controllers.CORAL_OVERRIDE.onChange(Commands.runOnce(()->{s_Elevator.CORAL_OVERRIDE = !s_Elevator.CORAL_OVERRIDE;}));
+    u_Controllers.ALGAE_OVERRIDE.onTrue(Commands.runOnce(()->{s_Rollers.ALGAE_OVERRIDE = !s_Rollers.ALGAE_OVERRIDE;}));
+    // u_Controllers.ALGAE_OVERRIDE.onChange(Commands.runOnce(()->{if(s_Rollers.getSpeed() > 0){s_Rollers.ROLLERS.set(0.25);} else {s_Rollers.ROLLERS.set(0);} }));
+    u_Controllers.CORAL_OVERRIDE.onTrue(Commands.runOnce(()->{s_Elevator.CORAL_OVERRIDE = !s_Elevator.CORAL_OVERRIDE;}));
+
+    u_Controllers.leftStick.button(14).onTrue(s_Vision.autoReef);
   }
 
 
