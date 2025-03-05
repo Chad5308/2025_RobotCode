@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.108732876712329,
-        "y": 2.845483732876712
+        "x": 7.1,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.631594718817592,
-        "y": 2.6945791276135536
+        "x": 8.100000000000007,
+        "y": 4.0
       },
       "isLocked": false,
-      "linkedName": "E"
+      "linkedName": "Middle_Wing"
     },
     {
       "anchor": {
-        "x": 1.6227739726027397,
-        "y": 0.8019905821917803
+        "x": 5.8403782894736835,
+        "y": 3.8421875
       },
       "prevControl": {
-        "x": 1.401185920490421,
-        "y": 0.6862376765648878
+        "x": 6.100755001802451,
+        "y": 3.925111301369863
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Y"
+      "linkedName": "G"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "SOURCE",
-      "waypointRelativePos": 0.6813559322033875,
+      "name": "PREP_L3",
+      "waypointRelativePos": 0.85,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -49,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -130.5
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Y",
+  "folder": "Middle",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -150.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

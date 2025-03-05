@@ -3,9 +3,9 @@
   "robotLength": 0.826,
   "holonomicMode": true,
   "pathFolders": [
-    "Judge",
+    "Left",
+    "Right",
     "Middle",
-    "Far",
     "Return-X",
     "Return-Y",
     "X",
