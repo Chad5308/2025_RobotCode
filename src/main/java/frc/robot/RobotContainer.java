@@ -228,7 +228,6 @@ public class RobotContainer {
     autoChooser1.addOption("3G", selection1 = "3G");
     autoChooser1.addOption("3H", selection1 = "3H");
     autoChooser1.addOption("3I", selection1 = "3I");
-    autoChooser1.addOption("Test", selection1 = "Test");
   
     //X Paths
     autoChooser2.addOption("AX", selection2 = "AX");
@@ -256,7 +255,6 @@ public class RobotContainer {
     autoChooser3.addOption("YD", selection3 = "YD");
     autoChooser3.addOption("YE", selection3 = "YE");
     autoChooser3.addOption("YF", selection3 = "YF");
-
   }
 
 

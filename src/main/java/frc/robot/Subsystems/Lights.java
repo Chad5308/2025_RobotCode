@@ -6,23 +6,23 @@ import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 
 public class Lights extends SubsystemBase
 {   
-    public Spark blinken2;
+    public Spark blinken;
     // constructor method
     public Lights() 
     {
         // blinken1 = new Spark(MAP_PWM_LIGHTS.BLINKEN_1_PORT);
-        blinken2 = new Spark(MAP_PWM_LIGHTS.BLINKEN_2_PORT);
+        blinken = new Spark(MAP_PWM_LIGHTS.BLINKEN_PORT);
         // Spark is a class so blinken is a new instance of it
     }
     // get method
     public double getNumber() 
     {
-        return blinken2.get();
+        return blinken.get();
     }
     // set method
     public void setNumber(double PWM_NUMBER)
     {
-        blinken2.set(PWM_NUMBER);
+        blinken.set(PWM_NUMBER);
     }
 
 }
