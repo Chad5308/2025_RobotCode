@@ -258,12 +258,12 @@ public final class Constants {
     public static final double THETA_I = 0.0002;
     public static final double THETA_D = 0;
 
-    public static final double LINEAR_P = 1.25;
+    public static final double LINEAR_P = 2.25;
     public static final double LINEAR_I = 0.0;
     public static final double LINEAR_D = 0.0;
 
     public static List<Double> coral_Dimensions = List.of(Math.toRadians(0), 0.47625, -0.14605, 0.6096, 0.3048, 1.4859); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightReef, HeightSource
-    public static List<Double> algae_Dimensions = List.of(Math.toRadians(2), 0.127, 0.03175, 0.3302, 0.2032, 1.419352); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightAlgae, HeightProcessor
+    public static List<Double> algae_Dimensions = List.of(Math.toRadians(2),0.15875, 0.06985, 0.1905, 0.4064, 1.419352); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightAlgae, HeightProcessor
 
 
     public static List<Double> getCameraList(String camera)

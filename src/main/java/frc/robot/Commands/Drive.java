@@ -11,7 +11,7 @@ import frc.robot.Subsystems.Drive.Swerve;
 
 public class Drive extends Command{
 
-    private final Swerve s_Swerve;
+    public final Swerve s_Swerve;
     public final CommandJoystick left, right;
 
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
@@ -49,8 +49,8 @@ public class Drive extends Command{
 
     @Override
     public void execute() {
-        xSpeed = -right.getX();
-        ySpeed = -right.getY();
+        xSpeed = -right.getY();
+        ySpeed = -right.getX();
         turningSpeed = -left.getX();
         fieldOriented = s_Swerve.fieldOriented;
 
@@ -70,12 +70,24 @@ public class Drive extends Command{
     {
         if(fieldOriented)
         {
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(ySpeed, xSpeed, turningSpeed), s_Swerve.getRotation2d());
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(xSpeed, ySpeed, turningSpeed), s_Swerve.getRotation2d());
         }else
         {
-            chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
+            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
         }
         s_Swerve.setModuleStates(chassisSpeeds);        
+    }
+
+    public void driveAlgae(double xSpeed, double turningSpeed)
+    {
+        chassisSpeeds = new ChassisSpeeds(xSpeed, this.ySpeed, turningSpeed);
+        s_Swerve.setModuleStates(chassisSpeeds);
+    }
+
+    public void driveReef(double turningSpeed)
+    {
+        chassisSpeeds = new ChassisSpeeds(this.xSpeed, this.ySpeed, turningSpeed);
+        s_Swerve.setModuleStates(chassisSpeeds);
     }
 
 

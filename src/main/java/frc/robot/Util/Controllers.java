@@ -58,7 +58,6 @@ public class Controllers
         ELE_ROLLER = xbox.x();
         CORAL_OVERRIDE = xbox.povLeft();
         ALGAE_OVERRIDE = xbox.povRight();
-
     }
 
 }

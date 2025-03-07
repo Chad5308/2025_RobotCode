@@ -105,8 +105,8 @@ public class RobotContainer {
       u_Controllers = new Controllers();
       s_Swerve = new Swerve();
       h_Limelight = new LimelightHelpers();
-      s_Vision = new Vision(s_Swerve);
       c_Drive = new Drive(s_Swerve, u_Controllers.leftStick, u_Controllers.rightStick);
+      s_Vision = new Vision(c_Drive, s_Swerve, u_Controllers);
       s_StateMachine = new StateMachine();
       s_Climber = new Climber();
       s_Elevator = new Elevator();
@@ -124,6 +124,16 @@ public class RobotContainer {
     s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+    // Intake Algae Vision
+    u_Controllers.leftStick.trigger().and(u_Controllers.leftStick.button(3)).onTrue(Commands.deferredProxy(()->
+    s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    .onTrue(s_Vision.autoAlgae)
+    .onFalse(Commands.deferredProxy(()->
+    s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+    //Align Reef
+    u_Controllers.leftStick.button(4).whileTrue(s_Vision.autoReef);
     
     // Intake Coral
     u_Controllers.leftStick.button(2).whileTrue(Commands.deferredProxy(()->

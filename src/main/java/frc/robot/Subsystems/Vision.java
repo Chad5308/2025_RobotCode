@@ -1,7 +1,6 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.IntegerPublisher;
 import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
@@ -10,16 +9,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.LimelightHelpers;
+import frc.robot.Commands.Drive;
 import frc.robot.Subsystems.Drive.Swerve;
 import frc.robot.Util.Constants.constants_Auto;
 import frc.robot.Util.Constants.constants_Limelight;
+import frc.robot.Util.Controllers;
 import frc.robot.Util.LimelightHelpers.LimelightResults;
 
 import java.util.function.*;
 
 public class Vision extends SubsystemBase{
     
+public Drive c_Drive;
 public Swerve s_swerve;
+public Controllers u_Controllers;
 public NetworkTable networkTables;
 public IntegerSubscriber pipeline;
 public IntegerPublisher pipelinePublisher;
@@ -27,7 +30,7 @@ public double xSpeed, turningSpeed;
 public double[] localizedPose;
 public double[] botPose_targetSpace, targetPose_robotSpace;
 public ProfiledPIDController thetaPIDController;
-public ProfiledPIDController xPIDController, yPIDController;
+public ProfiledPIDController xPIDController;
 public BooleanSupplier interrupted;
 public String limelight_Coral = "limelight-coral";
 public String limelight_Algae = "limelight-algae";
@@ -41,16 +44,20 @@ public LimelightHelpers.PoseEstimate mt2;
 
 // public SlewRateLimiter tLimiter, xLimiter, zLimiter;
 
-    public Vision(Swerve s_swerve){
+    public Vision(Drive c_Drive, Swerve s_swerve, Controllers u_Controllers){
+        this.c_Drive = c_Drive;
         this.s_swerve = s_swerve;
+        this.u_Controllers = u_Controllers;
         networkTables = NetworkTableInstance.getDefault().getTable("limelight");
         pipelinePublisher = networkTables.getIntegerTopic("limelight.getpipeline").publish();
         
         
         thetaPIDController = new ProfiledPIDController(constants_Limelight.THETA_P, constants_Limelight.THETA_I, constants_Limelight.THETA_D, constants_Auto.THETA_CONTROLLER_CONSTRAINTS);
         xPIDController = new ProfiledPIDController(constants_Limelight.LINEAR_P, constants_Limelight.LINEAR_I, constants_Limelight.LINEAR_D, constants_Auto.LINEAR_CONSTRAINTS);
-        yPIDController = new ProfiledPIDController(constants_Limelight.LINEAR_P, constants_Limelight.LINEAR_I, constants_Limelight.LINEAR_D, constants_Auto.LINEAR_CONSTRAINTS);
         setPIDControllers();
+        LimelightHelpers.setCameraPose_RobotSpace(limelight_Algae, constants_Limelight.getCameraList(limelight_Algae).get(1), constants_Limelight.getCameraList(limelight_Algae).get(2), constants_Limelight.getCameraList(limelight_Algae).get(3), 180, constants_Limelight.getCameraList(limelight_Algae).get(0), 0);
+        LimelightHelpers.setCameraPose_RobotSpace(limelight_Coral, constants_Limelight.getCameraList(limelight_Coral).get(1), constants_Limelight.getCameraList(limelight_Coral).get(2), constants_Limelight.getCameraList(limelight_Coral).get(3), 90, constants_Limelight.getCameraList(limelight_Coral).get(0), 0);
+
     }
 
     // public Optional<Pose2d> getPoseFromAprilTags() {
@@ -65,11 +72,9 @@ public LimelightHelpers.PoseEstimate mt2;
         thetaPIDController.setGoal(0);//radians
         thetaPIDController.setTolerance(Math.toRadians(1)); //radians
 
-        xPIDController.setGoal(0);//meters
-        xPIDController.setTolerance(0.1);//meters
 
-        yPIDController.setGoal(0);//meters
-        yPIDController.setTolerance(0.023);//meters
+        xPIDController.setGoal(0);//meters
+        xPIDController.setTolerance(0.023);//meters
     }
 
     
@@ -81,7 +86,7 @@ public LimelightHelpers.PoseEstimate mt2;
 
     public boolean atGoal()
     {
-        return yPIDController.atGoal() && thetaPIDController.atGoal();
+        return xPIDController.atGoal() && thetaPIDController.atGoal();
     }
 
 
@@ -98,14 +103,14 @@ public LimelightHelpers.PoseEstimate mt2;
         public void execute()
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-            xSpeed = yPIDController.calculate(distanceX(limelight_Algae, "Algae")); /*m/sec */
-            s_swerve.setModuleStates(new ChassisSpeeds(-xSpeed, 0, turningSpeed));
+            xSpeed = xPIDController.calculate(distanceX(limelight_Algae, "Algae")); /*m/sec */
+            c_Drive.driveAlgae(xSpeed, turningSpeed);
         }
 
         @Override
         public boolean isFinished()
         {
-            return atGoal() || !hasTarget(limelight_Algae);
+            return !u_Controllers.leftStick.button(4).getAsBoolean() || !hasTarget(limelight_Algae);
         }
 
         @Override
@@ -115,35 +120,35 @@ public LimelightHelpers.PoseEstimate mt2;
         }
     };
 
-    public Command autoProcessor = new Command()
-    {
+    // public Command autoProcessor = new Command()
+    // {
         
-        @Override
-        public void initialize()
-        {
-            s_swerve.faceAllFoward();
-        }
+    //     @Override
+    //     public void initialize()
+    //     {
+    //         s_swerve.faceAllFoward();
+    //     }
         
-        @Override
-        public void execute()
-        {
-            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-            xSpeed = yPIDController.calculate(distanceX(limelight_Algae, "Processor")); /*m/sec */
-            // s_swerve.setModuleStates(new ChassisSpeeds(-ySpeed, 0, turningSpeed));
-        }
+    //     @Override
+    //     public void execute()
+    //     {
+        //     turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
+        //     xSpeed = xPIDController.calculate(distanceX(limelight_Algae, "Processor")); /*m/sec */
+        //     c_Drive.driveAlgae(xSpeed, turningSpeed);
+        // }
 
-        @Override
-        public boolean isFinished()
-        {
-            return atGoal() || !hasTarget(limelight_Algae);
-        }
+    //     @Override
+    //     public boolean isFinished()
+    //     {
+    //         return atGoal() || !hasTarget(limelight_Algae);
+    //     }
 
-        @Override
-        public void end(boolean interrupted)
-        {
-            resetDriveValues();
-        }
-    };
+    //     @Override
+    //     public void end(boolean interrupted)
+    //     {
+    //         resetDriveValues();
+    //     }
+    // };
 
     public Command autoReef = new Command()
     {
@@ -157,15 +162,14 @@ public LimelightHelpers.PoseEstimate mt2;
         @Override
         public void execute()
         {
-            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-            // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
-            // s_swerve.setModuleStates(new ChassisSpeeds(0, 0, turningSpeed));
+            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Coral)); /*Rads / sec */
+            // c_Drive.driveReef(turningSpeed);
         }
 
         @Override
         public boolean isFinished()
         {
-            return atGoal() || !hasTarget(limelight_Algae);
+            return !u_Controllers.leftStick.button(4).getAsBoolean() || !hasTarget(limelight_Coral);
         }
 
         @Override
@@ -188,8 +192,7 @@ public LimelightHelpers.PoseEstimate mt2;
     //     public void execute()
     //     {
 
-    //         // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
-    //         // s_swerve.setModuleStates(new ChassisSpeeds(ySpeed, 0, turningSpeed));
+    //         // ySpeed = -1 * xPIDController.calculate(distanceY); /*m/sec */
     //     }
 
     //     @Override
@@ -211,12 +214,12 @@ public LimelightHelpers.PoseEstimate mt2;
 
     public double getXAng_Rad(String camera)
     {
-        return Math.toRadians(LimelightHelpers.getTX(camera));
+        return -1 * Math.toRadians(LimelightHelpers.getTX(camera));
     }
 
     public double getYAng_Rad(String camera)
     {
-        return Math.toRadians(LimelightHelpers.getTY(camera));
+        return -1* Math.toRadians(LimelightHelpers.getTY(camera));
     }
 
     public boolean hasTarget(String camera)

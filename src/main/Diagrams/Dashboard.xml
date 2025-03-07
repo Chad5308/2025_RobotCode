@@ -1,10 +1,13 @@
 <xml version="1.0">
 <dashboard>
-	<widget field="Y distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="559" y="234"/>
+	<widget field="X distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="554" y="226"/>
 	</widget>
-	<widget field="YSpeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="554" y="201"/>
+	<widget field="XSpeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="552" y="203"/>
+	</widget>
+	<widget field="Algae Relative Roller Encoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="666" y="114"/>
 	</widget>
 	<widget field="Turning Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="554" y="180"/>
@@ -15,20 +18,14 @@
 		<height>686</height>
 		<property name="Camera Choice" value="limelight-coral"/>
 	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="79" y="319"/>
-		<width>772</width>
-		<height>659</height>
-		<property name="Camera Choice" value=""/>
-	</static-widget>
 	<widget field="limelight-algae_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="512" y="326"/>
+		<location x="703" y="290"/>
 	</widget>
 	<widget field="limelight-algae_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="425" y="300"/>
+		<location x="464" y="290"/>
 	</widget>
 	<widget field="limelight-algae_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="283" y="328"/>
+		<location x="252" y="292"/>
 	</widget>
 	<widget field="limelight-coral_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="1336" y="221"/>
@@ -123,9 +120,13 @@
 		<location x="79" y="319"/>
 		<width>772</width>
 		<height>659</height>
-		<property name="Camera Choice" value=""/>
+		<property name="Camera Choice" value="limelight-algae"/>
 	</static-widget>
 </dashboard>
 <live-window>
 </live-window>
+	<hidden field="Alerts"/>
+	<hidden field="YSpeed"/>
+	<hidden field="Y distance"/>
+	<hidden field="Roller Position"/>
 </xml>
