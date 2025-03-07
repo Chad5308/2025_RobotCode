@@ -19,13 +19,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Util.Constants.constants_Drive;
-import frc.robot.Util.Constants.constants_OI;
 import frc.robot.Util.RobotMap.MAP_DRIVETRAIN;
 
 public class Swerve extends SubsystemBase{
-    public final CommandXboxController opController = new CommandXboxController(constants_OI.OP_CONTROLLER_PORT);
     public boolean fieldOriented = false;
     public boolean hasReset = false;
     public boolean isRedAlliance;
@@ -127,7 +124,7 @@ public class Swerve extends SubsystemBase{
         frontRightModule.setDesiredState(moduleStates[1]);
         backLeftModule.setDesiredState(moduleStates[2]);
         backRightModule.setDesiredState(moduleStates[3]);
-        SmartDashboard.putNumber("FL module desired Degrees", moduleStates[1].angle.getDegrees());
+        // SmartDashboard.putNumber("FL module desired Degrees", moduleStates[1].angle.getDegrees());
     }
     
     //face forward method. Called once the bot is enabled
@@ -175,15 +172,15 @@ public class Swerve extends SubsystemBase{
         SmartDashboard.putNumber("Back Right AE Value", backRightModule.getABSPosition());
 
         //RE Degrees Reading
-        SmartDashboard.putNumber("Front left RE Value", frontLeftModule.getModulePosition().angle.getDegrees());
-        SmartDashboard.putNumber("Front Right RE Value", frontRightModule.getModulePosition().angle.getDegrees());
-        SmartDashboard.putNumber("Back left RE Value", backLeftModule.getModulePosition().angle.getDegrees());
-        SmartDashboard.putNumber("Back Right RE Value", backRightModule.getModulePosition().angle.getDegrees());
+        // SmartDashboard.putNumber("Front left RE Value", frontLeftModule.getModulePosition().angle.getDegrees());
+        // SmartDashboard.putNumber("Front Right RE Value", frontRightModule.getModulePosition().angle.getDegrees());
+        // SmartDashboard.putNumber("Back left RE Value", backLeftModule.getModulePosition().angle.getDegrees());
+        // SmartDashboard.putNumber("Back Right RE Value", backRightModule.getModulePosition().angle.getDegrees());
         //RE Distance Reading
-        SmartDashboard.putNumber("Front Left Drive Position", frontLeftModule.getDrivePosition());
-        SmartDashboard.putNumber("Front Right Drive Position", frontRightModule.getDrivePosition());
-        SmartDashboard.putNumber("Back Left Drive Position", backLeftModule.getDrivePosition());
-        SmartDashboard.putNumber("Back Right Drive Position", backRightModule.getDrivePosition());
+        // SmartDashboard.putNumber("Front Left Drive Position", frontLeftModule.getDrivePosition());
+        // SmartDashboard.putNumber("Front Right Drive Position", frontRightModule.getDrivePosition());
+        // SmartDashboard.putNumber("Back Left Drive Position", backLeftModule.getDrivePosition());
+        // SmartDashboard.putNumber("Back Right Drive Position", backRightModule.getDrivePosition());
 
         
     

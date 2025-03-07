@@ -1,9 +1,6 @@
 package frc.robot.Subsystems;
 
-import java.util.Optional;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.IntegerPublisher;
 import edu.wpi.first.networktables.IntegerSubscriber;
@@ -26,7 +23,7 @@ public Swerve s_swerve;
 public NetworkTable networkTables;
 public IntegerSubscriber pipeline;
 public IntegerPublisher pipelinePublisher;
-public double ySpeed, xSpeed, turningSpeed, correctionX, correctionZ, correctionT, distanceX, distanceY;
+public double xSpeed, turningSpeed;
 public double[] localizedPose;
 public double[] botPose_targetSpace, targetPose_robotSpace;
 public ProfiledPIDController thetaPIDController;
@@ -71,15 +68,15 @@ public LimelightHelpers.PoseEstimate mt2;
         xPIDController.setGoal(0);//meters
         xPIDController.setTolerance(0.1);//meters
 
-        yPIDController.setGoal(1);//meters
-        yPIDController.setTolerance(0.05);//meters
+        yPIDController.setGoal(0);//meters
+        yPIDController.setTolerance(0.023);//meters
     }
 
     
     public void resetDriveValues()
     {
         turningSpeed = 0;
-        ySpeed = 0;
+        xSpeed = 0;
     }
 
     public boolean atGoal()
@@ -101,8 +98,8 @@ public LimelightHelpers.PoseEstimate mt2;
         public void execute()
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-            ySpeed = yPIDController.calculate(distanceY); /*m/sec */
-            s_swerve.setModuleStates(new ChassisSpeeds(-ySpeed, 0, turningSpeed));
+            xSpeed = yPIDController.calculate(distanceX(limelight_Algae, "Algae")); /*m/sec */
+            s_swerve.setModuleStates(new ChassisSpeeds(-xSpeed, 0, turningSpeed));
         }
 
         @Override
@@ -131,8 +128,8 @@ public LimelightHelpers.PoseEstimate mt2;
         public void execute()
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-            ySpeed = yPIDController.calculate(distanceY); /*m/sec */
-            s_swerve.setModuleStates(new ChassisSpeeds(-ySpeed, 0, turningSpeed));
+            xSpeed = yPIDController.calculate(distanceX(limelight_Algae, "Processor")); /*m/sec */
+            // s_swerve.setModuleStates(new ChassisSpeeds(-ySpeed, 0, turningSpeed));
         }
 
         @Override
@@ -162,7 +159,7 @@ public LimelightHelpers.PoseEstimate mt2;
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
             // ySpeed = -1 * yPIDController.calculate(distanceY); /*m/sec */
-            s_swerve.setModuleStates(new ChassisSpeeds(0, 0, turningSpeed));
+            // s_swerve.setModuleStates(new ChassisSpeeds(0, 0, turningSpeed));
         }
 
         @Override
@@ -227,9 +224,9 @@ public LimelightHelpers.PoseEstimate mt2;
         return LimelightHelpers.getTV(camera);
     }
 
-    public double distanceY(String camera, String target)
+    public double distanceX(String camera, String target)
     {
-        return (((constants_Limelight.getTargetHeight(target) - constants_Limelight.getCameraList(camera).get(3)) / (Math.tan(Math.toRadians(getYAng_Rad(camera)+constants_Limelight.getCameraList(camera).get(0))))) + constants_Limelight.getCameraList(camera).get(1)) * 0.0254; //meters from target to center of robot
+        return ((constants_Limelight.getTargetHeight(target) - constants_Limelight.getCameraList(camera).get(3)) / (Math.tan((getYAng_Rad(camera)+constants_Limelight.getCameraList(camera).get(0)))) + constants_Limelight.getCameraList(camera).get(1)); //meters from target to center of robot
     }
 
     // public double distanceX(String camera)
@@ -244,9 +241,14 @@ public LimelightHelpers.PoseEstimate mt2;
         LimelightHelpers.setPipelineIndex(limelight_Coral, 0);
         LimelightHelpers.setPipelineIndex(limelight_Algae, 0);
         
-        SmartDashboard.putNumberArray(limelight_Algae + " Debugging values", new Double[]{getXAng_Rad(limelight_Algae), getYAng_Rad(limelight_Algae),turningSpeed});
-        // SmartDashboard.putNumberArray(limelight_Coral + " Debugging values", new Double[]{getXAng_Rad(limelight_Coral), getYAng_Rad(limelight_Coral),turningSpeed, ySpeed, distanceY(limelight_Coral)});
+        // SmartDashboard.putNumberArray(limelight_Algae + " Debugging values", new Double[]{getXAng_Rad(limelight_Algae), getYAng_Rad(limelight_Algae),turningSpeed});
+        // SmartDashboard.putNumberArray(limelight_Coral + " Debugging values", new Double[]{getXAng_Rad(limelight_Coral), getYAng_Rad(limelight_Coral),turningSpeed, ySpeed});
         
+        SmartDashboard.putNumber("Turning Speed", turningSpeed);
+        SmartDashboard.putNumber("XSpeed", xSpeed);
+
+        SmartDashboard.putNumber("X distance" , distanceX(limelight_Algae, "Algae"));
+
         // distanceY = (((13 - constants_Limelight.HEIGHT_CORAL) / (Math.tan(Math.toRadians(yAng_Coral+constants_Limelight.ANGLE_CORAL)))) + constants_Limelight.DISTANCE_FORWARD_CORAL) * 0.0254; //meters from target to center of robot
         // distanceX = (Math.cos(Math.toRadians(distanceY/xAng_Coral))) * 0.0254;//meters to center of robot
  

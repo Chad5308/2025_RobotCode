@@ -1,12 +1,9 @@
 package frc.robot.Subsystems;
 
-import org.opencv.core.Mat;
-
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.hardware.CANrange;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -19,7 +16,6 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Util.Constants.AlgaePositionGroup;
 import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_ALGAE;
 
@@ -53,8 +49,10 @@ public class AlgaeRollers extends SubsystemBase
         absoluteEncoder.setInverted(constants_Rollers.ABS_INVERTED);
 
         configRollers = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Rollers.ROLLER_P, constants_Rollers.ROLLER_I, constants_Rollers.ROLLER_D, constants_Rollers.ROLLER_FF, ClosedLoopSlot.kSlot0));
-        configRollers.encoder.positionConversionFactor(1);
+        configRollers.encoder.positionConversionFactor(constants_Rollers.ANGLE_TO_DEGREES);
         configRollers.idleMode(IdleMode.kBrake);
+
+
         ROLLERS = new SparkMax(MAP_ALGAE.ALGAE_ROLLERS, MotorType.kBrushless);
         ROLLERS_ENCODER = ROLLERS.getEncoder();
         ROLLERS_PID = ROLLERS.getClosedLoopController();
@@ -64,13 +62,14 @@ public class AlgaeRollers extends SubsystemBase
         sensorConfigs = new CANrangeConfiguration();
         CANrange.getConfigurator().apply(sensorConfigs);
 
+        ROLLERS_ENCODER.setPosition(0);
     }
 
 
 
     public double getPosition()
     {
-        return (absoluteEncoder.get() * constants_Rollers.ANGLE_TO_DEGREES) - constants_Rollers.ABS_OFFSET;
+        return (absoluteEncoder.get() * 360) - constants_Rollers.ABS_OFFSET;
     }
 
     public double getSpeed()
@@ -85,16 +84,16 @@ public class AlgaeRollers extends SubsystemBase
         
     public boolean getGamePieceCollected()
     {      
-    //    return (getDistance() < constants_Rollers.CANRANGE_ROLLERS_DISTANCE_LIMIT) || ALGAE_OVERRIDE;
-        return ALGAE_OVERRIDE;
+       return (getDistance() < constants_Rollers.CANRANGE_ROLLERS_DISTANCE_LIMIT) || ALGAE_OVERRIDE;
+        // return ALGAE_OVERRIDE;
     }
 
     public void intakeAlgae()
     {
-        ROLLERS.set(0.25);
+        ROLLERS.set(0.50);
     }
 
-    public void retractIntakeNone()
+    public void retractIntake()
     {
         while(!isRollersInPosition(0))
         {
@@ -102,15 +101,16 @@ public class AlgaeRollers extends SubsystemBase
         }
         ROLLERS.set(0);
     }
-    
 
-    public void retractIntakeAlgae()
+    public void intakeClimb()
     {
-        while(!isRollersInPosition(25))
+        while(!isRollersInPosition(39))
         {
-            ROLLERS.set(-0.25);
+            ROLLERS.set(0.75);
         }
+        ROLLERS.set(0);
     }
+
 
     public boolean isRollersInPosition(double position)
     {
@@ -124,5 +124,6 @@ public class AlgaeRollers extends SubsystemBase
         SmartDashboard.putBoolean("Algae Detection", getGamePieceCollected());
         SmartDashboard.putNumber("Algae Absolute Angle Encoder", getPosition());
         SmartDashboard.putNumber("Algae Relative Roller Encoder", ROLLERS_ENCODER.getPosition());
+        SmartDashboard.putNumber("Algae CanRange", getDistance());
     }
 }

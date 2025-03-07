@@ -43,14 +43,13 @@ public class RobotMap
     public static final class MAP_ALGAE
     {
         public static final int ALGAE_ROLLERS = 20;
-        public static final int ALGAE_CANRANGE = 22;
+        public static final int ALGAE_CANRANGE = 21;
         public static final int ALGAE_ABS_ENCODER_PWM_PORT = 0;
 
     }
     public static final class MAP_CLIMBER
     {
         public static final int CLIMB_SPARKMAX = 30;
-        public static final int CLIMB_ABS_ENCODER_PWM_PORT = 3; //TODO Check this aswell
     }
     public static final class MAP_APRIL_TAGS //[id num, height in inches, co=ordinate x, coordinate y, heading] inches to meters; use field manual image for id reference==
     {

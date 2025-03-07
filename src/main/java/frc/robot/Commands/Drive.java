@@ -3,10 +3,8 @@ package frc.robot.Commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import frc.robot.Util.Constants.constants_OI;
 import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Subsystems.Drive.Swerve;
 
@@ -20,6 +18,8 @@ public class Drive extends Command{
     private boolean fieldOriented=false;
     public double ySpeed, xSpeed, turningSpeed;
     public ChassisSpeeds chassisSpeeds;
+
+    public static final double DEADBAND = 0.05;
 
     
 
@@ -54,9 +54,9 @@ public class Drive extends Command{
         turningSpeed = -left.getX();
         fieldOriented = s_Swerve.fieldOriented;
 
-        xSpeed = Math.abs(xSpeed) > constants_OI.DEADBAND ? xSpeed : 0.0;
-        ySpeed = Math.abs(ySpeed) > constants_OI.DEADBAND ? ySpeed : 0.0;
-        turningSpeed = Math.abs(turningSpeed) > constants_OI.DEADBAND ? turningSpeed : 0.0;
+        xSpeed = Math.abs(xSpeed) > DEADBAND ? xSpeed : 0.0;
+        ySpeed = Math.abs(ySpeed) > DEADBAND ? ySpeed : 0.0;
+        turningSpeed = Math.abs(turningSpeed) > DEADBAND ? turningSpeed : 0.0;
 
         xSpeed = xLimiter.calculate(xSpeed) * constants_Drive.TELEDRIVE_MAX_SPEED_METERS_PER_SEC;
         ySpeed = yLimiter.calculate(ySpeed) * constants_Drive.TELEDRIVE_MAX_SPEED_METERS_PER_SEC;

@@ -160,17 +160,11 @@ public final class Constants {
 
   public static final class constants_Climber 
   {
-    public static final double CLIMBER_GEAR_RATIO = 0; //TODO
-    public static final double CLIMBER_TOLERANCE = 0; //TODO
-    public static final boolean CLIMBER_INVERTED = false; //TODO
+    public static final double CLIMBER_GEAR_RATIO = 1.0/125.0;
+    public static final boolean CLIMBER_INVERTED = false;
 
-    public static final double CLIMBER_P = 0; //TODO
-    public static final double CLIMBER_I = 0; //TODO
-    public static final double CLIMBER_D = 0; //TODO
-    public static final double CLIMBER_FF = 0;//Dont worry about this value, keep it 0
-
-    public static final ClimberPositionGroup NONE = new ClimberPositionGroup(0); //TODO
-    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(0); //TODO
+    public static final ClimberPositionGroup NONE = new ClimberPositionGroup(0);
+    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(-1.8);
   }
 
   public static final class ClimberPositionGroup
@@ -186,8 +180,8 @@ public final class Constants {
   public static final class constants_Rollers
   {
     //TODO Find this gear ration and input it here
-    public static final double ROLLER_GEAR_RATIO = 1;
-    public static final double ANGLE_TO_DEGREES = 360 / ROLLER_GEAR_RATIO;
+    public static final double ROLLER_GEAR_RATIO = 1/3.0;
+    public static final double ANGLE_TO_DEGREES = 360.0 * ROLLER_GEAR_RATIO;
 
     public static final boolean ABS_INVERTED = false; //TODO follow the steps in the elvator subsytem to get this number
     public static final double ABS_OFFSET = 315; //TODO follow the steps in the elvator subsytem to get this number
@@ -196,7 +190,7 @@ public final class Constants {
     public static final boolean ANGLE_INVERTED = false;
 
     public static final double ROLLER_ANGLE_TOLERANCE = 1.25;
-    public static final double CANRANGE_ROLLERS_DISTANCE_LIMIT = 10; //Inches TODO Change this value to be what we want it to be
+    public static final double CANRANGE_ROLLERS_DISTANCE_LIMIT = 7; //Inches TODO Change this value to be what we want it to be
     public static final double ROLLER_RPM_TOLERANCE = 5;
 
     //TODO TUNE THESE
@@ -230,13 +224,6 @@ public final class Constants {
     }
   }
 
-  public static final class constants_OI {
-    public static final int DRIVER_CONTROLLER_PORT = 0;
-    public static final int OP_CONTROLLER_PORT = 1;
-    public static final double DEADBAND = 0.09;
-    public static final int LEFT_STICK_PORT = 1;
-    public static final int RIGHT_STICK_PORT = 2;
-  }
  
 
   public static final class constants_AprilTags{ //[id num, height in inches, coordinate x, coordinate y, heading] inches to meters; use field manual image for id reference
@@ -272,11 +259,11 @@ public final class Constants {
     public static final double THETA_D = 0;
 
     public static final double LINEAR_P = 1.25;
-    public static final double LINEAR_I = 0.001;
-    public static final double LINEAR_D = 0.05;
+    public static final double LINEAR_I = 0.0;
+    public static final double LINEAR_D = 0.0;
 
-    public static List<Double> coral_Dimensions = List.of(Math.toRadians(0), 0.0, 0.0, 0.0, 12.0, 58.5); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightReef, HeightSource
-    public static List<Double> algae_Dimensions = List.of(Math.toRadians(-25), 0.0, 0.0, 0.0, 8.0, 55.88); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightAlgae, HeightProcessor
+    public static List<Double> coral_Dimensions = List.of(Math.toRadians(0), 0.47625, -0.14605, 0.6096, 0.3048, 1.4859); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightReef, HeightSource
+    public static List<Double> algae_Dimensions = List.of(Math.toRadians(2), 0.127, 0.03175, 0.3302, 0.2032, 1.419352); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightAlgae, HeightProcessor
 
 
     public static List<Double> getCameraList(String camera)

@@ -11,7 +11,6 @@ import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
 import frc.robot.Util.Constants.constants_Elevator;
-import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
 import frc.robot.Subsystems.Vision;
 
@@ -51,7 +50,7 @@ public class NoneState extends Command
       s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_NONE_COLOR);
       //run our homeing sequence
       s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
-      s_Rollers.retractIntakeNone();
+      s_Rollers.retractIntake();
     }
     
     

@@ -1,16 +1,14 @@
 package frc.robot.Subsystems;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,7 +29,7 @@ public class Climber extends SubsystemBase
     public Climber()
     {
         //Instantiate neo stuff
-        CLIMBER_CONFIG = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Climber.CLIMBER_P, constants_Climber.CLIMBER_I, constants_Climber.CLIMBER_D, constants_Climber.CLIMBER_FF, ClosedLoopSlot.kSlot0));
+        CLIMBER_CONFIG = new SparkMaxConfig();
         CLIMBER_CONFIG.encoder.positionConversionFactor(constants_Climber.CLIMBER_GEAR_RATIO);
         CLIMBER_CONFIG.inverted(constants_Climber.CLIMBER_INVERTED);
         CLIMBER_CONFIG.idleMode(IdleMode.kBrake);
@@ -40,14 +38,18 @@ public class Climber extends SubsystemBase
         CLIMBER_ENCODER =  CLIMBER_SPARKMAX.getEncoder();
         CLIMBER_PID = CLIMBER_SPARKMAX.getClosedLoopController();
         CLIMBER_SPARKMAX.configure(CLIMBER_CONFIG, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-        //convert the neos rotation to percentage once we figure out how far the motor has to travel to fully climb
             
+        CLIMBER_ENCODER.setPosition(0);
     }
 
     public double getPosition()
     {
-        return CLIMBER_SPARKMAX.get();
+        return CLIMBER_ENCODER.getPosition();
+    }
+
+    public void zeroPosition()
+    {
+        CLIMBER_ENCODER.setPosition(0);
     }
     
      public Command climberDown()
@@ -76,8 +78,19 @@ public class Climber extends SubsystemBase
 
     public void setClimber(ClimberPositionGroup group)
     {
-        CLIMBER_PID.setReference(group.angle, ControlType.kPosition);
+        while(getPosition()>group.angle)
+        {
+            CLIMBER_SPARKMAX.set(-1);
+        }
+        CLIMBER_SPARKMAX.set(0);
     }
+
+
+    @Override
+    public void periodic()
+    {
+        SmartDashboard.putNumber("Climber position", getPosition());
+    } 
 
 
     

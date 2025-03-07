@@ -1,6 +1,7 @@
 package frc.robot.Commands.States;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
@@ -15,17 +16,19 @@ public class ClimbingState extends Command
     StateMachine s_StateMachine;
     Elevator s_Elevator;
     Climber s_Climber;
+    AlgaeRollers s_Rollers;
     Lights s_Lights;
     Vision s_Vision;
 
 
-    public ClimbingState(StateMachine s_StateMachine, Elevator s_Elevator, Climber s_Climber, Vision s_Vision, Lights s_Lights)
+    public ClimbingState(StateMachine s_StateMachine, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
     {
         this.s_StateMachine = s_StateMachine;
         this.s_Elevator = s_Elevator;
         this.s_Climber = s_Climber;
         this.s_Lights = s_Lights;
         this.s_Vision = s_Vision;
+        this.s_Rollers = s_Rollers;
 
         addRequirements(s_StateMachine);
     }
@@ -35,7 +38,9 @@ public class ClimbingState extends Command
     {
         s_StateMachine.setRobotState(RobotState.CLIMBING);
         //Climbing sequence
+        s_Rollers.intakeClimb();
         s_Climber.setClimber(constants_Climber.ACTIVE);
+
     }
     
     @Override

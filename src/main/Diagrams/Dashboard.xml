@@ -1,0 +1,131 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Y distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="559" y="234"/>
+	</widget>
+	<widget field="YSpeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="554" y="201"/>
+	</widget>
+	<widget field="Turning Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="554" y="180"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="1082" y="261"/>
+		<width>798</width>
+		<height>686</height>
+		<property name="Camera Choice" value="limelight-coral"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="79" y="319"/>
+		<width>772</width>
+		<height>659</height>
+		<property name="Camera Choice" value=""/>
+	</static-widget>
+	<widget field="limelight-algae_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="512" y="326"/>
+	</widget>
+	<widget field="limelight-algae_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="425" y="300"/>
+	</widget>
+	<widget field="limelight-algae_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="283" y="328"/>
+	</widget>
+	<widget field="limelight-coral_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1336" y="221"/>
+	</widget>
+	<widget field="limelight-coral_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1254" y="241"/>
+	</widget>
+	<widget field="limelight-coral_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1449" y="242"/>
+	</widget>
+	<widget field="Back Right AE Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="944" y="46"/>
+	</widget>
+	<widget field="Front Left AE Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="758" y="18"/>
+	</widget>
+	<widget field="fieldOriented" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="329" y="23"/>
+		<width>150</width>
+		<height>74</height>
+	</widget>
+	<widget field="Climber position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="555" y="48"/>
+	</widget>
+	<widget field="Algae CanRange" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="896" y="116"/>
+	</widget>
+	<widget field="Elevator Canrange" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1395" y="53"/>
+		<height>20</height>
+	</widget>
+	<widget field="SendableChooser[4]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="648" y="221"/>
+	</widget>
+	<widget field="SendableChooser[3]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="731" y="216"/>
+	</widget>
+	<widget field="Algae Absolute Angle Encoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="750" y="82"/>
+	</widget>
+	<widget field="Right Relative Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1415" y="28"/>
+	</widget>
+	<widget field="Left Relative Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1220" y="27"/>
+	</widget>
+	<widget field="Elevator ABS Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1347" y="2"/>
+	</widget>
+	<widget field="Front Right AE Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="948" y="18"/>
+	</widget>
+	<widget field="Back Left AE Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="759" y="44"/>
+	</widget>
+	<widget field="SendableChooser[2]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="190" y="80"/>
+	</widget>
+	<widget field="SendableChooser[1]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="116" y="81"/>
+	</widget>
+	<widget field="SendableChooser[0]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="8" y="84"/>
+	</widget>
+	<widget field="Algae Detection" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="995" y="80"/>
+	</widget>
+	<widget field="Coral Detection" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1221" y="47"/>
+	</widget>
+	<widget field="CURRENT TARGET STATE" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="14" y="23"/>
+	</widget>
+	<widget field="CURRENT ROBOT STATE" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="18" y="49"/>
+	</widget>
+	<widget field="Robot Heading" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="331" y="106"/>
+		<width>143</width>
+	</widget>
+	<widget field="Robot Location" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="258" y="3"/>
+		<width>259</width>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="1082" y="261"/>
+		<width>798</width>
+		<height>686</height>
+		<property name="Camera Choice" value="limelight-coral"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="79" y="319"/>
+		<width>772</width>
+		<height>659</height>
+		<property name="Camera Choice" value=""/>
+	</static-widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>

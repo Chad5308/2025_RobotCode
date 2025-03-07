@@ -176,8 +176,10 @@ public class StateMachine extends SubsystemBase {
         {
           case NONE:
           case CORAL:
+          case ALGAE:
+          case COMBO:
           // case PREP_NONE:
-            return new ClimbingState(s_StateMachine, s_Elevator, s_Climber, s_Vision, s_Lights);
+            return new ClimbingState(s_StateMachine, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
         }
         break;
 

@@ -57,16 +57,13 @@ public class PrepTargetState extends Command {
       s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
     } else
     { 
-
       if(desiredElevatorPosition == constants_Elevator.PREP_L1)
       {
         s_Elevator.setElevatorPosition(constants_Elevator.PREP_L1);
         Commands.waitSeconds(0.1);
         s_Elevator.setElevatorPosition(desiredElevatorPosition);
       }
-      s_Elevator.setElevatorPosition(desiredElevatorPosition);
-      s_Rollers.retractIntakeNone();
-      
+      s_Elevator.setElevatorPosition(desiredElevatorPosition);      
     }
 
     
@@ -102,7 +99,6 @@ public class PrepTargetState extends Command {
       s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
     } else { 
       s_Elevator.setElevatorPosition(desiredElevatorPosition);
-      s_Rollers.retractIntakeNone();
     }
     //When the command ends we try and move again just incase
   }

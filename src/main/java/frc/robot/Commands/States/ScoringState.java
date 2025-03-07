@@ -10,7 +10,6 @@ import frc.robot.Subsystems.Lights;
 import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.Vision;
 import frc.robot.Util.Constants.constants_Elevator;
-import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
 import frc.robot.Util.RobotMap.MAP_PWM_LIGHTS;
@@ -48,7 +47,7 @@ public class ScoringState extends Command
         if(s_StateMachine.getRobotState() == RobotState.PREP_ALGAE)
         {
             s_StateMachine.setRobotState(RobotState.SCORING);
-            s_Rollers.retractIntakeNone();
+            s_Rollers.retractIntake();
         }
         else if(s_StateMachine.getRobotState() == RobotState.PREP_L1)
         {

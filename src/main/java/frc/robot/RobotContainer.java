@@ -8,7 +8,6 @@ package frc.robot;
 
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -189,22 +188,28 @@ public class RobotContainer {
     .onTrue(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.PREP_NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
-    u_Controllers.ELE_UP.whileTrue(s_Elevator.moveElevatorUp());
+    u_Controllers.ELE_UP.onTrue(s_Elevator.moveElevatorUp());
     u_Controllers.ELE_UP.whileFalse(s_Elevator.stopElevator());
 
-    u_Controllers.ELE_DOWN.whileTrue(s_Elevator.moveElevatorDown());
+    u_Controllers.ELE_DOWN.onTrue(s_Elevator.moveElevatorDown());
     u_Controllers.ELE_DOWN.whileFalse(s_Elevator.stopElevator());
 
     u_Controllers.CLIMB_DOWN.whileTrue(s_Climber.climberDown());
     u_Controllers.CLIMB_DOWN.whileFalse(s_Climber.stopClimber());
     
     u_Controllers.CLIMB_UP.whileTrue(s_Climber.climberUp());
-    u_Controllers.CLIMB_UP.whileFalse(s_Climber.climberUp());
+    u_Controllers.CLIMB_UP.whileFalse(s_Climber.stopClimber());
+
+
+    u_Controllers.CLIMB_AUTO.onTrue(Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.CLIMBING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+
+    u_Controllers.CLIMB_RESET.onTrue(Commands.runOnce(()->{s_Climber.zeroPosition();}));
 
     u_Controllers.ALGAE_OVERRIDE.onTrue(Commands.runOnce(()->{s_Rollers.ALGAE_OVERRIDE = !s_Rollers.ALGAE_OVERRIDE;}));
     u_Controllers.CORAL_OVERRIDE.onTrue(Commands.runOnce(()->{s_Elevator.CORAL_OVERRIDE = !s_Elevator.CORAL_OVERRIDE;}));
 
     u_Controllers.leftStick.button(14).onTrue(s_Vision.autoReef);
+    u_Controllers.leftStick.button(15).onTrue(s_Vision.autoAlgae);
   }
 
 
