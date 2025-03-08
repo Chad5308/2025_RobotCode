@@ -190,7 +190,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_L2:
           case PREP_L3:
           case PREP_VISION:
-          case PREP_NONE:
           case PREP_ALGAE:
           case SCORING:
             return new ScoringState(s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
@@ -250,7 +249,10 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE:
           case PREP_NONE:
           case PREP_VISION:
+          if(s_Rollers.getGamePieceCollected())
+          {
             return new PrepTargetState(s_StateMachine, s_Elevator, s_Rollers, s_Lights, currentTargetState);
+          }
         }
         break;
 

@@ -59,13 +59,13 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Swerve.faceAllFoward()));
 
         NamedCommands.registerCommand("SCORING", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.SCORING);}).andThen
-        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))).andThen((Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))));
+        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
         
 
         new EventTrigger("PREP_L3").onTrue(Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L3);}).andThen
         (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
 
-        new EventTrigger("PREP_L2").onTrue(Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.SOURCE);}).andThen
+        new EventTrigger("PREP_L2").onTrue(Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L2);}).andThen
         (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
 
         new EventTrigger("SOURCE").onTrue( Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.SOURCE);}).andThen

@@ -1,5 +1,12 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Auto Selection" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="263" y="158"/>
+	</widget>
+	<widget field="Roller Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1585" y="54"/>
+		<height>20</height>
+	</widget>
 	<widget field="X distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="554" y="226"/>
 	</widget>
@@ -125,8 +132,5 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="Alerts"/>
-	<hidden field="YSpeed"/>
-	<hidden field="Y distance"/>
-	<hidden field="Roller Position"/>
+	<hidden field="PathPlanner"/>
 </xml>

@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "PREP_L2",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 0.590476190476191,
       "endWaypointRelativePos": null,
       "command": null
     }

@@ -92,20 +92,20 @@ public class AlgaeRollers extends SubsystemBase
 
     public void intakeAlgae()
     {
-        ROLLERS.set(0.50);
+        ROLLERS.set(0.35);
     }
 
     public Command retractIntake = new Command() {
         @Override
         public void initialize()
         {
-            ROLLERS.set(-0.6);
+            ROLLERS.set(-0.4);
         }
 
         @Override
         public boolean isFinished()
         {
-            return isRollersInPosition(0);
+            return isRollersInPosition(0) || getPosition() < 0;
         }
 
         @Override

@@ -1,6 +1,7 @@
 package frc.robot.Commands.States;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Lights;
@@ -39,7 +40,7 @@ public class AlgaeState extends Command
         s_Lights.setNumber(MAP_PWM_LIGHTS.PWM_ALGAE_COLOR);
         s_Elevator.setElevatorPosition(constants_Elevator.CORAL);
        // insert vision command 
-       s_Rollers.ROLLERS.set(0);
+      Commands.waitSeconds(0.5).andThen(()->{s_Rollers.ROLLERS.set(0);});
     }
 
 

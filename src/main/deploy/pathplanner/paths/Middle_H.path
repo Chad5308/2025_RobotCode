@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "PREP_L3",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 0.27142857142857163,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -55,7 +55,7 @@
   "folder": "Middle",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

@@ -8,6 +8,10 @@ package frc.robot;
 
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Auto;
 import frc.robot.Commands.Drive;
+import frc.robot.Commands.TimedDrive;
 import frc.robot.Util.Controllers;
 import frc.robot.Util.LimelightHelpers;
 import frc.robot.Subsystems.AlgaeRollers;
@@ -59,6 +64,7 @@ public class RobotContainer {
 
   public RobotContainer() 
   {
+    CameraServer.startAutomaticCapture();
     autoChooser1 = new SendableChooser<>();
     autoChooser2 = new SendableChooser<>();
     autoChooser3 = new SendableChooser<>();
@@ -255,6 +261,7 @@ public class RobotContainer {
     autoChooser2.addOption("FY", "FY");
     autoChooser2.addOption("GY", "GY");
     autoChooser2.addOption("HY", "HY");
+    autoChooser2.addOption("None", null);
 
     //Return X Paths
     autoChooser3.addOption("XA", "XA");
@@ -269,6 +276,7 @@ public class RobotContainer {
     autoChooser3.addOption("YD", "YD");
     autoChooser3.addOption("YE", "YE");
     autoChooser3.addOption("YF", "YF");
+    autoChooser3.addOption("None", null);
   }
 
 
@@ -290,7 +298,7 @@ public class RobotContainer {
     finalSelection = autoChooser1.getSelected();
     if(finalSelection == null)
     {
-      System.out.print("***** WARNING: No auto path selected.");
+      System.out.print("***** WARNING: No auto path selected. ***********************");
     }
     else
     {
@@ -305,12 +313,7 @@ public class RobotContainer {
       }
    }
 
-    //finalSelection = selection1 + ", " + selection2 + ", " + selection3;
-    SmartDashboard.putString("Auto Selection", finalSelection);
     return new PathPlannerAuto(finalSelection);
+    // return new TimedDrive(s_Swerve, 3, -2, 0, 0);
   }
-
-
-
-
 }

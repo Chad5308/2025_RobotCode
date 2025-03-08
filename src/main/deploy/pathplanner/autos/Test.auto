@@ -13,6 +13,12 @@
                 "data": {
                   "name": "FaceForward Wheels"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SOURCE"
+                }
               }
             ]
           }
@@ -20,13 +26,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle_Leave"
+            "pathName": "Middle_G"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Leave Autos",
+  "folder": null,
   "choreoAuto": false
 }
