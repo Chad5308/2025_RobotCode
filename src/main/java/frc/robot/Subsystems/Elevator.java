@@ -13,6 +13,8 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -44,7 +46,7 @@ public class Elevator extends SubsystemBase
 
     public CANrange CANrange;
     public CANrangeConfiguration sensorConfigs;
-
+    public UsbCamera coral_Camera;
     // public DutyCycleEncoder absoluteEncoder;    
 
     //TODO Zeroing the elevator and converting to inches
@@ -101,6 +103,8 @@ public class Elevator extends SubsystemBase
 
         ELE_LEFT_ENCODER.setPosition(constants_Elevator.ELEVATOR_BASE_HEIGHT);
         ELE_RIGHT_ENCODER.setPosition(constants_Elevator.ELEVATOR_BASE_HEIGHT);
+        coral_Camera = CameraServer.startAutomaticCapture(0);
+        
     }
     
     public double getPosition()

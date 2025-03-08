@@ -5,28 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "FaceForward Wheels"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SOURCE"
-                }
-              }
-            ]
+            "name": "FaceForward Wheels"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SOURCE"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Middle_G"
+            "pathName": "Test"
           }
         }
       ]

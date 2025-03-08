@@ -20,10 +20,10 @@
 		<location x="554" y="180"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="1082" y="261"/>
+		<location x="1026" y="253"/>
 		<width>798</width>
 		<height>686</height>
-		<property name="Camera Choice" value="limelight-coral"/>
+		<property name="Camera Choice" value="USB Camera 1"/>
 	</static-widget>
 	<widget field="limelight-algae_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="703" y="290"/>
@@ -127,7 +127,7 @@
 		<location x="79" y="319"/>
 		<width>772</width>
 		<height>659</height>
-		<property name="Camera Choice" value="limelight-algae"/>
+		<property name="Camera Choice" value="USB Camera 0"/>
 	</static-widget>
 </dashboard>
 <live-window>

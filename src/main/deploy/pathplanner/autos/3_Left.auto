@@ -5,28 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "FaceForward Wheels"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SOURCE"
-                }
-              }
-            ]
+            "name": "FaceForward Wheels"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SOURCE"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Right_F"
+            "pathName": "Left_J"
           }
         },
         {
@@ -38,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FY"
+            "pathName": "JX"
           }
         },
         {
@@ -48,15 +41,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "YC"
+            "pathName": "XA"
           }
         },
         {
@@ -68,7 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CY"
+            "pathName": "AX"
           }
         },
         {
@@ -78,15 +65,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "YD"
+            "pathName": "XB"
           }
         },
         {

@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Auto;
 import frc.robot.Commands.Drive;
-import frc.robot.Commands.TimedDrive;
 import frc.robot.Util.Controllers;
 import frc.robot.Util.LimelightHelpers;
 import frc.robot.Subsystems.AlgaeRollers;
@@ -64,7 +63,7 @@ public class RobotContainer {
 
   public RobotContainer() 
   {
-    CameraServer.startAutomaticCapture();
+   
     autoChooser1 = new SendableChooser<>();
     autoChooser2 = new SendableChooser<>();
     autoChooser3 = new SendableChooser<>();
@@ -247,35 +246,23 @@ public class RobotContainer {
     autoChooser1.addOption("Right_E", "Right_E");
     autoChooser1.addOption("Right_F", "Right_F");
     autoChooser1.addOption("Right_Leave", "Right_Leave");
+    autoChooser1.addOption("3_Left", "3_Left");
+    autoChooser1.addOption("3_Right", "3_Right");
+    autoChooser1.addOption("Test", "Test");
 
     //X Paths
-    autoChooser2.addOption("AX", "AX");
     autoChooser2.addOption("IX", "IX");
     autoChooser2.addOption("JX", "JX");
-    autoChooser2.addOption("KX", "KX");
-    autoChooser2.addOption("LX", "LX");
-    autoChooser2.addOption("HX", "HX");
     //Y Paths
-    autoChooser2.addOption("AY", "AY");
     autoChooser2.addOption("EY", "EY");
     autoChooser2.addOption("FY", "FY");
-    autoChooser2.addOption("GY", "GY");
-    autoChooser2.addOption("HY", "HY");
     autoChooser2.addOption("None", null);
 
     //Return X Paths
     autoChooser3.addOption("XA", "XA");
-    autoChooser3.addOption("XI", "XI");
-    autoChooser3.addOption("XJ", "XJ");
-    autoChooser3.addOption("XK", "XK");
-    autoChooser3.addOption("XL", "XL");
     //Return Y Paths
-    autoChooser3.addOption("YA", "YA");
     autoChooser3.addOption("YB", "YB");
-    autoChooser3.addOption("YC", "YC");
-    autoChooser3.addOption("YD", "YD");
-    autoChooser3.addOption("YE", "YE");
-    autoChooser3.addOption("YF", "YF");
+
     autoChooser3.addOption("None", null);
   }
 

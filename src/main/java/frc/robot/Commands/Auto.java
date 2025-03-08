@@ -3,6 +3,7 @@ package frc.robot.Commands;
 
 
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.RobotConfig;
@@ -57,10 +58,8 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
 
             
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Swerve.faceAllFoward()));
-
-        NamedCommands.registerCommand("SCORING", Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.SCORING);}).andThen
-        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
-        
+        NamedCommands.registerCommand("SCORING", Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+        NamedCommands.registerCommand("SOURCE", Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
         new EventTrigger("PREP_L3").onTrue(Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L3);}).andThen
         (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
@@ -68,8 +67,6 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
         new EventTrigger("PREP_L2").onTrue(Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.PREP_L2);}).andThen
         (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.PREP_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
 
-        new EventTrigger("SOURCE").onTrue( Commands.runOnce(()->{s_StateMachine.setTargetState(TargetState.SOURCE);}).andThen
-        (Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights))));
     }
 
     public PathFollowingController pathController = new PPHolonomicDriveController(

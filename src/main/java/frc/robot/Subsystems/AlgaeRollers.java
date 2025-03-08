@@ -138,5 +138,10 @@ public class AlgaeRollers extends SubsystemBase
         SmartDashboard.putNumber("Algae Absolute Angle Encoder", getPosition());
         SmartDashboard.putNumber("Algae Relative Roller Encoder", ROLLERS_ENCODER.getPosition());
         SmartDashboard.putNumber("Algae CanRange", getDistance());
+
+        if(getPosition() == 45.00)
+        {
+            ROLLERS.set(0);
+        }
     }
 }

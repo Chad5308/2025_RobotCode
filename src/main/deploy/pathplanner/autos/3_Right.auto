@@ -5,28 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "FaceForward Wheels"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SOURCE"
-                }
-              }
-            ]
+            "name": "FaceForward Wheels"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SOURCE"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Right_E"
+            "pathName": "Right_F"
           }
         },
         {
@@ -38,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "EY"
+            "pathName": "FY"
           }
         },
         {
@@ -48,15 +41,33 @@
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 1.0
+            "pathName": "YB"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "YD"
+            "pathName": "BY"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SOURCE"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "YA"
           }
         },
         {
@@ -69,6 +80,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "2 Piece",
+  "folder": "3 Piece",
   "choreoAuto": false
 }

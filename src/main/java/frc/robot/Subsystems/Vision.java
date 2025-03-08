@@ -70,7 +70,7 @@ public LimelightHelpers.PoseEstimate mt2;
     public void setPIDControllers()
     {
         thetaPIDController.setGoal(0);//radians
-        thetaPIDController.setTolerance(Math.toRadians(1)); //radians
+        thetaPIDController.setTolerance(Math.toRadians(0.5)); //radians
 
 
         xPIDController.setGoal(0);//meters
@@ -162,8 +162,8 @@ public LimelightHelpers.PoseEstimate mt2;
         @Override
         public void execute()
         {
-            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Coral)); /*Rads / sec */
-            // c_Drive.driveReef(turningSpeed);
+            turningSpeed = thetaPIDController.calculate(getYAng_Rad(limelight_Coral)); /*Rads / sec */
+            c_Drive.driveReef(turningSpeed);
         }
 
         @Override

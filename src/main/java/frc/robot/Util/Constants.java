@@ -103,7 +103,7 @@ public final class Constants {
     //For limiting speed while driving
     public static final double TELEDRIVE_MAX_SPEED_METERS_PER_SEC = MAX_SPEED_METERS_PER_SEC / 1.0;
     public static final double TELEDRIVE_MAX_ANGULAR_SPEED_RPS = MAX_ANGULAR_SPEED_RPS / 1.0;
-    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = MAX_SPEED_METERS_PER_SEC/1.25;
+    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = MAX_SPEED_METERS_PER_SEC/1.35;
     public static final double TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC/(TRACK_WIDTH/2);
   }
 
@@ -122,7 +122,6 @@ public final class Constants {
     public static final boolean RIGHT_INVERTED = true;
     public static final boolean ROLLER_INVERTED = true;
 
-    //TODO TUNE THESE
     public static final double ELEVATOR_P = 0.04; //a = -vi^2 / 2 (current-wanted distance)
     public static final double ELEVATOR_I = 0.0;
     public static final double ELEVATOR_D = 0;
@@ -133,7 +132,6 @@ public final class Constants {
     public static final double ROLLER_D = 0;
     public static final double ROLLER_FF = 0;//Dont worry about this value, keep it 0
 
-  //TODO Find all elevator positions
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, 0.15);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(30, 0);
     public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(36, -1);
@@ -142,7 +140,7 @@ public final class Constants {
     public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(30, -1);
     public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(45, -1);
     public static final ElevatorPositionGroup CORAL = new ElevatorPositionGroup(30, 0);
-    public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 0.55);
+    public static final ElevatorPositionGroup SCORE = new ElevatorPositionGroup(-1, 0.35);
     public static final ElevatorPositionGroup SCORE_L1 = new ElevatorPositionGroup(-1, 0.15);
   }
 
@@ -164,7 +162,7 @@ public final class Constants {
     public static final boolean CLIMBER_INVERTED = false;
 
     public static final ClimberPositionGroup NONE = new ClimberPositionGroup(0);
-    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(-1.8);
+    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(-2.025);
   }
 
   public static final class ClimberPositionGroup
@@ -179,7 +177,6 @@ public final class Constants {
 
   public static final class constants_Rollers
   {
-    //TODO Find this gear ration and input it here
     public static final double ROLLER_GEAR_RATIO = 1/3.0;
     public static final double ANGLE_TO_DEGREES = 360.0 * ROLLER_GEAR_RATIO;
 
@@ -193,23 +190,11 @@ public final class Constants {
     public static final double CANRANGE_ROLLERS_DISTANCE_LIMIT = 7; //Inches TODO Change this value to be what we want it to be
     public static final double ROLLER_RPM_TOLERANCE = 5;
 
-    //TODO TUNE THESE
-    public static final double PITCH_P = 0;
-    public static final double PITCH_I = 0;
-    public static final double PITCH_D = 0;
-    public static final double PITCH_FF = 0;//Dont worry about this value, keep it 0
-
     public static final double ROLLER_P = 0;
     public static final double ROLLER_I = 0;
     public static final double ROLLER_D = 0;
     public static final double ROLLER_FF = 0;//Dont worry about this value, keep it 0
 
-    //TODO FIND POSITIONS ONCE INTAKE IS WORKING
-    public static final AlgaePositionGroup NONE = new AlgaePositionGroup(0,0);
-    public static final AlgaePositionGroup INTAKING_ALGAE = new AlgaePositionGroup(0, 0);
-    public static final AlgaePositionGroup ALGAE = new AlgaePositionGroup(0,0);
-    public static final AlgaePositionGroup SCORING = new AlgaePositionGroup(0,0);
-    public static final AlgaePositionGroup PREP_ALGAE = new AlgaePositionGroup(0, 0);
   }
 
   public static final class AlgaePositionGroup
@@ -296,11 +281,11 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED_RPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
-    public static  double P_TRANSLATION = 3;
+    public static  double P_TRANSLATION = 8.5;
     public static  double I_TRANSLATION = 0.0;
     public static  double D_TRANSLATION = 0.0;
 
-    public static final double P_THETA = 3;
+    public static final double P_THETA = 5.5;
     public static final double I_THETA = 0.0;
     public static final double D_THETA = 0.0;
 

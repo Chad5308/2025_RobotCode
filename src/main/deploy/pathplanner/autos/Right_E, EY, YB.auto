@@ -5,22 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "FaceForward Wheels"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SOURCE"
-                }
-              }
-            ]
+            "name": "FaceForward Wheels"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SOURCE"
           }
         },
         {
@@ -45,12 +38,6 @@
           "type": "named",
           "data": {
             "name": "SOURCE"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
           }
         },
         {

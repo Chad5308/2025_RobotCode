@@ -4,6 +4,7 @@ package frc.robot.Subsystems.Drive;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -110,9 +111,10 @@ public class Module extends SubsystemBase
     driveFeedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(constants_Module.DRIVE_GEAR_RATIO);
     neutralModeValue = NeutralModeValue.Brake;
     driveMotor.getConfigurator().apply(driveGains);
+    driveMotor.getConfigurator().apply(new CurrentLimitsConfigs().withStatorCurrentLimitEnable(false).withSupplyCurrentLimitEnable(true).withSupplyCurrentLimit(80));
     driveMotor.getConfigurator().apply(driveFeedbackConfigs, 5);
     driveMotor.getConfigurator().apply(new MotorOutputConfigs().withInverted(invertDrive?InvertedValue.Clockwise_Positive:InvertedValue.CounterClockwise_Positive).withNeutralMode(neutralModeValue));
-    
+  
     
     
     this.absoluteReversed = absoluteReversed;
