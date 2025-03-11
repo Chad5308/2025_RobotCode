@@ -21,7 +21,7 @@ import java.util.function.*;
 public class Vision extends SubsystemBase{
     
 public Drive c_Drive;
-public Swerve s_swerve;
+public Drive s_swerve;
 public Controllers u_Controllers;
 public NetworkTable networkTables;
 public IntegerSubscriber pipeline;
@@ -44,7 +44,7 @@ public LimelightHelpers.PoseEstimate mt2;
 
 // public SlewRateLimiter tLimiter, xLimiter, zLimiter;
 
-    public Vision(Drive c_Drive, Swerve s_swerve, Controllers u_Controllers){
+    public Vision(Drive c_Drive, Drive s_swerve, Controllers u_Controllers){
         this.c_Drive = c_Drive;
         this.s_swerve = s_swerve;
         this.u_Controllers = u_Controllers;
@@ -96,7 +96,7 @@ public LimelightHelpers.PoseEstimate mt2;
         @Override
         public void initialize()
         {
-            s_swerve.faceAllFoward();
+            // s_swerve.faceAllFoward();
         }
         
         @Override
@@ -104,7 +104,7 @@ public LimelightHelpers.PoseEstimate mt2;
         {
             turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
             xSpeed = xPIDController.calculate(distanceX(limelight_Algae, "Algae")); /*m/sec */
-            c_Drive.driveAlgae(xSpeed, turningSpeed);
+            // c_Drive.driveAlgae(xSpeed, turningSpeed);
         }
 
         @Override
@@ -156,14 +156,14 @@ public LimelightHelpers.PoseEstimate mt2;
         @Override
         public void initialize()
         {
-            s_swerve.faceAllFoward();
+            // s_swerve.faceAllFoward();
         }
         
         @Override
         public void execute()
         {
             turningSpeed = thetaPIDController.calculate(getYAng_Rad(limelight_Coral)); /*Rads / sec */
-            c_Drive.driveReef(turningSpeed);
+            // c_Drive.driveReef(turningSpeed);
         }
 
         @Override

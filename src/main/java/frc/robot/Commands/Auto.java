@@ -26,13 +26,13 @@ import frc.robot.Subsystems.StateMachine.TargetState;
 public class Auto {
     
 public Drive c_Drive;
-public Swerve s_Swerve;
+public Drive s_Swerve;
 public Vision s_Vision;
 public RobotConfig config;
 public PIDController translationConstants = new PIDController(constants_Auto.P_TRANSLATION, constants_Auto.I_TRANSLATION, constants_Auto.D_TRANSLATION);
 public PIDController rotationConstants = new PIDController(constants_Auto.P_THETA, constants_Auto.I_THETA, constants_Auto.D_THETA);
 
-    public Auto(StateMachine s_StateMachine, Drive c_Drive, Swerve s_Swerve, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
+    public Auto(StateMachine s_StateMachine, Drive c_Drive, Drive s_Swerve, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
     {
         this.c_Drive = c_Drive;
         this.s_Swerve = s_Swerve;

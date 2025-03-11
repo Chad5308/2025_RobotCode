@@ -59,6 +59,23 @@ public final class Constants {
 
   public static final class constants_Drive {
 
+    public static final double odometryFrequency = 100.0; // Hz
+     public static final Mode currentMode = Mode.REAL;
+  // public static final Mode currentMode = Mode.SIM;
+  // public static final Mode currentMode = Mode.REPLAY;
+
+  public static enum Mode {
+    /** Running on a real robot. */
+    REAL,
+
+    /** Running a physics simulator. */
+    SIM,
+
+    /** Replaying from a log file. */
+    REPLAY
+  }
+
+
     public static final Measure<DistanceUnit> WHEEL_RADIUS = edu.wpi.first.units.Units.Inches.of(1.5);
     public static final double COF = 1.2;
     //TODO Measure from the center of each wheel to get these, Front to back for "WHEEL_BASE", Left to right for "TRACK_WIDTH"
@@ -66,12 +83,15 @@ public final class Constants {
       // Distance between left and right wheels
     public static final double WHEEL_BASE = Units.inchesToMeters(29);
       // Distance between front and back wheels
-    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-      new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), //front left
-        new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2), //front right
-        new Translation2d(-WHEEL_BASE / 2,  TRACK_WIDTH / 2), //back left
-        new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)); //back right
-
+          /** Returns an array of module translations. */
+    public static Translation2d[] getModuleTranslations() {
+      return new Translation2d[] {
+        new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+        new Translation2d(WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
+        new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+        new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0)
+      };
+    }
     public static final double MODULE_RADIUS = Units.inchesToMeters(Constants.constants_Drive.TRACK_WIDTH/2); //measured from center of robot to furthest module.
 
     
