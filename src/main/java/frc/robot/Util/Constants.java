@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.units.DistanceUnit;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.StateMachine.RobotState;
@@ -54,26 +54,37 @@ public final class Constants {
     public static final double A_DRIVE = 0.1;
     public static final double P_DRIVE = 0.1;
     public static final double I_DRIVE = 0.1;
+
+    //TODO Measure from the center of each wheel to get these, Front to back for "WHEEL_BASE", Left to right for "TRACK_WIDTH"
+    public static final double TRACK_WIDTH = Units.inchesToMeters(29);
+      // Distance between left and right wheels
+    public static final double WHEEL_BASE = Units.inchesToMeters(29);
+      // Distance between front and back wheels
+
   }
 
 
   public static final class constants_Drive {
 
     public static final double odometryFrequency = 100.0; // Hz
-     public static final Mode currentMode = Mode.REAL;
-  // public static final Mode currentMode = Mode.SIM;
-  // public static final Mode currentMode = Mode.REPLAY;
+    public static final double TURN_PID_MIN_INPUT = 0; // Radians
+  public static final double TURN_PID_MAX_INPUT = 2 * Math.PI; // Radians
 
-  public static enum Mode {
-    /** Running on a real robot. */
-    REAL,
 
-    /** Running a physics simulator. */
-    SIM,
 
-    /** Replaying from a log file. */
-    REPLAY
-  }
+    public static final Mode simMode = Mode.SIM;
+    public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
+
+    public static enum Mode {
+      /** Running on a real robot. */
+      REAL,
+
+      /** Running a physics simulator. */
+      SIM,
+
+      /** Replaying from a log file. */
+      REPLAY
+    }
 
 
     public static final Measure<DistanceUnit> WHEEL_RADIUS = edu.wpi.first.units.Units.Inches.of(1.5);

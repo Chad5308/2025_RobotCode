@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Commands.Drive;
+import frc.robot.Commands.DriveCommand;
 import frc.robot.Commands.States.AlgaeState;
 import frc.robot.Commands.States.CleanL2State;
 import frc.robot.Commands.States.CleanL3State;
@@ -62,7 +62,7 @@ public class StateMachine extends SubsystemBase {
 
   //Our state machine diagram! -> https://www.tldraw.com/ro/7BgSxOY5qbTRsoqWiZpjX?d=v-325.-71.2543.1252.page
  
-  public Command tryState(RobotState desiredState, StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights) {
+  public Command tryState(RobotState desiredState, StateMachine s_StateMachine, DriveCommand c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights) {
 
     System.out.println(desiredState + "-------Desired");
     System.out.println(currentState + "-------current");

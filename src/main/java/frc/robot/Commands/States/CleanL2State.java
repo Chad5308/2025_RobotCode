@@ -2,7 +2,7 @@
 package frc.robot.Commands.States;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Commands.Drive;
+import frc.robot.Commands.DriveCommand;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Elevator;
@@ -16,7 +16,7 @@ import frc.robot.Subsystems.Vision;
 public class CleanL2State extends Command
 {
     StateMachine s_StateMachine;
-    Drive c_Drive;
+    DriveCommand c_Drive;
     Elevator s_Elevator;
     Climber s_Climber;
     AlgaeRollers s_Rollers;
@@ -24,7 +24,7 @@ public class CleanL2State extends Command
     Vision s_Vision;
   
 
-    public CleanL2State(StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
+    public CleanL2State(StateMachine s_StateMachine, DriveCommand c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
     {
         this.s_StateMachine = s_StateMachine;
         this.c_Drive = c_Drive;

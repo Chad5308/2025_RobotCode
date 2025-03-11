@@ -2,7 +2,7 @@ package frc.robot.Commands.States;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Commands.Drive;
+import frc.robot.Commands.DriveCommand;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Elevator;
@@ -22,10 +22,10 @@ public class ScoringState extends Command
     AlgaeRollers s_Rollers;
     Vision s_Vision;
     Lights s_Lights;
-    Drive c_Drive;
+    DriveCommand c_Drive;
     Climber s_Climber;
 
-    public ScoringState(StateMachine s_StateMachine, Drive c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
+    public ScoringState(StateMachine s_StateMachine, DriveCommand c_Drive, Elevator s_Elevator, Climber s_Climber, AlgaeRollers s_Rollers, Vision s_Vision, Lights s_Lights)
     {
         this.s_StateMachine = s_StateMachine;
         this.s_Elevator = s_Elevator;

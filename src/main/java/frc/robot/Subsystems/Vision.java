@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.LimelightHelpers;
-import frc.robot.Commands.Drive;
-import frc.robot.Subsystems.Drive.Swerve;
+import frc.robot.Commands.DriveCommand;
+import frc.robot.Subsystems.Drive.Drive;
 import frc.robot.Util.Constants.constants_Auto;
 import frc.robot.Util.Constants.constants_Limelight;
 import frc.robot.Util.Controllers;
@@ -20,8 +20,8 @@ import java.util.function.*;
 
 public class Vision extends SubsystemBase{
     
-public Drive c_Drive;
-public Drive s_swerve;
+public DriveCommand c_Drive;
+public DriveCommand s_swerve;
 public Controllers u_Controllers;
 public NetworkTable networkTables;
 public IntegerSubscriber pipeline;
@@ -44,7 +44,7 @@ public LimelightHelpers.PoseEstimate mt2;
 
 // public SlewRateLimiter tLimiter, xLimiter, zLimiter;
 
-    public Vision(Drive c_Drive, Drive s_swerve, Controllers u_Controllers){
+    public Vision(DriveCommand c_Drive, DriveCommand s_swerve, Controllers u_Controllers){
         this.c_Drive = c_Drive;
         this.s_swerve = s_swerve;
         this.u_Controllers = u_Controllers;

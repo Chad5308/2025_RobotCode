@@ -7,6 +7,9 @@ package frc.robot;
 
 
 
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -20,9 +23,10 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Auto;
-import frc.robot.Commands.Drive;
+import frc.robot.Commands.DriveCommand;
 import frc.robot.Util.Controllers;
 import frc.robot.Util.LimelightHelpers;
+import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Elevator;
@@ -31,7 +35,12 @@ import frc.robot.Subsystems.StateMachine;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
 import frc.robot.Subsystems.Vision;
-import frc.robot.Subsystems.Drive.Swerve;
+import frc.robot.Subsystems.Drive.Drive;
+import frc.robot.Subsystems.Drive.GyroIO;
+import frc.robot.Subsystems.Drive.GyroIONavX;
+import frc.robot.Subsystems.Drive.ModuleIO;
+import frc.robot.Subsystems.Drive.ModuleIODrive;
+import frc.robot.Subsystems.Drive.ModuleIOSim;
 
 
 /**
@@ -42,15 +51,13 @@ import frc.robot.Subsystems.Drive.Swerve;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public SendableChooser<String> autoChooser1, autoChooser2, autoChooser3;
-  public String finalSelection;
 
   
   public Controllers u_Controllers;
-  public Swerve s_Swerve;
+  public Drive s_Drive;
   public LimelightHelpers h_Limelight;
   public Vision s_Vision;
-  public Drive c_Drive;
+  public DriveCommand c_Drive;
   public StateMachine s_StateMachine;
   public Climber s_Climber;
   public Elevator s_Elevator;
@@ -61,19 +68,50 @@ public class RobotContainer {
   public Trigger gamePieceStoredTrigger_Coral = new Trigger(() -> s_Elevator.getGamePieceStored());
   public Trigger gamePieceCollectedTrigger_Algae = new Trigger(() -> s_Rollers.getGamePieceCollected());
 
+  private final LoggedDashboardChooser<Command> autoChooser;
+
+
   public RobotContainer() 
   {
-   
-    autoChooser1 = new SendableChooser<>();
-    autoChooser2 = new SendableChooser<>();
-    autoChooser3 = new SendableChooser<>();
-    SmartDashboard.putData(autoChooser1);
-    SmartDashboard.putData(autoChooser2);
-    SmartDashboard.putData(autoChooser3);
 
-    configureAutoChoosers();
+    switch (constants_Drive.currentMode) {
+      case REAL:
+        // Real robot, instantiate hardware IO implementations
+        s_Drive =
+            new Drive(
+                new GyroIONavX(),
+                new ModuleIODrive(0),
+                new ModuleIODrive(1),
+                new ModuleIODrive(2),
+                new ModuleIODrive(3));
+        break;
+
+      case SIM:
+        // Sim robot, instantiate physics sim IO implementations
+        s_Drive =
+            new Drive(
+                new GyroIO() {},
+                new ModuleIOSim(),
+                new ModuleIOSim(),
+                new ModuleIOSim(),
+                new ModuleIOSim());
+        break;
+
+      default:
+        // Replayed robot, disable IO implementations
+        s_Drive =
+            new Drive(
+                new GyroIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {});
+        break;
+    }
+   
+    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+
     configureFiles();
-    s_Swerve.setDefaultCommand(c_Drive);
     configureDriverBindings();
 
 
@@ -108,21 +146,27 @@ public class RobotContainer {
   public void configureFiles()
   {
       u_Controllers = new Controllers();
-      s_Swerve = new Swerve();
       h_Limelight = new LimelightHelpers();
-      c_Drive = new Drive(s_Swerve, u_Controllers.leftStick, u_Controllers.rightStick);
-      s_Vision = new Vision(c_Drive, s_Swerve, u_Controllers);
+      // c_Drive = new DriveCommand(s_Drive, u_Controllers.leftStick, u_Controllers.rightStick);
+      // s_Vision = new Vision(c_Drive, s_Drive, u_Controllers);
       s_StateMachine = new StateMachine();
       s_Climber = new Climber();
       s_Elevator = new Elevator();
       s_Rollers = new AlgaeRollers();
       s_Lights = new Lights();
-      c_Auto = new Auto(s_StateMachine, c_Drive, s_Swerve, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+      c_Auto = new Auto(s_StateMachine, c_Drive, s_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
   }
 
 
   public final void configureDriverBindings() {
 
+      // Default command, normal field-relative drive
+    s_Drive.setDefaultCommand(
+        DriveCommand.joystickDrive(
+            s_Drive,
+            () -> -u_Controllers.leftStick.getY(),
+            () -> -u_Controllers.leftStick.getX(),
+            () -> -u_Controllers.rightStick.getX()));
   
     // Intake Algae
     u_Controllers.leftStick.trigger().whileTrue(Commands.deferredProxy(()->
@@ -166,9 +210,9 @@ public class RobotContainer {
     
     
     //Drive Controls
-    u_Controllers.rightStick.button(2).toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
-    u_Controllers.rightStick.button(3).toggleOnTrue(s_Swerve.fieldOrientedToggle());
-    u_Controllers.rightStick.button(4).onTrue(s_Swerve.resetWheels()); //window looking button
+    // u_Controllers.rightStick.button(2).toggleOnTrue(Commands.runOnce(() -> s_Drive.zeroHeading()));
+    // u_Controllers.rightStick.button(3).toggleOnTrue(s_Drive.fieldOrientedToggle());
+    u_Controllers.rightStick.button(4).onTrue(Commands.runOnce(()->s_Drive.faceAllFoward())); //window looking button
     
     
     //PREPS For Opperator controller
@@ -228,79 +272,12 @@ public class RobotContainer {
   }
 
 
-  
-  public void configureAutoChoosers()
-  {
-    //Left Paths
-    autoChooser1.addOption("Left_I", "Left_I");
-    autoChooser1.addOption("Left_J", "Left_J");
-    autoChooser1.addOption("Left_Leave", "Left_Leave");
-
-    //Middle Paths
-    autoChooser1.addOption("Middle_G", "Middle_G");
-    autoChooser1.addOption("Middle_H", "Middle_H");
-    autoChooser1.addOption("Middle_Leave", "Middle_Leave");
-    
-    
-    //Right Paths
-    autoChooser1.addOption("Right_E", "Right_E");
-    autoChooser1.addOption("Right_F", "Right_F");
-    autoChooser1.addOption("Right_Leave", "Right_Leave");
-    autoChooser1.addOption("3_Left", "3_Left");
-    autoChooser1.addOption("3_Right", "3_Right");
-    autoChooser1.addOption("Test", "Test");
-
-    //X Paths
-    autoChooser2.addOption("IX", "IX");
-    autoChooser2.addOption("JX", "JX");
-    //Y Paths
-    autoChooser2.addOption("EY", "EY");
-    autoChooser2.addOption("FY", "FY");
-    autoChooser2.addOption("None", null);
-
-    //Return X Paths
-    autoChooser3.addOption("XA", "XA");
-    //Return Y Paths
-    autoChooser3.addOption("YB", "YB");
-
-    autoChooser3.addOption("None", null);
-  }
-
-
-
-  public Command getAutonomousCommand()
-  {
-    // return autoChooser.getSelected();
-
-    // Before initializing finalSelection, get the current
-    // choice for each autoChooser object.
-    System.out.printf("***** Auto selected: %s %s %s\n", 
-                      autoChooser1.getSelected(), 
-                      autoChooser2.getSelected(), 
-                      autoChooser3.getSelected());
-
-    // We need some logic to handle the case when the path is only
-    // one or two legs.  Below is a sample of one way to deal with 
-    // that.  Question: What should we do if the selection1 is null?
-    finalSelection = autoChooser1.getSelected();
-    if(finalSelection == null)
-    {
-      System.out.print("***** WARNING: No auto path selected. ***********************");
-    }
-    else
-    {
-      if(autoChooser2.getSelected() != null)
-      {
-        finalSelection += ", " + autoChooser2.getSelected();
-      }
-
-      if(autoChooser3.getSelected() != null)
-      {
-        finalSelection += ", " + autoChooser3.getSelected();
-      }
-   }
-
-    return new PathPlannerAuto(finalSelection);
-    // return new TimedDrive(s_Swerve, 3, -2, 0, 0);
+ /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    return autoChooser.get();
   }
 }
