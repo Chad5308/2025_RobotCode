@@ -41,6 +41,11 @@ public class Elevator extends SubsystemBase
     public RelativeEncoder ELE_ROLLER_ENCODER;
     public SparkClosedLoopController ELE_ROLLER_PID;
     public SparkBaseConfig ROLLER_CONFIG;
+
+    // public SparkMax ELE_CLEANER;
+    // public RelativeEncoder ELE_CLEANER_ENCODER;
+    // public SparkClosedLoopController ELE_CLEANER_PID;
+    // public SparkBaseConfig CLEANER_CONFIG;
     
     public boolean CORAL_OVERRIDE = false;
 
@@ -86,6 +91,11 @@ public class Elevator extends SubsystemBase
         ROLLER_CONFIG.inverted(constants_Elevator.ROLLER_INVERTED);
         ROLLER_CONFIG.idleMode(IdleMode.kBrake);
 
+        // CLEANER_CONFIG = new SparkMaxConfig().apply(new ClosedLoopConfig().pidf(constants_Elevator.CLEANER_P, constants_Elevator.CLEANER_I, constants_Elevator.CLEANER_D, constants_Elevator.CLEANER_FF));
+        // CLEANER_CONFIG.encoder.positionConversionFactor(0); //ADD SOMETHING WHEN KNOW WHAT TO DO
+        // CLEANER_CONFIG.inverted(constants_Elevator.CLEANER_INVERTED);
+        // CLEANER_CONFIG.idleMode(IdleMode.kBrake);
+
         ELE_LEFT= new SparkMax(MAP_ELEVATOR.ELEVATOR_LEFT_SPARKMAX, MotorType.kBrushless);
         ELE_LEFT_ENCODER = ELE_LEFT.getEncoder();
         ELE_LEFT_PID = ELE_LEFT.getClosedLoopController();
@@ -100,6 +110,11 @@ public class Elevator extends SubsystemBase
         ELE_ROLLER_ENCODER = ELE_ROLLER.getEncoder();
         ELE_ROLLER_PID = ELE_ROLLER.getClosedLoopController();
         ELE_ROLLER.configure(ROLLER_CONFIG, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        // ELE_CLEANER = new SparkMax(MAP_ELEVATOR.ElEVATOR_CLEANER_SPARKMAX, MotorType.kBrushless);
+        // ELE_CLEANER_ENCODER = ELE_CLEANER.getEncoder();
+        // ELE_CLEANER_PID = ELE_CLEANER.getClosedLoopController();
+        // ELE_CLEANER.configure(CLEANER_CONFIG, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         ELE_LEFT_ENCODER.setPosition(constants_Elevator.ELEVATOR_BASE_HEIGHT);
         ELE_RIGHT_ENCODER.setPosition(constants_Elevator.ELEVATOR_BASE_HEIGHT);
@@ -181,6 +196,7 @@ public class Elevator extends SubsystemBase
         SmartDashboard.putNumber("Right Relative Position", ELE_RIGHT_ENCODER.getPosition());
         SmartDashboard.putNumber("Roller Position", ELE_ROLLER_ENCODER.getPosition()); //TODO This can be deleted or commented out once it is found if this wheel rotates to push the game piece out is positive rotation
         SmartDashboard.putNumber("Elevator Canrange", getDistance());
+        // SmartDashboard.putNumber("Cleaner Position", ELE_CLEANER_ENCODER.getPosition());
     }
 
 }

@@ -121,6 +121,7 @@ public final class Constants {
     public static final boolean LEFT_INVERTED = false;
     public static final boolean RIGHT_INVERTED = true;
     public static final boolean ROLLER_INVERTED = true;
+    // public static final boolean CLEANER_INVERTED = false;
 
     public static final double ELEVATOR_P = 0.04; //a = -vi^2 / 2 (current-wanted distance)
     public static final double ELEVATOR_I = 0.0;
@@ -131,6 +132,11 @@ public final class Constants {
     public static final double ROLLER_I = 0;
     public static final double ROLLER_D = 0;
     public static final double ROLLER_FF = 0;//Dont worry about this value, keep it 0
+
+    // public static final double CLEANER_P = 0;
+    // public static final double CLEANER_I = 0;
+    // public static final double CLEANER_D = 0;
+    // public static final double CLEANER_FF = 0;
 
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, 0.15);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(30, 0);
@@ -281,11 +287,11 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED_RPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
-    public static  double P_TRANSLATION = 8.5;
-    public static  double I_TRANSLATION = 0.0;
+    public static  double P_TRANSLATION = 6.35;
+    public static  double I_TRANSLATION = 0.00;
     public static  double D_TRANSLATION = 0.0;
 
-    public static final double P_THETA = 5.5;
+    public static final double P_THETA = 3.8;
     public static final double I_THETA = 0.0;
     public static final double D_THETA = 0.0;
 
