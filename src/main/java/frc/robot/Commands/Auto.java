@@ -58,6 +58,7 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
 
             
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Swerve.faceAllFoward()));
+        NamedCommands.registerCommand("FaceRight", Commands.runOnce(()-> s_Swerve.faceAllRight()));
         NamedCommands.registerCommand("SCORING", Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
         NamedCommands.registerCommand("SOURCE", Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 

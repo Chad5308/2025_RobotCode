@@ -133,7 +133,16 @@ public class Swerve extends SubsystemBase{
         frontRightModule.wheelFaceForward();
         backLeftModule.wheelFaceForward();
         backRightModule.wheelFaceForward();
-        System.out.println("exacuted faceAll");
+        System.out.println("exacuted faceAll Forward");
+    }
+
+    //face right method. Called once the bot is enabled
+    public void faceAllRight() {
+        frontLeftModule.wheelFaceRight();
+        frontRightModule.wheelFaceRight();
+        backLeftModule.wheelFaceRight();
+        backRightModule.wheelFaceRight();
+        System.out.println("exacuted faceAll Right");
     }
     
     public Command resetWheels(){

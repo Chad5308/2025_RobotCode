@@ -209,5 +209,15 @@ public class Module extends SubsystemBase
       steerPIDController.setReference(0, ControlType.kPosition);
     } catch (Exception e){}
   }
+
+  public void wheelFaceRight() 
+  {
+    steerEncoder.setPosition(getABSPosition());
+    try 
+    {
+      Thread.sleep(10);
+      steerPIDController.setReference(90, ControlType.kPosition);
+    } catch (Exception e){}
+  }
     
 }

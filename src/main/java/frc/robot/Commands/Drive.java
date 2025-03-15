@@ -19,7 +19,7 @@ public class Drive extends Command{
     public double ySpeed, xSpeed, turningSpeed;
     public ChassisSpeeds chassisSpeeds;
 
-    public static final double DEADBAND = 0.05;
+    public static final double DEADBAND = 0.025;
 
     
 

@@ -140,8 +140,8 @@ public final class Constants {
 
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, 0.15);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(30, 0);
-    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(36, -1);
-    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(36, -1);
+    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(35.5, -1);
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(35.5, -1);
     public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(51, -1);
     public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(30, -1);
     public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(45, -1);
@@ -287,11 +287,11 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED_RPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
-    public static  double P_TRANSLATION = 6.35;
-    public static  double I_TRANSLATION = 0.00;
+    public static  double P_TRANSLATION = 6.00;
+    public static  double I_TRANSLATION = 0.00025;
     public static  double D_TRANSLATION = 0.0;
 
-    public static final double P_THETA = 3.8;
+    public static final double P_THETA = 3.925;
     public static final double I_THETA = 0.0;
     public static final double D_THETA = 0.0;
 

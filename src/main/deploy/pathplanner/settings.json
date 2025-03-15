@@ -42,5 +42,7 @@
   "brModuleY": -0.273,
   "bumperOffsetX": 0.009,
   "bumperOffsetY": 0.009,
-  "robotFeatures": []
+  "robotFeatures": [
+    "{\"name\":\"Coral_Shoot\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.203,\"y\":0.203},\"end\":{\"x\":0.203,\"y\":-0.413},\"strokeWidth\":0.02}}"
+  ]
 }
