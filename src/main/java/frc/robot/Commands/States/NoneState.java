@@ -53,7 +53,11 @@ public class NoneState extends Command
       s_Rollers.retractIntake.schedule();
     }
     
-    
+    @Override
+    public void end(boolean interrupted)
+    {
+      s_Rollers.retractIntake.schedule();
+    }
 
   // Returns true when the command should end.
   @Override

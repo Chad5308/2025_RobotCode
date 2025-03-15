@@ -34,12 +34,6 @@
           "data": {
             "name": "SCORING"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "JX"
-          }
         }
       ]
     }

@@ -19,7 +19,7 @@ public class Drive extends Command{
     public double ySpeed, xSpeed, turningSpeed;
     public ChassisSpeeds chassisSpeeds;
 
-    public static final double DEADBAND = 0.025;
+    public static final double DEADBAND = 0.075;
 
     
 
@@ -84,9 +84,9 @@ public class Drive extends Command{
         s_Swerve.setModuleStates(chassisSpeeds);
     }
 
-    public void driveReef(double turningSpeed)
+    public void driveReef(double xSpeed, double turningSpeed)
     {
-        chassisSpeeds = new ChassisSpeeds(this.xSpeed, this.ySpeed, turningSpeed);
+        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(xSpeed, 0, turningSpeed), s_Swerve.getRotation2d());
         s_Swerve.setModuleStates(chassisSpeeds);
     }
 

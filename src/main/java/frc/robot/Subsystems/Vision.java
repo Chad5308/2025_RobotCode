@@ -18,10 +18,12 @@ import frc.robot.Util.LimelightHelpers.LimelightResults;
 
 import java.util.function.*;
 
+import com.ctre.phoenix6.signals.System_StateValue;
+
 public class Vision extends SubsystemBase{
     
 public Drive c_Drive;
-public Swerve s_swerve;
+public Swerve s_Swerve;
 public Controllers u_Controllers;
 public NetworkTable networkTables;
 public IntegerSubscriber pipeline;
@@ -44,9 +46,9 @@ public LimelightHelpers.PoseEstimate mt2;
 
 // public SlewRateLimiter tLimiter, xLimiter, zLimiter;
 
-    public Vision(Drive c_Drive, Swerve s_swerve, Controllers u_Controllers){
+    public Vision(Drive c_Drive, Swerve s_Swerve, Controllers u_Controllers){
         this.c_Drive = c_Drive;
-        this.s_swerve = s_swerve;
+        this.s_Swerve = s_Swerve;
         this.u_Controllers = u_Controllers;
         networkTables = NetworkTableInstance.getDefault().getTable("limelight");
         pipelinePublisher = networkTables.getIntegerTopic("limelight.getpipeline").publish();
@@ -55,8 +57,8 @@ public LimelightHelpers.PoseEstimate mt2;
         thetaPIDController = new ProfiledPIDController(constants_Limelight.THETA_P, constants_Limelight.THETA_I, constants_Limelight.THETA_D, constants_Auto.THETA_CONTROLLER_CONSTRAINTS);
         xPIDController = new ProfiledPIDController(constants_Limelight.LINEAR_P, constants_Limelight.LINEAR_I, constants_Limelight.LINEAR_D, constants_Auto.LINEAR_CONSTRAINTS);
         setPIDControllers();
-        LimelightHelpers.setCameraPose_RobotSpace(limelight_Algae, constants_Limelight.getCameraList(limelight_Algae).get(1), constants_Limelight.getCameraList(limelight_Algae).get(2), constants_Limelight.getCameraList(limelight_Algae).get(3), 180, constants_Limelight.getCameraList(limelight_Algae).get(0), 0);
-        LimelightHelpers.setCameraPose_RobotSpace(limelight_Coral, constants_Limelight.getCameraList(limelight_Coral).get(1), constants_Limelight.getCameraList(limelight_Coral).get(2), constants_Limelight.getCameraList(limelight_Coral).get(3), 90, constants_Limelight.getCameraList(limelight_Coral).get(0), 0);
+        LimelightHelpers.setCameraPose_RobotSpace(limelight_Algae, constants_Limelight.getCameraList(limelight_Algae).get(1), constants_Limelight.getCameraList(limelight_Algae).get(2), constants_Limelight.getCameraList(limelight_Algae).get(3), 0, constants_Limelight.getCameraList(limelight_Algae).get(0), 0);
+        LimelightHelpers.setCameraPose_RobotSpace(limelight_Coral, constants_Limelight.getCameraList(limelight_Coral).get(1), constants_Limelight.getCameraList(limelight_Coral).get(2), constants_Limelight.getCameraList(limelight_Coral).get(3), 0, constants_Limelight.getCameraList(limelight_Coral).get(0), 0);
 
     }
 
@@ -96,7 +98,8 @@ public LimelightHelpers.PoseEstimate mt2;
         @Override
         public void initialize()
         {
-            s_swerve.faceAllFoward();
+            s_Swerve.faceAllFoward();
+            thetaPIDController.setGoal(0);
         }
         
         @Override
@@ -120,106 +123,80 @@ public LimelightHelpers.PoseEstimate mt2;
         }
     };
 
-    // public Command autoProcessor = new Command()
-    // {
-        
-    //     @Override
-    //     public void initialize()
-    //     {
-    //         s_swerve.faceAllFoward();
-    //     }
-        
-    //     @Override
-    //     public void execute()
-    //     {
-        //     turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Algae)); /*Rads / sec */
-        //     xSpeed = xPIDController.calculate(distanceX(limelight_Algae, "Processor")); /*m/sec */
-        //     c_Drive.driveAlgae(xSpeed, turningSpeed);
-        // }
-
-    //     @Override
-    //     public boolean isFinished()
-    //     {
-    //         return atGoal() || !hasTarget(limelight_Algae);
-    //     }
-
-    //     @Override
-    //     public void end(boolean interrupted)
-    //     {
-    //         resetDriveValues();
-    //     }
-    // };
-
-    public Command autoReef = new Command()
+    public Command leftReef = new Command()
     {
         
         @Override
         public void initialize()
         {
-            s_swerve.faceAllFoward();
+            s_Swerve.faceAllFoward();
+            thetaPIDController.setGoal(constants_Limelight.leftCoralAngle);
+            s_Swerve.setAngleAdjustment(constants_Limelight.getTargetAngle(getTargetID(limelight_Coral)));
         }
         
         @Override
         public void execute()
         {
-            turningSpeed = thetaPIDController.calculate(getYAng_Rad(limelight_Coral)); /*Rads / sec */
-            c_Drive.driveReef(turningSpeed);
+            turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Coral)); /*Rads / sec */
+            xSpeed = xPIDController.calculate(distanceX(limelight_Coral, "Reef"));
+            c_Drive.driveReef(xSpeed, -turningSpeed);
         }
 
         @Override
         public boolean isFinished()
         {
-            return !u_Controllers.leftStick.button(4).getAsBoolean() || !hasTarget(limelight_Coral);
+            return !u_Controllers.leftStick.button(3).getAsBoolean() || !hasTarget(limelight_Coral);
         }
 
         @Override
         public void end(boolean interrupted)
         {
             resetDriveValues();
+            s_Swerve.setAngleAdjustment(0);
         }
     };
+    public Command RightReef = new Command()
+        {
+            
+            @Override
+            public void initialize()
+            {
+                s_Swerve.faceAllFoward();
+                thetaPIDController.setGoal(constants_Limelight.rightCoralAngle);
+                s_Swerve.setAngleAdjustment(constants_Limelight.getTargetAngle(getTargetID(limelight_Coral)));
+            }
+            
+            @Override
+            public void execute()
+            {
+                turningSpeed = thetaPIDController.calculate(getXAng_Rad(limelight_Coral)); /*Rads / sec */
+                xSpeed = xPIDController.calculate(getYAng_Rad(limelight_Coral));
+                c_Drive.driveReef(xSpeed, -turningSpeed);
+            }
 
-    // public Command autoSource = new Command()
-    // {
-        
-    //     @Override
-    //     public void initialize()
-    //     {
-    //         s_swerve.faceAllFoward();
-    //     }
-        
-    //     @Override
-    //     public void execute()
-    //     {
+            @Override
+            public boolean isFinished()
+            {
+                return !u_Controllers.leftStick.button(4).getAsBoolean() || !hasTarget(limelight_Coral);
+            }
 
-    //         // ySpeed = -1 * xPIDController.calculate(distanceY); /*m/sec */
-    //     }
-
-    //     @Override
-    //     public boolean isFinished()
-    //     {
-    //         return atGoal() || !hasTarget(limelight_Algae);
-    //     }
-
-    //     @Override
-    //     public void end(boolean interrupted)
-    //     {
-    //         resetDriveValues();
-    //     }
-    // };
-
-    
-
+            @Override
+            public void end(boolean interrupted)
+            {
+                resetDriveValues();
+                s_Swerve.setAngleAdjustment(0);
+            }
+        };
 
 
     public double getXAng_Rad(String camera)
     {
-        return -1 * Math.toRadians(LimelightHelpers.getTX(camera));
+        return Math.toRadians(LimelightHelpers.getTX(camera));
     }
 
     public double getYAng_Rad(String camera)
     {
-        return -1* Math.toRadians(LimelightHelpers.getTY(camera));
+        return Math.toRadians(LimelightHelpers.getTY(camera));
     }
 
     public boolean hasTarget(String camera)
@@ -229,10 +206,15 @@ public LimelightHelpers.PoseEstimate mt2;
 
     public double distanceX(String camera, String target)
     {
-        return ((constants_Limelight.getTargetHeight(target) - constants_Limelight.getCameraList(camera).get(3)) / (Math.tan((getYAng_Rad(camera)+constants_Limelight.getCameraList(camera).get(0)))) + constants_Limelight.getCameraList(camera).get(1)); //meters from target to center of robot
+        return ((constants_Limelight.getTargetHeight(target) - constants_Limelight.getCameraList(camera).get(3)) / (Math.tan((getYAng_Rad(camera)+constants_Limelight.getCameraList(camera).get(0))))); //meters from target to the camera
     }
 
-    // public double distanceX(String camera)
+    public int getTargetID(String camera)
+    {
+        return (int)(LimelightHelpers.getFiducialID(camera));
+    }
+
+    // pub\\l\ic double distanceX(String camera)
     // {
     //     return (Math.cos(Math.toRadians(distanceY/xAng_Coral))) * 0.0254;//meters to center of robot
     // }
@@ -250,13 +232,13 @@ public LimelightHelpers.PoseEstimate mt2;
         SmartDashboard.putNumber("Turning Speed", turningSpeed);
         SmartDashboard.putNumber("XSpeed", xSpeed);
 
-        SmartDashboard.putNumber("X distance" , distanceX(limelight_Algae, "Algae"));
+        SmartDashboard.putNumber("X distance" , distanceX(limelight_Coral, "Reef"));
 
         // distanceY = (((13 - constants_Limelight.HEIGHT_CORAL) / (Math.tan(Math.toRadians(yAng_Coral+constants_Limelight.ANGLE_CORAL)))) + constants_Limelight.DISTANCE_FORWARD_CORAL) * 0.0254; //meters from target to center of robot
         // distanceX = (Math.cos(Math.toRadians(distanceY/xAng_Coral))) * 0.0254;//meters to center of robot
  
-        // s_swerve.m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-        // s_swerve.m_poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+        // s_Swerve.m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        // s_Swerve.m_poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
         // SmartDashboard.putString("Pose Estimate", mt2.pose.toString());
         // SmartDashboard.putBoolean("Has Targets", hasTargets_Coral);
         // botPose_targetSpace = LimelightHelpers.getBotPose_TargetSpace(limelight_Coral);

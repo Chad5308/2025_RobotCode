@@ -54,9 +54,9 @@ public class Swerve extends SubsystemBase{
         gyro.setAngleAdjustment(0);
     }
     
-    public void setAngleAdjustment(double offset)
+    public void setAngleAdjustment(double angle)
     {
-        gyro.setAngleAdjustment(offset);
+        gyro.setAngleAdjustment(angle+90);
     }
     
     public double getHeading() 
@@ -191,6 +191,10 @@ public class Swerve extends SubsystemBase{
         // SmartDashboard.putNumber("Back Left Drive Position", backLeftModule.getDrivePosition());
         // SmartDashboard.putNumber("Back Right Drive Position", backRightModule.getDrivePosition());
 
+        SmartDashboard.putNumber("FL Drive Temp", frontLeftModule.driveMotor.getDeviceTemp().getValueAsDouble());
+        SmartDashboard.putNumber("FR Drive Temp", frontRightModule.driveMotor.getDeviceTemp().getValueAsDouble());
+        SmartDashboard.putNumber("BL Drive Temp", backLeftModule.driveMotor.getDeviceTemp().getValueAsDouble());
+        SmartDashboard.putNumber("BR Drive Temp", backRightModule.driveMotor.getDeviceTemp().getValueAsDouble());
         
     
 

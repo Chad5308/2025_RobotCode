@@ -51,7 +51,7 @@ public class Elevator extends SubsystemBase
 
     public CANrange CANrange;
     public CANrangeConfiguration sensorConfigs;
-    // public UsbCamera coral_Camera;
+    public UsbCamera coral_Camera;
     // public DutyCycleEncoder absoluteEncoder;    
 
     //TODO Zeroing the elevator and converting to inches
@@ -118,7 +118,7 @@ public class Elevator extends SubsystemBase
 
         ELE_LEFT_ENCODER.setPosition(constants_Elevator.ELEVATOR_BASE_HEIGHT);
         ELE_RIGHT_ENCODER.setPosition(constants_Elevator.ELEVATOR_BASE_HEIGHT);
-        // coral_Camera = CameraServer.startAutomaticCapture(0);
+        coral_Camera = CameraServer.startAutomaticCapture(0);
         
     }
     

@@ -7,11 +7,9 @@ package frc.robot;
 
 
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,8 +40,7 @@ import frc.robot.Subsystems.Drive.Swerve;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public SendableChooser<String> autoChooser1, autoChooser2, autoChooser3;
-  public String finalSelection;
+  public SendableChooser<Command> autoChooser;
 
   
   public Controllers u_Controllers;
@@ -63,15 +60,10 @@ public class RobotContainer {
 
   public RobotContainer() 
   {
-   
-    autoChooser1 = new SendableChooser<>();
-    autoChooser2 = new SendableChooser<>();
-    autoChooser3 = new SendableChooser<>();
-    SmartDashboard.putData(autoChooser1);
-    SmartDashboard.putData(autoChooser2);
-    SmartDashboard.putData(autoChooser3);
 
-    configureAutoChoosers();
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
     configureFiles();
     s_Swerve.setDefaultCommand(c_Drive);
     configureDriverBindings();
@@ -138,7 +130,7 @@ public class RobotContainer {
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
     //Align Reef
-    u_Controllers.leftStick.button(4).whileTrue(s_Vision.autoReef);
+    // u_Controllers.leftStick.button(4).whileTrue(s_Vision.autoReef);
     
     // Intake Coral
     u_Controllers.leftStick.button(2).whileTrue(Commands.deferredProxy(()->
@@ -146,6 +138,9 @@ public class RobotContainer {
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
+    //Auto Reef
+    u_Controllers.leftStick.button(4).onTrue(s_Vision.RightReef);
+    u_Controllers.leftStick.button(3).onTrue(s_Vision.leftReef);
     // //Clean L2
     // u_Controllers.leftStick.button(3).onTrue(Commands.deferredProxy(()->
     // s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
@@ -216,91 +211,19 @@ public class RobotContainer {
     u_Controllers.CLIMB_UP.whileFalse(s_Climber.stopClimber());
 
 
-    u_Controllers.CLIMB_AUTO.onTrue(Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.CLIMBING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
-
-    u_Controllers.CLIMB_RESET.onTrue(Commands.runOnce(()->{s_Climber.zeroPosition();}));
+    u_Controllers.CLIMB_AUTO.onTrue(Commands.runOnce(()->s_Rollers.intakeClimb()));
+    u_Controllers.CLIMB_RESET.onTrue(Commands.runOnce(()->s_Climber.zeroPosition()));
 
     u_Controllers.ALGAE_OVERRIDE.onTrue(Commands.runOnce(()->{s_Rollers.ALGAE_OVERRIDE = !s_Rollers.ALGAE_OVERRIDE;}));
     u_Controllers.CORAL_OVERRIDE.onTrue(Commands.runOnce(()->{s_Elevator.CORAL_OVERRIDE = !s_Elevator.CORAL_OVERRIDE;}));
 
-    u_Controllers.leftStick.button(14).onTrue(s_Vision.autoReef);
-    u_Controllers.leftStick.button(15).onTrue(s_Vision.autoAlgae);
   }
 
-
-  
-  public void configureAutoChoosers()
-  {
-    //Left Paths
-    autoChooser1.addOption("Left_I", "Left_I");
-    autoChooser1.addOption("Left_J", "Left_J");
-    autoChooser1.addOption("Left_Leave", "Left_Leave");
-
-    //Middle Paths
-    autoChooser1.addOption("Middle_G", "Middle_G");
-    autoChooser1.addOption("Middle_H", "Middle_H");
-    autoChooser1.addOption("Middle_Leave", "Middle_Leave");
-    
-    
-    //Right Paths
-    autoChooser1.addOption("Right_E", "Right_E");
-    autoChooser1.addOption("Right_F", "Right_F");
-    autoChooser1.addOption("Right_Leave", "Right_Leave");
-    autoChooser1.addOption("3_Left", "3_Left");
-    autoChooser1.addOption("3_Right", "3_Right");
-    autoChooser1.addOption("Test", "Test");
-
-    //X Paths
-    autoChooser2.addOption("IX", "IX");
-    autoChooser2.addOption("JX", "JX");
-    //Y Paths
-    autoChooser2.addOption("EY", "EY");
-    autoChooser2.addOption("FY", "FY");
-    autoChooser2.addOption("None", null);
-
-    //Return X Paths
-    autoChooser3.addOption("XA", "XA");
-    //Return Y Paths
-    autoChooser3.addOption("YB", "YB");
-
-    autoChooser3.addOption("None", null);
-  }
 
 
 
   public Command getAutonomousCommand()
   {
-    // return autoChooser.getSelected();
-
-    // Before initializing finalSelection, get the current
-    // choice for each autoChooser object.
-    System.out.printf("***** Auto selected: %s %s %s\n", 
-                      autoChooser1.getSelected(), 
-                      autoChooser2.getSelected(), 
-                      autoChooser3.getSelected());
-
-    // We need some logic to handle the case when the path is only
-    // one or two legs.  Below is a sample of one way to deal with 
-    // that.  Question: What should we do if the selection1 is null?
-    finalSelection = autoChooser1.getSelected();
-    if(finalSelection == null)
-    {
-      System.out.print("***** WARNING: No auto path selected. ***********************");
-    }
-    else
-    {
-      if(autoChooser2.getSelected() != null)
-      {
-        finalSelection += ", " + autoChooser2.getSelected();
-      }
-
-      if(autoChooser3.getSelected() != null)
-      {
-        finalSelection += ", " + autoChooser3.getSelected();
-      }
-   }
-
-    return new PathPlannerAuto(finalSelection);
-    // return new TimedDrive(s_Swerve, 3, -2, 0, 0);
+    return autoChooser.getSelected();
   }
 }

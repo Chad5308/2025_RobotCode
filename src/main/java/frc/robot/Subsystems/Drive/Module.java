@@ -129,11 +129,13 @@ public class Module extends SubsystemBase
     steerGains.encoder.velocityConversionFactor(constants_Module.STEER__RPM_2_DEG_PER_SEC);
     steerGains.inverted(invertSteer);
     steerGains.idleMode(IdleMode.kBrake);
+    steerGains.smartCurrentLimit(65);
     
     steerMotor = new SparkMax(steerNum, MotorType.kBrushless);
     steerEncoder = steerMotor.getEncoder();
     steerPIDController = steerMotor.getClosedLoopController();
     steerMotor.configure(steerGains, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    
     
     resetEncoders();
   }

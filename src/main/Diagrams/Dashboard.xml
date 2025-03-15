@@ -20,7 +20,7 @@
 		<location x="554" y="180"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="1026" y="253"/>
+		<location x="962" y="303"/>
 		<width>798</width>
 		<height>686</height>
 		<property name="Camera Choice" value="USB Camera 1"/>
@@ -124,7 +124,7 @@
 		<property name="Camera Choice" value="limelight-coral"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="79" y="319"/>
+		<location x="105" y="321"/>
 		<width>772</width>
 		<height>659</height>
 		<property name="Camera Choice" value="USB Camera 0"/>
