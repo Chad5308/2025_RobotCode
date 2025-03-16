@@ -84,9 +84,9 @@ public class Drive extends Command{
         s_Swerve.setModuleStates(chassisSpeeds);
     }
 
-    public void driveReef(double xSpeed, double turningSpeed)
+    public void driveReef(double xSpeed, double ySpeed, double turningSpeed)
     {
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(xSpeed, 0, turningSpeed), s_Swerve.getRotation2d());
+        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(ySpeed, xSpeed, turningSpeed), s_Swerve.getRotation2d());
         s_Swerve.setModuleStates(chassisSpeeds);
     }
 

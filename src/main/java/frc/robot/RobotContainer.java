@@ -60,11 +60,16 @@ public class RobotContainer {
 
   public RobotContainer() 
   {
+    configureFiles();
 
-    autoChooser = AutoBuilder.buildAutoChooser();
+    // autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = new SendableChooser<>();
+    autoChooser.addOption("3_Left", new PathPlannerAuto("3_Left"));
+    autoChooser.addOption("3_Right", new PathPlannerAuto("3_Right"));
+    autoChooser.addOption("Middle_Leave", new PathPlannerAuto("Middle_Leave"));
+
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    configureFiles();
     s_Swerve.setDefaultCommand(c_Drive);
     configureDriverBindings();
 
@@ -123,11 +128,11 @@ public class RobotContainer {
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
     // Intake Algae Vision
-    u_Controllers.leftStick.trigger().and(u_Controllers.leftStick.button(3)).onTrue(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
-    .onTrue(s_Vision.autoAlgae)
-    .onFalse(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+    // u_Controllers.leftStick.trigger().and(u_Controllers.leftStick.button(3)).onTrue(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    // .onTrue(s_Vision.autoAlgae)
+    // .onFalse(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
     //Align Reef
     // u_Controllers.leftStick.button(4).whileTrue(s_Vision.autoReef);
@@ -139,8 +144,8 @@ public class RobotContainer {
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
     //Auto Reef
-    u_Controllers.leftStick.button(4).onTrue(s_Vision.RightReef);
-    u_Controllers.leftStick.button(3).onTrue(s_Vision.leftReef);
+    u_Controllers.leftStick.button(4).onTrue(Commands.runOnce(()->s_Vision.isRightScore = true)).onTrue(s_Vision.alignReef);
+    u_Controllers.leftStick.button(3).onTrue(Commands.runOnce(()->s_Vision.isRightScore = false)).onTrue(s_Vision.alignReef);
     // //Clean L2
     // u_Controllers.leftStick.button(3).onTrue(Commands.deferredProxy(()->
     // s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))

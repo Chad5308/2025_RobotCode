@@ -1,5 +1,41 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Theta Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="714" y="228"/>
+	</widget>
+	<widget field="ySpeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="593" y="230"/>
+	</widget>
+	<widget field="xSpeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="460" y="233"/>
+	</widget>
+	<widget field="x" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="482" y="197"/>
+	</widget>
+	<widget field="poseValidTimer" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="602" y="198"/>
+	</widget>
+	<widget field="Auto Chooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="42" y="116"/>
+	</widget>
+	<widget field="FR Drive Temp" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="1432" y="288"/>
+	</widget>
+	<widget field="BR Drive Temp" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="1453" y="618"/>
+	</widget>
+	<widget field="FL Drive Temp" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="960" y="311"/>
+	</widget>
+	<widget field="BL Drive Temp" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="942" y="636"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="-153" y="361"/>
+		<width>1202</width>
+		<height>578</height>
+		<property name="Camera Choice" value="limelight-coral"/>
+	</static-widget>
 	<widget field="Auto Selection" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="263" y="158"/>
 	</widget>
@@ -7,24 +43,9 @@
 		<location x="1585" y="54"/>
 		<height>20</height>
 	</widget>
-	<widget field="X distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="554" y="226"/>
-	</widget>
-	<widget field="XSpeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="552" y="203"/>
-	</widget>
 	<widget field="Algae Relative Roller Encoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="666" y="114"/>
 	</widget>
-	<widget field="Turning Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="554" y="180"/>
-	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="962" y="303"/>
-		<width>798</width>
-		<height>686</height>
-		<property name="Camera Choice" value="USB Camera 1"/>
-	</static-widget>
 	<widget field="limelight-algae_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="703" y="290"/>
 	</widget>
@@ -50,7 +71,7 @@
 		<location x="758" y="18"/>
 	</widget>
 	<widget field="fieldOriented" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="329" y="23"/>
+		<location x="331" y="28"/>
 		<width>150</width>
 		<height>74</height>
 	</widget>
@@ -89,13 +110,13 @@
 		<location x="759" y="44"/>
 	</widget>
 	<widget field="SendableChooser[2]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="190" y="80"/>
+		<location x="198" y="75"/>
 	</widget>
 	<widget field="SendableChooser[1]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="116" y="81"/>
+		<location x="119" y="56"/>
 	</widget>
 	<widget field="SendableChooser[0]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="8" y="84"/>
+		<location x="29" y="50"/>
 	</widget>
 	<widget field="Algae Detection" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="995" y="80"/>
@@ -104,7 +125,7 @@
 		<location x="1221" y="47"/>
 	</widget>
 	<widget field="CURRENT TARGET STATE" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="14" y="23"/>
+		<location x="28" y="13"/>
 	</widget>
 	<widget field="CURRENT ROBOT STATE" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="18" y="49"/>
@@ -117,18 +138,6 @@
 		<location x="258" y="3"/>
 		<width>259</width>
 	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="1082" y="261"/>
-		<width>798</width>
-		<height>686</height>
-		<property name="Camera Choice" value="limelight-coral"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="105" y="321"/>
-		<width>772</width>
-		<height>659</height>
-		<property name="Camera Choice" value="USB Camera 0"/>
-	</static-widget>
 </dashboard>
 <live-window>
 </live-window>

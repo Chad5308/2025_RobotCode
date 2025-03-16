@@ -247,11 +247,24 @@ public final class Constants {
     public static final double THETA_I = 0.0002;
     public static final double THETA_D = 0;
 
-    public static final double LINEAR_P = 2.25;
-    public static final double LINEAR_I = 0.0;
-    public static final double LINEAR_D = 0.0;
+    // Auto constants
+    public static final double X_REEF_ALIGNMENT_P = 0.75;
+    public static final double Y_REEF_ALIGNMENT_P = 1.125;
+    public static final double Y_REEF_ALIGNMENT_D = 0;
+    public static final double ROT_REEF_ALIGNMENT_P = 2.75;
 
-    public static List<Double> coral_Dimensions = List.of(Math.toRadians(0), 0.3683, -0.9223375, 0.22225, 0.3048, 1.4859); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightReef, HeightSource
+    public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
+    public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
+    public static final double X_SETPOINT_REEF_ALIGNMENT = -0.34;  // Vertical pose
+    public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
+    public static final double Y_SETPOINT_REEF_ALIGNMENT_RIGHT = 0.3302;  // Horizontal pose
+    public static final double Y_SETPOINT_REEF_ALIGNMENT_LEFT = 0.0;  // Horizontal pose
+    public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0.02;
+
+    public static final double DONT_SEE_TAG_WAIT_TIME = 1;
+    public static final double POSE_VALIDATION_TIME = 0.3;
+
+    public static List<Double> coral_Dimensions = List.of(Math.toRadians(0), 0.3683, -0.1651, 0.22225, 0.3048, 1.4859); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightReef, HeightSource
     public static List<Double> algae_Dimensions = List.of(Math.toRadians(2),0.15875, 0.06985, 0.1905, 0.4064, 1.419352); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightAlgae, HeightProcessor
 
     public static final double leftCoralAngle = 0;
