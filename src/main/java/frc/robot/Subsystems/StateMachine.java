@@ -15,7 +15,6 @@ import frc.robot.Commands.DriveCommand;
 import frc.robot.Commands.States.AlgaeState;
 import frc.robot.Commands.States.CleanL2State;
 import frc.robot.Commands.States.CleanL3State;
-import frc.robot.Commands.States.ClimbingState;
 import frc.robot.Commands.States.ComboState;
 import frc.robot.Commands.States.IntakingAlgaeState;
 import frc.robot.Commands.States.NoneState;
@@ -171,17 +170,6 @@ public class StateMachine extends SubsystemBase {
         }
         break;
 
-      case CLIMBING:
-        switch (currentState)
-        {
-          case NONE:
-          case CORAL:
-          case ALGAE:
-          case COMBO:
-          // case PREP_NONE:
-            return new ClimbingState(s_StateMachine, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
-        }
-        break;
 
       case SCORING:
         switch(currentState)
@@ -313,7 +301,6 @@ public class StateMachine extends SubsystemBase {
     COMBO,
     CLEAN_L2,
     CLEAN_L3,
-    CLIMBING,
     SCORING,
     PREP_NONE,
     PREP_L1,

@@ -8,8 +8,6 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -24,7 +22,7 @@ public class Climber extends SubsystemBase
     public RelativeEncoder CLIMBER_ENCODER;
     public SparkClosedLoopController CLIMBER_PID;
     public SparkBaseConfig CLIMBER_CONFIG;
-    public UsbCamera climber_Camera;
+    // public UsbCamera climber_Camera;
     //Create all instance variables
     //1 Neo motor, including its encoder, pid controller, and configuration
     
@@ -43,7 +41,7 @@ public class Climber extends SubsystemBase
         CLIMBER_SPARKMAX.configure(CLIMBER_CONFIG, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
             
         CLIMBER_ENCODER.setPosition(0);
-        climber_Camera = CameraServer.startAutomaticCapture(1);
+        // climber_Camera = CameraServer.startAutomaticCapture(1);
         
     }
 

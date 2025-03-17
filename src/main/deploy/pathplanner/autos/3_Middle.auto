@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right_F"
+            "pathName": "Middle_F"
           }
         },
         {
@@ -32,6 +32,30 @@
           "type": "path",
           "data": {
             "pathName": "FY"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SOURCE"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "YA"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SCORING"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AY"
           }
         },
         {
@@ -56,6 +80,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "2 Piece",
+  "folder": "3 Piece",
   "choreoAuto": false
 }

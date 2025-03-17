@@ -137,5 +137,10 @@ public class Module {
     io.resetWheels();
   }
 
+  public void resetWheelsRight()
+  {
+    io.resetWheelsRight();
+  }
+
 
 }

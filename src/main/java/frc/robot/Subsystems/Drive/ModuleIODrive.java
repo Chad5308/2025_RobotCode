@@ -280,4 +280,16 @@ public TalonFX driveKraken;
       turnPIDController.setReference(0, ControlType.kPosition);
     } catch (Exception e){}
   }
+
+  @Override
+  public void resetWheelsRight() 
+  {
+    turnEncoder.setPosition(getABSPosition());
+    try 
+    {
+      Thread.sleep(10);
+      turnPIDController.setReference(90, ControlType.kPosition);
+    } catch (Exception e){}
+  }
+
 }

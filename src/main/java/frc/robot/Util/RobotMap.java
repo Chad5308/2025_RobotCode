@@ -39,6 +39,7 @@ public class RobotMap
         public static final int ELEVATOR_ROLLERS_SPARKMAX = 12;
         public static final int ELEVATOR_CANRANGE = 13;
         public static final int ELEVATOR_ABS_ENCODER_PWM_PORT = 9;
+        // public static final int ElEVATOR_CLEANER_SPARKMAX = 14;
     }
     public static final class MAP_ALGAE
     {

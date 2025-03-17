@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 7.182277397260274,
-        "y": 6.151134417808219
+        "y": 5.05
       },
       "prevControl": null,
       "nextControl": {
         "x": 5.542105263157895,
-        "y": 6.122532894736842
+        "y": 5.021398476928624
       },
       "isLocked": false,
       "linkedName": "Left_Wing"

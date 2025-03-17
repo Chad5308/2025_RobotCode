@@ -296,12 +296,21 @@ public class Drive extends SubsystemBase {
   }
 
  //face forward method. Called once the bot is enabled
-    public void faceAllFoward() {
-    for (int i = 0; i < 4; i++)
-    {
-      modules[i].resetWheels();
-    }
-        System.out.println("exacuted faceAll");
-    }
+  public void faceAllFoward() {
+  for (int i = 0; i < 4; i++)
+  {
+    modules[i].resetWheels();
+  }
+      System.out.println("exacuted faceAll");
+  }
+
+  //face forward method. Called once the bot is enabled
+  public void faceAllRight() {
+  for (int i = 0; i < 4; i++)
+  {
+    modules[i].resetWheelsRight();
+  }
+      System.out.println("exacuted face Right");
+  }
 
 }

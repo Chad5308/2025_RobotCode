@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FaceForward Wheels"
+            "name": "FaceRight"
           }
         },
         {
@@ -19,31 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left_J"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SCORING"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "JX"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SOURCE"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "XA"
+            "pathName": "Right_F"
           }
         },
         {
@@ -56,6 +32,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "2 Piece",
+  "folder": "1 Piece",
   "choreoAuto": false
 }

@@ -26,19 +26,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right_E"
+            "pathName": "Left_I"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "SCORING"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "EY"
           }
         }
       ]

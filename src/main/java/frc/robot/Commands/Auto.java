@@ -5,7 +5,8 @@ package frc.robot.Commands;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.fasterxml.jackson.databind.util.Named;
+import org.littletonrobotics.junction.Logger;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.PIDConstants;
@@ -89,6 +90,7 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
 
             
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Drive.faceAllFoward()));
+        NamedCommands.registerCommand("FaceRight", Commands.runOnce(()-> s_Drive.faceAllRight()));
         NamedCommands.registerCommand("SCORING", Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SCORING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
         NamedCommands.registerCommand("SOURCE", Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.SOURCE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 

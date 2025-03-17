@@ -16,7 +16,6 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Constants.constants_Rollers;
 import frc.robot.Util.RobotMap.MAP_ALGAE;
@@ -99,13 +98,16 @@ public class AlgaeRollers extends SubsystemBase
         @Override
         public void initialize()
         {
-            ROLLERS.set(-0.4);
+            if(!isRollersInPosition(0))
+            {
+                ROLLERS.set(-0.4);
+            }
         }
 
         @Override
         public boolean isFinished()
         {
-            return isRollersInPosition(0) || getPosition() < 0;
+            return isRollersInPosition(0) || (getPosition() < 0 && getPosition() > -15);
         }
 
         @Override

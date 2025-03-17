@@ -163,6 +163,7 @@ public final class Constants {
     public static final boolean LEFT_INVERTED = false;
     public static final boolean RIGHT_INVERTED = true;
     public static final boolean ROLLER_INVERTED = true;
+    // public static final boolean CLEANER_INVERTED = false;
 
     public static final double ELEVATOR_P = 0.04; //a = -vi^2 / 2 (current-wanted distance)
     public static final double ELEVATOR_I = 0.0;
@@ -174,10 +175,15 @@ public final class Constants {
     public static final double ROLLER_D = 0;
     public static final double ROLLER_FF = 0;//Dont worry about this value, keep it 0
 
+    // public static final double CLEANER_P = 0;
+    // public static final double CLEANER_I = 0;
+    // public static final double CLEANER_D = 0;
+    // public static final double CLEANER_FF = 0;
+
     public static final ElevatorPositionGroup SOURCE = new ElevatorPositionGroup(ELEVATOR_BASE_HEIGHT, 0.15);
     public static final ElevatorPositionGroup PREP_NONE = new ElevatorPositionGroup(30, 0);
-    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(36, -1);
-    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(36, -1);
+    public static final ElevatorPositionGroup PREP_L1 = new ElevatorPositionGroup(35.5, -1);
+    public static final ElevatorPositionGroup PREP_L2 = new ElevatorPositionGroup(35.5, -1);
     public static final ElevatorPositionGroup PREP_L3 = new ElevatorPositionGroup(51, -1);
     public static final ElevatorPositionGroup CLEAN_L2 = new ElevatorPositionGroup(30, -1);
     public static final ElevatorPositionGroup CLEAN_L3 = new ElevatorPositionGroup(45, -1);
@@ -204,7 +210,7 @@ public final class Constants {
     public static final boolean CLIMBER_INVERTED = false;
 
     public static final ClimberPositionGroup NONE = new ClimberPositionGroup(0);
-    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(-2.025);
+    public static final ClimberPositionGroup ACTIVE = new ClimberPositionGroup(-2.25);
   }
 
   public static final class ClimberPositionGroup
@@ -254,29 +260,28 @@ public final class Constants {
  
 
   public static final class constants_AprilTags{ //[id num, height in inches, coordinate x, coordinate y, heading] inches to meters; use field manual image for id reference
-    public static final double[] RED_CS_X = {1, 1.4859, 16.6992, 0.6553, 126};
-    public static final double[] RED_CS_Y = {2, 1.4859, 16.6992, 7.4048, 234};
-    public static final double[] RED_PROCESSOR = {3, 1.3017, 11.6087, 8.0641, 270};
-    public static final double[] RED_SIDE_BLUE_BARGE = {4, 1.8678, 9.2800, 6.1340, 0};
-    public static final double[] RED_SIDE_RED_BARGE = {5, 1.8678, 9.2800, 1.9148, 0};
-    public static final double[] RED_REEF_KL = {6, 0.3081, 13.4742, 3.3074, 300};
-    public static final double[] RED_REEF_AB = {7, 0.3081, 13.8934, 4.0262, 0};
-    public static final double[] RED_REEF_CD = {8, 0.3081, 13.4742, 4.7449, 60};
-    public static final double[] RED_REEF_EF = {9, 0.3081, 12.6464, 4.7449, 120};
-    public static final double[] RED_REEF_GH = {10, 0.3081, 12.2194, 4.0262, 180};
-    public static final double[] RED_REEF_IJ = {11, 0.3081, 12.6464, 3.3074, 240};
-    public static final double[] BLUE_CS_Y = {12, 1.4859, 0.8507, 0.6553, 54};
-    public static final double[] BLUE_CS_X = {13, 1.4859, 0.8507, 7.4048, 306};
-    public static final double[] BLUE_PROCESSOR = {14, 1.8678, 8.2744, 6.1340, 0};
-    public static final double[] BLUE_SIDE_BLUE_BARGE = {15, 1.8678, 8.2744, 1.9148, 180};
-    public static final double[] BLUE_SIDE_RED_BARGE = {16, 1.3017, 5.9915, -0.0004, 90};
-    public static final double[] BLUE_REEF_CD = {17, 0.3081, 4.0734, 3.3074, 240};
-    public static final double[] BLUE_REEF_AB = {18, 0.3081, 3.6571, 4.0262, 0};
-    public static final double[] BLUE_REEF_KL = {19, 0.3081, 4.0734, 4.7449, 120};
-    public static final double[] BLUE_REEF_IJ = {20, 0.3081, 4.9068, 4.7449, 180};
-    public static final double[] BLUE_REEF_GH = {21, 0.3081, 5.3246, 5.3246, 0};
-    public static final double[] BLUE_REEF_EF = {22, 0.3081, 4.9068, 3.3074, 300};
-
+    // public static final double[] RED_CS_X = {1, 1.4859, 16.6992, 0.6553, 126};
+    // public static final double[] RED_CS_Y = {2, 1.4859, 16.6992, 7.4048, 234};
+    // public static final double[] RED_PROCESSOR = {3, 1.3017, 11.6087, 8.0641, 270};
+    // public static final double[] RED_SIDE_BLUE_BARGE = {4, 1.8678, 9.2800, 6.1340, 0};
+    // public static final double[] RED_SIDE_RED_BARGE = {5, 1.8678, 9.2800, 1.9148, 0};
+    public static final double[] RED_REEF_6 = {6, 0.3081, 13.4742, 3.3074, -60};
+    public static final double[] RED_REEF_7 = {7, 0.3081, 13.8934, 4.0262, 0};
+    public static final double[] RED_REEF_8 = {8, 0.3081, 13.4742, 4.7449, 60};
+    public static final double[] RED_REEF_9 = {9, 0.3081, 12.6464, 4.7449, 120};
+    public static final double[] RED_REEF_10 = {10, 0.3081, 12.2194, 4.0262, 180};
+    public static final double[] RED_REEF_11 = {11, 0.3081, 12.6464, 3.3074, 240};
+    // public static final double[] BLUE_CS_Y = {12, 1.4859, 0.8507, 0.6553, 54};
+    // public static final double[] BLUE_CS_X = {13, 1.4859, 0.8507, 7.4048, 306};
+    // public static final double[] BLUE_PROCESSOR = {14, 1.8678, 8.2744, 6.1340, 0};
+    // public static final double[] BLUE_SIDE_BLUE_BARGE = {15, 1.8678, 8.2744, 1.9148, 180};
+    // public static final double[] BLUE_SIDE_RED_BARGE = {16, 1.3017, 5.9915, -0.0004, 90};
+    public static final double[] BLUE_REEF_19 = {19, 0.3081, 4.0734, 4.7449, -60};
+    public static final double[] BLUE_REEF_18 = {18, 0.3081, 3.6571, 4.0262, 0};
+    public static final double[] BLUE_REEF_17 = {17, 0.3081, 4.0734, 3.3074, 60};
+    public static final double[] BLUE_REEF_22 = {22, 0.3081, 4.9068, 3.3074, 120};
+    public static final double[] BLUE_REEF_21 = {21, 0.3081, 5.3246, 5.3246, 180};
+    public static final double[] BLUE_REEF_20 = {20, 0.3081, 4.9068, 4.7449, 240};
     
   }
 
@@ -285,13 +290,28 @@ public final class Constants {
     public static final double THETA_I = 0.0002;
     public static final double THETA_D = 0;
 
-    public static final double LINEAR_P = 2.25;
-    public static final double LINEAR_I = 0.0;
-    public static final double LINEAR_D = 0.0;
+    // Auto constants
+    public static final double X_REEF_ALIGNMENT_P = 0.75;
+    public static final double Y_REEF_ALIGNMENT_P = 1.125;
+    public static final double Y_REEF_ALIGNMENT_D = 0;
+    public static final double ROT_REEF_ALIGNMENT_P = 2.75;
 
-    public static List<Double> coral_Dimensions = List.of(Math.toRadians(0), 0.47625, -0.14605, 0.6096, 0.3048, 1.4859); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightReef, HeightSource
+    public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
+    public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
+    public static final double X_SETPOINT_REEF_ALIGNMENT = -0.34;  // Vertical pose
+    public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
+    public static final double Y_SETPOINT_REEF_ALIGNMENT_RIGHT = 0.3302;  // Horizontal pose
+    public static final double Y_SETPOINT_REEF_ALIGNMENT_LEFT = 0.0;  // Horizontal pose
+    public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0.02;
+
+    public static final double DONT_SEE_TAG_WAIT_TIME = 1;
+    public static final double POSE_VALIDATION_TIME = 0.3;
+
+    public static List<Double> coral_Dimensions = List.of(Math.toRadians(0), 0.3683, -0.1651, 0.22225, 0.3048, 1.4859); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightReef, HeightSource
     public static List<Double> algae_Dimensions = List.of(Math.toRadians(2),0.15875, 0.06985, 0.1905, 0.4064, 1.419352); //Angle, Dis. Forward, Dis. Right, HeightCamera, HeightAlgae, HeightProcessor
 
+    public static final double leftCoralAngle = 0;
+    public static final double rightCoralAngle = 0;
 
     public static List<Double> getCameraList(String camera)
     {
@@ -314,6 +334,29 @@ public final class Constants {
 
       return 0;
     }
+
+    public static double getTargetAngle(int targetNum)
+    {
+      double num = 0;
+      switch(targetNum)
+      {
+        case 6 -> num = constants_AprilTags.RED_REEF_6[4];
+        case 7 -> num  = constants_AprilTags.RED_REEF_7[4];
+        case 8 -> num  = constants_AprilTags.RED_REEF_8[4];
+        case 9 -> num  = constants_AprilTags.RED_REEF_9[4];
+        case 10 -> num  = constants_AprilTags.RED_REEF_10[4];
+        case 11 -> num  = constants_AprilTags.RED_REEF_11[4];
+
+        case 19 -> num = constants_AprilTags.BLUE_REEF_19[4];
+        case 18 -> num = constants_AprilTags.BLUE_REEF_18[4];
+        case 17 -> num = constants_AprilTags.BLUE_REEF_17[4];
+        case 22 -> num = constants_AprilTags.BLUE_REEF_22[4];
+        case 21 -> num = constants_AprilTags.BLUE_REEF_21[4];
+        case 20 -> num = constants_AprilTags.BLUE_REEF_20[4];
+      }
+
+      return num;
+    }
   }
 
 
@@ -323,11 +366,11 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED_RPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RadPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
-    public static  double P_TRANSLATION = 8.5;
-    public static  double I_TRANSLATION = 0.0;
+    public static  double P_TRANSLATION = 5.925;
+    public static  double I_TRANSLATION = 0.00;
     public static  double D_TRANSLATION = 0.0;
 
-    public static final double P_THETA = 5.5;
+    public static final double P_THETA = 4.125;
     public static final double I_THETA = 0.0;
     public static final double D_THETA = 0.0;
 

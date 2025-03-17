@@ -53,4 +53,7 @@ public interface ModuleIO {
 
   /** Reset the Swerve Wheels forward */
   public default void resetWheels() {}
+
+  /** Reset the Swerve Wheels Right */
+  public default void resetWheelsRight() {}
 }

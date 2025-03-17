@@ -12,9 +12,6 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -176,14 +173,14 @@ public class RobotContainer {
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
     // Intake Algae Vision
-    u_Controllers.leftStick.trigger().and(u_Controllers.leftStick.button(3)).onTrue(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
-    .onTrue(s_Vision.autoAlgae)
-    .onFalse(Commands.deferredProxy(()->
-    s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
+    // u_Controllers.leftStick.trigger().and(u_Controllers.leftStick.button(3)).onTrue(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.INTAKE_ALGAE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
+    // .onTrue(s_Vision.autoAlgae)
+    // .onFalse(Commands.deferredProxy(()->
+    // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
 
     //Align Reef
-    u_Controllers.leftStick.button(4).whileTrue(s_Vision.autoReef);
+    // u_Controllers.leftStick.button(4).whileTrue(s_Vision.autoReef);
     
     // Intake Coral
     u_Controllers.leftStick.button(2).whileTrue(Commands.deferredProxy(()->
@@ -191,13 +188,16 @@ public class RobotContainer {
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
+    //Auto Reef
+    u_Controllers.leftStick.button(4).onTrue(Commands.runOnce(()->s_Vision.isRightScore = true)).onTrue(s_Vision.alignReef);
+    u_Controllers.leftStick.button(3).onTrue(Commands.runOnce(()->s_Vision.isRightScore = false)).onTrue(s_Vision.alignReef);
     // //Clean L2
     // u_Controllers.leftStick.button(3).onTrue(Commands.deferredProxy(()->
     // s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
     // .onFalse(Commands.deferredProxy(()->
     // s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    // //Clean L3
+    // // //Clean L3
     // u_Controllers.leftStick.button(4).onTrue(Commands.deferredProxy(()->
     // s_StateMachine.tryState(RobotState.CLEAN_L3, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))
     // .onFalse(Commands.deferredProxy(()->
@@ -261,15 +261,12 @@ public class RobotContainer {
     u_Controllers.CLIMB_UP.whileFalse(s_Climber.stopClimber());
 
 
-    u_Controllers.CLIMB_AUTO.onTrue(Commands.deferredProxy(()->s_StateMachine.tryState(RobotState.CLIMBING, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
-
-    u_Controllers.CLIMB_RESET.onTrue(Commands.runOnce(()->{s_Climber.zeroPosition();}));
+    u_Controllers.CLIMB_AUTO.onTrue(Commands.runOnce(()->s_Rollers.intakeClimb()));
+    u_Controllers.CLIMB_RESET.onTrue(Commands.runOnce(()->s_Climber.zeroPosition()));
 
     u_Controllers.ALGAE_OVERRIDE.onTrue(Commands.runOnce(()->{s_Rollers.ALGAE_OVERRIDE = !s_Rollers.ALGAE_OVERRIDE;}));
     u_Controllers.CORAL_OVERRIDE.onTrue(Commands.runOnce(()->{s_Elevator.CORAL_OVERRIDE = !s_Elevator.CORAL_OVERRIDE;}));
 
-    u_Controllers.leftStick.button(14).onTrue(s_Vision.autoReef);
-    u_Controllers.leftStick.button(15).onTrue(s_Vision.autoAlgae);
   }
 
 

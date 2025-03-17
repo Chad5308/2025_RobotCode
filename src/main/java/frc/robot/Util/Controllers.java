@@ -10,7 +10,7 @@ import frc.robot.Util.RobotMap.MAP_CONTROLLER;
 public class Controllers
 {
     public CommandJoystick leftStick, rightStick;
-    public Trigger PREP_L1, PREP_L2, PREP_L3, PREP_ALGAE, PREP_NONE, CLIMB_UP, CLIMB_DOWN, CLIMB_AUTO, CLIMB_RESET, ELE_UP, ELE_DOWN, ELE_ROLLER, CORAL_OVERRIDE, ALGAE_OVERRIDE;
+    public Trigger PREP_L1, PREP_L2, PREP_L3, PREP_ALGAE, PREP_NONE, CLIMB_UP, CLIMB_DOWN, CLIMB_AUTO, CLIMB_RESET, ELE_UP, ELE_DOWN, ELE_ROLLER, CORAL_OVERRIDE, ALGAE_OVERRIDE, CLEAN_L2, CLEAN_L3;
     public CommandGenericHID buttonBoard;
     public CommandXboxController xbox;
     
@@ -19,6 +19,7 @@ public class Controllers
     {
         leftStick = new CommandJoystick(MAP_CONTROLLER.LEFT_JOYSTICK);
         rightStick = new CommandJoystick(MAP_CONTROLLER.RIGHT_JOYSTICK);
+        // initialize_Joystick_Controls();
 
         xbox = new CommandXboxController(MAP_CONTROLLER.XBOX_CONTROLLER);
         initialize_Xbox_Controls();
@@ -27,6 +28,12 @@ public class Controllers
         // initialize_ButtonBoard_Controls();
     }
 
+    // public void initialize_Joystick_Controls()
+    // {
+    //     CLEAN_L2 = leftStick.button(3);
+    //     CLEAN_L3 = leftStick.button(4);
+    // }
+    
     public void initialize_ButtonBoard_Controls()
     {
         PREP_L1 = buttonBoard.button(1);
