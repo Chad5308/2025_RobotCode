@@ -1,7 +1,6 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.IntegerPublisher;
 import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
@@ -20,7 +19,6 @@ import frc.robot.Util.LimelightHelpers.LimelightResults;
 
 import java.util.function.*;
 
-import com.ctre.phoenix6.signals.System_StateValue;
 
 public class Vision extends SubsystemBase{
     
