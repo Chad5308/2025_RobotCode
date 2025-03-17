@@ -21,7 +21,7 @@ import java.util.function.*;
 public class Vision extends SubsystemBase{
     
 public DriveCommand c_Drive;
-public DriveCommand s_swerve;
+public Drive s_Drive;
 public Controllers u_Controllers;
 public NetworkTable networkTables;
 public IntegerSubscriber pipeline;
@@ -44,9 +44,9 @@ public LimelightHelpers.PoseEstimate mt2;
 
 // public SlewRateLimiter tLimiter, xLimiter, zLimiter;
 
-    public Vision(DriveCommand c_Drive, DriveCommand s_swerve, Controllers u_Controllers){
+    public Vision(DriveCommand c_Drive, Drive s_Drive, Controllers u_Controllers){
         this.c_Drive = c_Drive;
-        this.s_swerve = s_swerve;
+        this.s_Drive = s_Drive;
         this.u_Controllers = u_Controllers;
         networkTables = NetworkTableInstance.getDefault().getTable("limelight");
         pipelinePublisher = networkTables.getIntegerTopic("limelight.getpipeline").publish();

@@ -20,8 +20,8 @@ public interface ModuleIO {
   @AutoLog
   public static class ModuleIOInputs {
     public boolean driveConnected = false;
-    public double drivePositionRad = 0.0;
-    public double driveVelocityRadPerSec = 0.0;
+    public double drivePositionM = 0.0;
+    public double driveVelocityMPS = 0.0;
     public double driveAppliedVolts = 0.0;
     public double driveCurrentAmps = 0.0;
 
@@ -32,7 +32,7 @@ public interface ModuleIO {
     public double turnCurrentAmps = 0.0;
 
     public double[] odometryTimestamps = new double[] {};
-    public double[] odometryDrivePositionsRad = new double[] {};
+    public double[] odometryDrivePositionsM = new double[] {};
     public Rotation2d[] odometryTurnPositions = new Rotation2d[] {};
   }
 
@@ -46,7 +46,7 @@ public interface ModuleIO {
   public default void setTurnOpenLoop(double output) {}
 
   /** Run the drive motor at the specified velocity. */
-  public default void setDriveVelocity(double velocityRadPerSec) {}
+  public default void setDriveVelocity(double velocityMPS) {}
 
   /** Run the turn motor to the specified rotation. */
   public default void setTurnPosition(Rotation2d rotation) {}

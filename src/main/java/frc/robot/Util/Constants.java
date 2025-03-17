@@ -30,17 +30,20 @@ import frc.robot.Subsystems.StateMachine.TargetState;;
  */
 public final class Constants {
 
+
+  
+
     
   public static final class constants_Module {
     public static final double WHEEL_RADIUS_METERS = 0.1016/2; //Inches
     public static final double WHEEL_CIRCUMFRENCE_METERS = 2*Math.PI*WHEEL_RADIUS_METERS;
     public static final double DRIVE_GEAR_RATIO = 4.59; //4.59 for Swerve X, 6.75 for sds
     public static final double DRIVE_ROT_2_METER = (WHEEL_CIRCUMFRENCE_METERS);
-    public static final double DRIVE_MPS_2_RPS = DRIVE_GEAR_RATIO/WHEEL_CIRCUMFRENCE_METERS;
+    public static final double DRIVE_MPS_2_ROT_PER_SEC = DRIVE_GEAR_RATIO/WHEEL_CIRCUMFRENCE_METERS;
 
     public static final double STEER_GEAR_RATIO = 13.3714; //13.3714 for Swerve X, 12.8 for sds
-    public static final double STEER_TO_DEGREES = 360 / STEER_GEAR_RATIO;
-    public static final double STEER__RPM_2_DEG_PER_SEC = STEER_TO_DEGREES / 60;
+    public static final double STEER_TO_RAD = (2* Math.PI) / STEER_GEAR_RATIO;
+    public static final double STEER_RPM_2_RAD_PER_SEC = STEER_TO_RAD / 60;
 
     //TODO Tune our pid loop for the drives once you add in all the offsets, you can just rotate the wheels to 90 degrees using the flight sticks, then disable and enable the code to set them to 0 degreese and tune off of that vaule
     public static final double P_TURNING = 0.0075;
@@ -65,27 +68,6 @@ public final class Constants {
 
 
   public static final class constants_Drive {
-
-    public static final double odometryFrequency = 100.0; // Hz
-    public static final double TURN_PID_MIN_INPUT = 0; // Radians
-  public static final double TURN_PID_MAX_INPUT = 2 * Math.PI; // Radians
-
-
-
-    public static final Mode simMode = Mode.SIM;
-    public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
-
-    public static enum Mode {
-      /** Running on a real robot. */
-      REAL,
-
-      /** Running a physics simulator. */
-      SIM,
-
-      /** Replaying from a log file. */
-      REPLAY
-    }
-
 
     public static final Measure<DistanceUnit> WHEEL_RADIUS = edu.wpi.first.units.Units.Inches.of(1.5);
     public static final double COF = 1.2;
@@ -129,13 +111,42 @@ public final class Constants {
     public static final boolean BR_DRIVE_ABSOLUTE_ENCODER_REVERSED = false;
 
     public static final double MAX_SPEED_METERS_PER_SEC = 6.949; //6.949 for Swerve X, 4.60248 for sd
-    public static final double MAX_ANGULAR_SPEED_RPS = MAX_SPEED_METERS_PER_SEC/TRACK_WIDTH;
+    public static final double MAX_ANGULAR_SPEED_RadPS = MAX_SPEED_METERS_PER_SEC/TRACK_WIDTH;
 
     //For limiting speed while driving
     public static final double TELEDRIVE_MAX_SPEED_METERS_PER_SEC = MAX_SPEED_METERS_PER_SEC / 1.0;
-    public static final double TELEDRIVE_MAX_ANGULAR_SPEED_RPS = MAX_ANGULAR_SPEED_RPS / 1.0;
-    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = MAX_SPEED_METERS_PER_SEC/1.35;
+    public static final double TELEDRIVE_MAX_ANGULAR_SPEED_RadPS = MAX_ANGULAR_SPEED_RadPS / 1.0;
+    public static final double TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC = TELEDRIVE_MAX_SPEED_METERS_PER_SEC/1.35;
     public static final double TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC/(TRACK_WIDTH/2);
+  }
+
+  public static final class constants_Sim
+  {
+    public static final double odometryFrequency = 100.0; // Hz
+    public static final double TURN_PID_MIN_INPUT = 0; //Radians
+    public static final double TURN_PID_MAX_INPUT = 2 * Math.PI; //Radians
+
+        //For limiting speed while driving
+    public static final double SIM_MAX_SPEED_METERS_PER_SEC = constants_Drive.MAX_SPEED_METERS_PER_SEC / 1.5;
+    public static final double SIM_MAX_ANGULAR_SPEED_RadPS = constants_Drive.MAX_ANGULAR_SPEED_RadPS / 1.0;
+    public static final double SIM_MAX_ACCELERATION_UNITS_PER_SEC = SIM_MAX_SPEED_METERS_PER_SEC/1.75;
+    public static final double SIM_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = SIM_MAX_ACCELERATION_UNITS_PER_SEC/(constants_Drive.TRACK_WIDTH/2);
+
+
+
+    public static final Mode simMode = Mode.SIM;
+    public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
+
+    public static enum Mode {
+      /** Running on a real robot. */
+      REAL,
+
+      /** Running a physics simulator. */
+      SIM,
+
+      /** Replaying from a log file. */
+      REPLAY
+    }
   }
 
 
@@ -309,7 +320,7 @@ public final class Constants {
   public static final class constants_Auto {
     public static final double MAX_SPEED_METERS_PER_SEC = constants_Drive.MAX_SPEED_METERS_PER_SEC;//0.5;
     public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQRD = constants_Drive.TELE_DRIVE_MAX_ACCELERATION_UNITS_PER_SEC;//0.25;
-    public static final double MAX_ANGULAR_SPEED_RPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RPS;
+    public static final double MAX_ANGULAR_SPEED_RPS =  constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RadPS;
     public static final double MAX_ANGULAR_ACCEL_UNITS_PER_SEC = constants_Drive.TELEDRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC;
 
     public static  double P_TRANSLATION = 8.5;

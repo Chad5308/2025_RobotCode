@@ -18,7 +18,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Util.Constants.constants_Module;
@@ -32,7 +31,7 @@ public class ModuleIOSim implements ModuleIO {
 public static final double driveSimP = 0.05;
   public static final double driveSimD = 0.0;
   public static final double driveSimKs = 0.91035;
-  private static final double driveSimKv = 1.0 / Units.rotationsToRadians(1.0 / driveSimKs);
+  private static final double driveSimKv = 1.0 / driveSimKs;
   public static final double turnSimP = 8.0;
   public static final double turnSimD = 0.0;
   private static final DCMotor DRIVE_GEARBOX = DCMotor.getKrakenX60Foc(1);
@@ -70,7 +69,7 @@ public static final double driveSimP = 0.05;
     // Run closed-loop control
     if (driveClosedLoop) {
       driveAppliedVolts =
-          driveFFVolts + driveController.calculate(driveSim.getAngularVelocityRadPerSec());
+          driveFFVolts + driveController.calculate(driveSim.getAngularVelocityRPM()/60);
     } else {
       driveController.reset();
     }
@@ -88,8 +87,8 @@ public static final double driveSimP = 0.05;
 
     // Update drive inputs
     inputs.driveConnected = true;
-    inputs.drivePositionRad = driveSim.getAngularPositionRad();
-    inputs.driveVelocityRadPerSec = driveSim.getAngularVelocityRadPerSec();
+    inputs.drivePositionM = driveSim.getAngularPositionRotations()*constants_Module.DRIVE_ROT_2_METER;
+    inputs.driveVelocityMPS = (driveSim.getAngularVelocityRPM()*constants_Module.DRIVE_ROT_2_METER) / 60;
     inputs.driveAppliedVolts = driveAppliedVolts;
     inputs.driveCurrentAmps = Math.abs(driveSim.getCurrentDrawAmps());
 
@@ -102,7 +101,7 @@ public static final double driveSimP = 0.05;
 
     // Update odometry inputs (50Hz because high-frequency odometry in sim doesn't matter)
     inputs.odometryTimestamps = new double[] {Timer.getFPGATimestamp()};
-    inputs.odometryDrivePositionsRad = new double[] {inputs.drivePositionRad};
+    inputs.odometryDrivePositionsM = new double[] {inputs.drivePositionM};
     inputs.odometryTurnPositions = new Rotation2d[] {inputs.turnPosition};
   }
 
@@ -119,10 +118,10 @@ public static final double driveSimP = 0.05;
   }
 
   @Override
-  public void setDriveVelocity(double velocityRadPerSec) {
+  public void setDriveVelocity(double velocityRPS) {
     driveClosedLoop = true;
-    driveFFVolts = driveSimKs * Math.signum(velocityRadPerSec) + driveSimKv * velocityRadPerSec;
-    driveController.setSetpoint(velocityRadPerSec);
+    driveFFVolts = driveSimKs * Math.signum(velocityRPS) + driveSimKv * velocityRPS;
+    driveController.setSetpoint(velocityRPS);
   }
 
   @Override

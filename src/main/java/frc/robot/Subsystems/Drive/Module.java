@@ -53,7 +53,7 @@ public class Module {
     int sampleCount = inputs.odometryTimestamps.length; // All signals are sampled together
     odometryPositions = new SwerveModulePosition[sampleCount];
     for (int i = 0; i < sampleCount; i++) {
-      double positionMeters = inputs.odometryDrivePositionsRad[i] * constants_Drive.WHEEL_RADIUS.magnitude();
+      double positionMeters = inputs.odometryDrivePositionsM[i] * constants_Drive.WHEEL_RADIUS.magnitude();
       Rotation2d angle = inputs.odometryTurnPositions[i];
       odometryPositions[i] = new SwerveModulePosition(positionMeters, angle);
     }
@@ -66,11 +66,12 @@ public class Module {
   /** Runs the module with the specified setpoint state. Mutates the state to optimize it. */
   public void runSetpoint(SwerveModuleState state) {
     // Optimize velocity setpoint
+    // state.optimize(getAngle());
     state.optimize(getAngle());
     state.cosineScale(inputs.turnPosition);
 
     // Apply setpoints
-    io.setDriveVelocity(state.speedMetersPerSecond / constants_Drive.WHEEL_RADIUS.magnitude());
+    io.setDriveVelocity(state.speedMetersPerSecond);
     io.setTurnPosition(state.angle);
   }
 
@@ -93,12 +94,12 @@ public class Module {
 
   /** Returns the current drive position of the module in meters. */
   public double getPositionMeters() {
-    return inputs.drivePositionRad * constants_Drive.WHEEL_RADIUS.magnitude();
+    return inputs.drivePositionM;
   }
 
   /** Returns the current drive velocity of the module in meters per second. */
   public double getVelocityMetersPerSec() {
-    return inputs.driveVelocityRadPerSec * constants_Drive.WHEEL_RADIUS.magnitude();
+    return inputs.driveVelocityMPS;
   }
 
   /** Returns the module position (turn angle and drive position). */
@@ -121,14 +122,14 @@ public class Module {
     return inputs.odometryTimestamps;
   }
 
-  /** Returns the module position in radians. */
+  /** Returns the module position in m. */
   public double getWheelRadiusCharacterizationPosition() {
-    return inputs.drivePositionRad;
+    return inputs.drivePositionM;
   }
 
-  /** Returns the module velocity in rad/sec. */
+  /** Returns the module velocity in m/sec. */
   public double getFFCharacterizationVelocity() {
-    return inputs.driveVelocityRadPerSec;
+    return inputs.driveVelocityMPS;
   }
 
   public void resetWheels()

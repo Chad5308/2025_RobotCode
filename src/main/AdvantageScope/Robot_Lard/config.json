@@ -1,0 +1,47 @@
+{
+    "name": "Lard",
+    "rotations": [
+        {
+            "axis": "x",
+            "degrees": 180
+        },
+        {
+            "axis": "y",
+            "degrees": 0
+        },
+        {
+            "axis": "z",
+            "degrees": 90
+        }
+    ],
+    "position": [
+        0,
+        0,
+        0.12555
+    ],
+    "cameras": [],
+    "componenets": [
+        {
+            "zeroedRotations": [
+                {
+                    "axis": "x",
+                    "degrees": 180
+                },
+                {
+                    "axis": "y",
+                    "degrees": 0
+                },
+                {
+                    "axis": "z",
+                    "degrees": 90
+                }
+            ],
+            "zeroedPosition": [
+                0,
+                0,
+                0
+            ]
+        }
+    ]
+    
+}

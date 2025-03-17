@@ -27,6 +27,7 @@ import frc.robot.Commands.DriveCommand;
 import frc.robot.Util.Controllers;
 import frc.robot.Util.LimelightHelpers;
 import frc.robot.Util.Constants.constants_Drive;
+import frc.robot.Util.Constants.constants_Sim;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Elevator;
@@ -74,7 +75,7 @@ public class RobotContainer {
   public RobotContainer() 
   {
 
-    switch (constants_Drive.currentMode) {
+    switch (constants_Sim.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
         s_Drive =
@@ -109,10 +110,10 @@ public class RobotContainer {
         break;
     }
    
-    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
-
+    
     configureFiles();
     configureDriverBindings();
+    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
 
     gamePieceStoredTrigger_Coral.onTrue(Commands.deferredProxy(
@@ -148,7 +149,7 @@ public class RobotContainer {
       u_Controllers = new Controllers();
       h_Limelight = new LimelightHelpers();
       // c_Drive = new DriveCommand(s_Drive, u_Controllers.leftStick, u_Controllers.rightStick);
-      // s_Vision = new Vision(c_Drive, s_Drive, u_Controllers);
+      s_Vision = new Vision(c_Drive, s_Drive, u_Controllers);
       s_StateMachine = new StateMachine();
       s_Climber = new Climber();
       s_Elevator = new Elevator();
@@ -164,9 +165,9 @@ public class RobotContainer {
     s_Drive.setDefaultCommand(
         DriveCommand.joystickDrive(
             s_Drive,
-            () -> -u_Controllers.leftStick.getY(),
-            () -> -u_Controllers.leftStick.getX(),
-            () -> -u_Controllers.rightStick.getX()));
+            () -> -u_Controllers.rightStick.getY(),
+            () -> -u_Controllers.rightStick.getX(),
+            () -> -u_Controllers.leftStick.getX()));
   
     // Intake Algae
     u_Controllers.leftStick.trigger().whileTrue(Commands.deferredProxy(()->

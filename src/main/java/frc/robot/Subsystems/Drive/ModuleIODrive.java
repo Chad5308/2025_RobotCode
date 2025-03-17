@@ -13,7 +13,6 @@
 
 package frc.robot.Subsystems.Drive;
 
-import static frc.robot.Util.Constants.*;
 import static frc.robot.Util.DriveUtil.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -25,11 +24,6 @@ import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
-import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.TorqueCurrentFOC;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -38,23 +32,16 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkClosedLoopController.ArbFFUnits;
-import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig;
-import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
@@ -66,7 +53,7 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Util.Constants.constants_Module;
-import frc.robot.Util.RobotMap;
+import frc.robot.Util.Constants.constants_Sim;
 
 import java.util.Queue;
 import java.util.function.DoubleSupplier;
@@ -118,7 +105,7 @@ public TalonFX driveKraken;
 
     driveKraken = new TalonFX((module+1));
     driveConfigs = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
-    driveFeedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(constants_Module.DRIVE_GEAR_RATIO);
+    driveFeedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(constants_Module.DRIVE_GEAR_RATIO*constants_Module.DRIVE_ROT_2_METER);
     neutralModeValue = NeutralModeValue.Brake;
     driveKraken.getConfigurator().apply(driveConfigs);
     driveKraken.getConfigurator().apply(new CurrentLimitsConfigs().withStatorCurrentLimitEnable(false).withSupplyCurrentLimitEnable(true).withSupplyCurrentLimit(80));
@@ -137,7 +124,7 @@ public TalonFX driveKraken;
 
     turnConfig = new SparkMaxConfig()
     .apply(new ClosedLoopConfig().pidf(0.0225, 0.000001, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-179.9999999, 180));
-    turnConfig.encoder.positionConversionFactor(constants_Module.STEER_TO_DEGREES).velocityConversionFactor(constants_Module.STEER__RPM_2_DEG_PER_SEC);
+    turnConfig.encoder.positionConversionFactor(constants_Module.STEER_TO_RAD).velocityConversionFactor(constants_Module.STEER_RPM_2_RAD_PER_SEC);
     turnConfig.inverted(switch(module)
     {
         case 0 -> constants_Drive.FL_STEER_ENCODER_REVERSED;
@@ -180,6 +167,7 @@ public TalonFX driveKraken;
     absoluteEncoder.getConfigurator().apply(CANConfig);
 
 
+    
 
     // Create drive status signals
     drivePosition = driveKraken.getPosition();
@@ -191,7 +179,7 @@ public TalonFX driveKraken;
 
      // Configure periodic frames
     BaseStatusSignal.setUpdateFrequencyForAll(
-        constants_Drive.odometryFrequency, drivePosition);
+        constants_Sim.odometryFrequency, drivePosition);
     BaseStatusSignal.setUpdateFrequencyForAll(
             50.0,
             driveVelocity,
@@ -217,11 +205,10 @@ public TalonFX driveKraken;
 
     // Update drive inputs
     inputs.driveConnected = driveConnectedDebounce.calculate(driveStatus.isOK());
-    inputs.drivePositionRad = Units.rotationsToRadians(drivePosition.getValueAsDouble());
-    inputs.driveVelocityRadPerSec = Units.rotationsToRadians(driveVelocity.getValueAsDouble());
+    inputs.drivePositionM = drivePosition.getValueAsDouble();
+    inputs.driveVelocityMPS = driveVelocity.getValueAsDouble();
     inputs.driveAppliedVolts = driveAppliedVolts.getValueAsDouble();
     inputs.driveCurrentAmps = driveCurrent.getValueAsDouble();
-
 
 
     // Update turn inputs
@@ -229,7 +216,7 @@ public TalonFX driveKraken;
     ifOk(
         turnSpark,
         turnEncoder::getPosition,
-        (value) -> inputs.turnPosition = new Rotation2d(value));
+        (value) -> inputs.turnPosition = new Rotation2d(getABSPosition()));
     ifOk(turnSpark, turnEncoder::getVelocity, (value) -> inputs.turnVelocityRadPerSec = value);
     ifOk(
         turnSpark,
@@ -240,7 +227,7 @@ public TalonFX driveKraken;
     // Update odometry inputs
     inputs.odometryTimestamps =
         timestampQueue.stream().mapToDouble((Double value) -> value).toArray();
-    inputs.odometryDrivePositionsRad =
+    inputs.odometryDrivePositionsM =
         drivePositionQueue.stream().mapToDouble((Double value) -> value).toArray();
     inputs.odometryTurnPositions =
         turnPositionQueue.stream()
@@ -263,8 +250,8 @@ public TalonFX driveKraken;
   }
 
  @Override
-  public void setDriveVelocity(double velocityRadPerSec) {
-    double velocityRotPerSec = Units.radiansToRotations(velocityRadPerSec);
+  public void setDriveVelocity(double velocityMPS) {
+    double velocityRotPerSec = velocityMPS * constants_Module.DRIVE_MPS_2_ROT_PER_SEC;
     driveKraken.setControl(velocityVoltageRequest.withVelocity(velocityRotPerSec));
   }
 
@@ -272,14 +259,14 @@ public TalonFX driveKraken;
   public void setTurnPosition(Rotation2d rotation) {
     double setpoint =
         MathUtil.inputModulus(
-            rotation.getRadians(), constants_Drive.TURN_PID_MIN_INPUT, constants_Drive.TURN_PID_MAX_INPUT);
+            rotation.getRadians(), constants_Sim.TURN_PID_MIN_INPUT, constants_Sim.TURN_PID_MAX_INPUT);
     turnPIDController.setReference(setpoint, ControlType.kPosition);
   }
 
 
    public double getABSPosition()
   {
-    return absoluteEncoder.getAbsolutePosition().getValueAsDouble()*360; //  * 360 to convert to degrees
+    return absoluteEncoder.getAbsolutePosition().getValueAsDouble()*(2*Math.PI); //Radians
   }
   
 

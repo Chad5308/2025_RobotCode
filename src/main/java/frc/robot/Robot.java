@@ -12,13 +12,18 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.littletonrobotics.urcl.URCL;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
 import frc.robot.Util.Constants.constants_Drive;
+import frc.robot.Util.Constants.constants_Sim;
 
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
@@ -45,7 +50,7 @@ public class Robot extends LoggedRobot {
     }
 
     // Set up data receivers & replay source
-    switch (constants_Drive.currentMode) {
+    switch (constants_Sim.currentMode) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new WPILOGWriter());
@@ -86,6 +91,16 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    Logger.recordOutput("RobotPose", new Pose2d());
+    Logger.recordOutput("ZeroedComponentPoses", new Pose3d[] {new Pose3d(), new Pose3d(), new Pose3d()});
+    Logger.recordOutput(
+      "FinalComponenetPoses",
+      new Pose3d[] {
+        new Pose3d(),
+        new Pose3d(),
+        new Pose3d()
+      });
   }
 
   @Override

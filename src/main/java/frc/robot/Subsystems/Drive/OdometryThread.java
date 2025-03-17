@@ -23,6 +23,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Util.Constants.constants_Drive;
+import frc.robot.Util.Constants.constants_Sim;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,12 +145,12 @@ private static boolean isCANFD =
       signalsLock.lock();
       try {
         if (isCANFD && phoenixSignals.length > 0) {
-          BaseStatusSignal.waitForAll(2.0 / constants_Drive.odometryFrequency, phoenixSignals);
+          BaseStatusSignal.waitForAll(2.0 / constants_Sim.odometryFrequency, phoenixSignals);
         } else {
           // "waitForAll" does not support blocking on multiple signals with a bus
           // that is not CAN FD, regardless of Pro licensing. No reasoning for this
           // behavior is provided by the documentation.
-          Thread.sleep((long) (1000.0 / constants_Drive.odometryFrequency));
+          Thread.sleep((long) (1000.0 / constants_Sim.odometryFrequency));
           if (phoenixSignals.length > 0) BaseStatusSignal.refreshAll(phoenixSignals);
         }
       } catch (InterruptedException e) {

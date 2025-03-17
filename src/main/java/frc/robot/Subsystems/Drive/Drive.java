@@ -14,13 +14,6 @@
 package frc.robot.Subsystems.Drive;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.Util.Constants.*;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.pathfinding.Pathfinding;
-import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
@@ -39,14 +32,13 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Util.Constants;
 import frc.robot.Util.Constants.constants_Drive;
-import frc.robot.Util.Constants.constants_Drive.Mode;
-import frc.robot.Util.LocalADStarAK;
+import frc.robot.Util.Constants.constants_Sim.Mode;
+import frc.robot.Util.Constants.constants_Sim;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -61,7 +53,7 @@ public class Drive extends SubsystemBase {
   private final Alert gyroDisconnectedAlert =
       new Alert("Disconnected gyro, using kinematics as fallback.", AlertType.kError);
 
-  private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getModuleTranslations());
+  private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(constants_Drive.getModuleTranslations());
   private Rotation2d rawGyroRotation = new Rotation2d();
   private SwerveModulePosition[] lastModulePositions = // For delta tracking
       new SwerveModulePosition[] {
@@ -161,7 +153,7 @@ public class Drive extends SubsystemBase {
     }
 
     // Update gyro alert
-    gyroDisconnectedAlert.set(!gyroInputs.connected && constants_Drive.currentMode != Mode.SIM);
+    gyroDisconnectedAlert.set(!gyroInputs.connected && constants_Sim.currentMode != Mode.SIM);
   }
 
   /**
@@ -207,7 +199,7 @@ public class Drive extends SubsystemBase {
   public void stopWithX() {
     Rotation2d[] headings = new Rotation2d[4];
     for (int i = 0; i < 4; i++) {
-      headings[i] = getModuleTranslations()[i].getAngle();
+      headings[i] = constants_Drive.getModuleTranslations()[i].getAngle();
     }
     kinematics.resetHeadings(headings);
     stop();
@@ -295,12 +287,12 @@ public class Drive extends SubsystemBase {
 
   /** Returns the maximum linear speed in meters per sec. */
   public double getMaxLinearSpeedMetersPerSec() {
-    return constants_Drive.MAX_SPEED_METERS_PER_SEC;
+    return constants_Drive.TELEDRIVE_MAX_SPEED_METERS_PER_SEC;
   }
 
   /** Returns the maximum angular speed in radians per sec. */
   public double getMaxAngularSpeedRadPerSec() {
-    return constants_Drive.MAX_ANGULAR_SPEED_RPS;
+    return constants_Drive.TELEDRIVE_MAX_ANGULAR_SPEED_RadPS;
   }
 
  //face forward method. Called once the bot is enabled
@@ -312,13 +304,4 @@ public class Drive extends SubsystemBase {
         System.out.println("exacuted faceAll");
     }
 
-  /** Returns an array of module translations. */
-  public static Translation2d[] getModuleTranslations() {
-    return new Translation2d[] {
-      new Translation2d(constants_Drive.WHEEL_BASE, constants_Drive.TRACK_WIDTH),
-      new Translation2d(constants_Drive.WHEEL_BASE, -constants_Drive.TRACK_WIDTH),
-      new Translation2d(-constants_Drive.WHEEL_BASE, constants_Drive.TRACK_WIDTH),
-      new Translation2d(-constants_Drive.WHEEL_BASE, -constants_Drive.TRACK_WIDTH)
-    };
-  }
 }

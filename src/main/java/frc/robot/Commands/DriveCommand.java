@@ -24,10 +24,12 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Subsystems.Drive.Drive;
+import frc.robot.Util.Constants.constants_Sim;
+
 import java.util.function.DoubleSupplier;
 
 public class DriveCommand {
-  private static final double DEADBAND = 0.025;
+  private static final double DEADBAND = 0.085;
   // private static final double ANGLE_KP = 5.0;
   // private static final double ANGLE_KD = 0.4;
   // private static final double ANGLE_MAX_VELOCITY = 8.0;
@@ -76,9 +78,9 @@ public class DriveCommand {
           // Convert to field relative speeds & send command
           ChassisSpeeds speeds =
               new ChassisSpeeds(
-                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                  omega * drive.getMaxAngularSpeedRadPerSec());
+                  linearVelocity.getX() * (constants_Sim.currentMode==constants_Sim.simMode? constants_Sim.SIM_MAX_SPEED_METERS_PER_SEC:drive.getMaxLinearSpeedMetersPerSec()),
+                  linearVelocity.getY() * (constants_Sim.currentMode==constants_Sim.simMode? constants_Sim.SIM_MAX_SPEED_METERS_PER_SEC:drive.getMaxLinearSpeedMetersPerSec()),
+                  omega * (constants_Sim.currentMode==constants_Sim.simMode? constants_Sim.SIM_MAX_ANGULAR_SPEED_RadPS:drive.getMaxAngularSpeedRadPerSec()));
           boolean isFlipped =
               DriverStation.getAlliance().isPresent()
                   && DriverStation.getAlliance().get() == Alliance.Red;

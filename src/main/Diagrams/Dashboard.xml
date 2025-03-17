@@ -1,5 +1,8 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Auto Choices" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="12" y="65"/>
+	</widget>
 	<widget field="Auto Selection" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="263" y="158"/>
 	</widget>
@@ -50,9 +53,9 @@
 		<location x="758" y="18"/>
 	</widget>
 	<widget field="fieldOriented" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="329" y="23"/>
+		<location x="338" y="50"/>
 		<width>150</width>
-		<height>74</height>
+		<height>30</height>
 	</widget>
 	<widget field="Climber position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="555" y="48"/>
@@ -104,7 +107,7 @@
 		<location x="1221" y="47"/>
 	</widget>
 	<widget field="CURRENT TARGET STATE" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="14" y="23"/>
+		<location x="22" y="19"/>
 	</widget>
 	<widget field="CURRENT ROBOT STATE" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="18" y="49"/>
@@ -114,8 +117,9 @@
 		<width>143</width>
 	</widget>
 	<widget field="Robot Location" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="258" y="3"/>
+		<location x="238" y="12"/>
 		<width>259</width>
+		<height>23</height>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
 		<location x="1082" y="261"/>
@@ -132,5 +136,6 @@
 </dashboard>
 <live-window>
 </live-window>
+	<hidden field="Alerts"/>
 	<hidden field="PathPlanner"/>
 </xml>
