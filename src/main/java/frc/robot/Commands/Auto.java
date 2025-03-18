@@ -5,11 +5,8 @@ package frc.robot.Commands;
 
 import org.littletonrobotics.junction.Logger;
 
-import org.littletonrobotics.junction.Logger;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.controllers.PathFollowingController;
@@ -56,37 +53,26 @@ public PIDController rotationConstants = new PIDController(constants_Auto.P_THET
             e.printStackTrace();
         }
 
-
-        // AutoBuilder.configure(
-        //     s_Swerve::getPose,
-        //     s_Swerve::resetOdometry,
-        //     s_Swerve::getRobotRelativeSpeeds,
-        //     s_Swerve::setModuleStates,
-        //     pathController,
-        //     config,
-        //     s_Swerve::allianceCheck,
-        //     s_Swerve);
-
         // Configure AutoBuilder for PathPlanner
-    AutoBuilder.configure(
-        s_Drive::getPose,
-        s_Drive::setPose,
-        s_Drive::getChassisSpeeds,
-        s_Drive::runVelocity,
-        pathController,
-        config,
-        () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-        s_Drive);
-    Pathfinding.setPathfinder(new LocalADStarAK());
-    PathPlannerLogging.setLogActivePathCallback(
-        (activePath) -> {
-          Logger.recordOutput(
-              "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
-        });
-    PathPlannerLogging.setLogTargetPoseCallback(
-        (targetPose) -> {
-          Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
-        });
+        AutoBuilder.configure(
+            s_Drive::getPose,
+            s_Drive::setPose,
+            s_Drive::getChassisSpeeds,
+            s_Drive::runVelocity,
+            pathController,
+            config,
+            () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+            s_Drive);
+        Pathfinding.setPathfinder(new LocalADStarAK());
+        PathPlannerLogging.setLogActivePathCallback(
+            (activePath) -> {
+            Logger.recordOutput(
+                "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
+            });
+        PathPlannerLogging.setLogTargetPoseCallback(
+            (targetPose) -> {
+            Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
+            });
 
             
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Drive.faceAllFoward()));

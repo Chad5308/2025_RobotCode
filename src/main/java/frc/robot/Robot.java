@@ -14,16 +14,13 @@ import org.littletonrobotics.urcl.URCL;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystems.StateMachine.RobotState;
 import frc.robot.Subsystems.StateMachine.TargetState;
-import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Util.Constants.constants_Sim;
+import frc.robot.Util.Elastic;
 
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
@@ -107,6 +104,7 @@ public class Robot extends LoggedRobot {
   public void disabledInit() {
     m_robotContainer.s_StateMachine.setRobotState(RobotState.NONE);
     m_robotContainer.s_StateMachine.setTargetState(TargetState.PREP_NONE);
+    Elastic.selectTab("Disabled");
   }
 
   @Override
@@ -117,6 +115,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
+    Elastic.selectTab("Autonomous");
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
@@ -135,6 +134,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    Elastic.selectTab("Teleoperated");
   }
 
   @Override

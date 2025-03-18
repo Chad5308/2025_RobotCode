@@ -22,7 +22,6 @@ import com.revrobotics.spark.SparkBase;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
-import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Util.Constants.constants_Sim;
 
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ public class OdometryThread extends Thread {
 private static boolean isCANFD =
       new CANBus("rio").isNetworkFD();
   private static OdometryThread instance = null;
-  private Notifier notifier = new Notifier(this::run);
+  // private Notifier notifier = new Notifier(this::run);
 
 
   public static OdometryThread getInstance() {

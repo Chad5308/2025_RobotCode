@@ -10,10 +10,8 @@ package frc.robot;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -22,8 +20,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Auto;
 import frc.robot.Commands.DriveCommand;
 import frc.robot.Util.Controllers;
+import frc.robot.Util.Elastic;
 import frc.robot.Util.LimelightHelpers;
-import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Util.Constants.constants_Sim;
 import frc.robot.Subsystems.AlgaeRollers;
 import frc.robot.Subsystems.Climber;
@@ -62,6 +60,7 @@ public class RobotContainer {
   public AlgaeRollers s_Rollers;
   public Lights s_Lights;
   public Auto c_Auto;
+  public Elastic u_Elastic;
   
   public Trigger gamePieceStoredTrigger_Coral = new Trigger(() -> s_Elevator.getGamePieceStored());
   public Trigger gamePieceCollectedTrigger_Algae = new Trigger(() -> s_Rollers.getGamePieceCollected());
@@ -154,6 +153,7 @@ public class RobotContainer {
       s_Rollers = new AlgaeRollers();
       s_Lights = new Lights();
       c_Auto = new Auto(s_StateMachine, c_Drive, s_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights);
+      u_Elastic = new Elastic(s_Drive);
   }
 
 
