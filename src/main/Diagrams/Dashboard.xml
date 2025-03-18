@@ -110,7 +110,7 @@
 		<location x="190" y="80"/>
 	</widget>
 	<widget field="SendableChooser[1]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="116" y="81"/>
+		<location x="176" y="68"/>
 	</widget>
 	<widget field="SendableChooser[0]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
 		<location x="8" y="84"/>
@@ -143,7 +143,7 @@
 		<property name="Camera Choice" value="limelight-coral"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="79" y="319"/>
+		<location x="56" y="293"/>
 		<width>772</width>
 		<height>659</height>
 		<property name="Camera Choice" value="USB Camera 0"/>
@@ -151,6 +151,7 @@
 </dashboard>
 <live-window>
 </live-window>
+	<hidden field="Swerve Drive"/>
 	<hidden field="Alerts"/>
 	<hidden field="PathPlanner"/>
 </xml>

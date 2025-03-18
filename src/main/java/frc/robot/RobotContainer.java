@@ -111,6 +111,7 @@ public class RobotContainer {
     configureFiles();
     configureDriverBindings();
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    SmartDashboard.putData(autoChooser.getSendableChooser());
 
 
     gamePieceStoredTrigger_Coral.onTrue(Commands.deferredProxy(
@@ -159,12 +160,19 @@ public class RobotContainer {
   public final void configureDriverBindings() {
 
       // Default command, normal field-relative drive
-    s_Drive.setDefaultCommand(
+    // s_Drive.setDefaultCommand(
+    //     DriveCommand.joystickDrive(
+    //         s_Drive,
+    //         () -> -u_Controllers.rightStick.getY(),
+    //         () -> -u_Controllers.rightStick.getX(),
+    //         () -> -u_Controllers.leftStick.getX()));
+
+     s_Drive.setDefaultCommand(
         DriveCommand.joystickDrive(
             s_Drive,
-            () -> -u_Controllers.rightStick.getY(),
-            () -> -u_Controllers.rightStick.getX(),
-            () -> -u_Controllers.leftStick.getX()));
+            () -> -u_Controllers.xbox.getLeftY(),
+            () -> -u_Controllers.xbox.getLeftX(),
+            () -> -u_Controllers.xbox.getRightX()));
   
     // Intake Algae
     u_Controllers.leftStick.trigger().whileTrue(Commands.deferredProxy(()->
