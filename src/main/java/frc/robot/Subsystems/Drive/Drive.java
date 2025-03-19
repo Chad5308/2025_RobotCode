@@ -157,7 +157,6 @@ public class Drive extends SubsystemBase {
 
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && constants_Sim.currentMode != Mode.SIM);
-
   }
 
   /**

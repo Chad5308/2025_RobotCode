@@ -1,29 +1,11 @@
-// Copyright 2021-2025 FRC 6328
-// http://github.com/Mechanical-Advantage
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// version 3 as published by the Free Software Foundation or
-// available in the root directory of this project.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-
 package frc.robot.Subsystems.Drive;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
-import com.ctre.phoenix6.StatusSignal;
 import com.revrobotics.REVLibError;
 import com.revrobotics.spark.SparkBase;
-
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Util.Constants.constants_Sim;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -33,31 +15,37 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.DoubleSupplier;
 
 /**
- * Provides an interface for asynchronously reading high-frequency measurements to a set of queues.
+ * OdometryThread combines the functionalities of both the Phoenix and Spark odometry templates.
+ * It reads high-frequency measurements from Talon (Phoenix) and Spark motor controllers while ensuring
+ * that the drive position timestamp is only logged once per cycle.
  *
- * <p>This version is intended for Phoenix 6 devices on both the RIO and CANivore buses. When using
- * a CANivore, the thread uses the "waitForAll" blocking method to enable more consistent sampling.
- * This also allows Phoenix Pro users to benefit from lower latency between devices using CANivore
- * time synchronization.
+ * Fix: Removed duplicate logging of generic signals and timestamps.
  */
 public class OdometryThread extends Thread {
-  private final Lock signalsLock =
-      new ReentrantLock(); // Prevents conflicts when registering signals
-  private BaseStatusSignal[] phoenixSignals = new BaseStatusSignal[0];
-  private final List<DoubleSupplier> genericSignals = new ArrayList<>();
-  private final List<Queue<Double>> phoenixQueues = new ArrayList<>();
-  private final List<Queue<Double>> genericQueues = new ArrayList<>();
-  private final List<Queue<Double>> timestampQueues = new ArrayList<>();
+  // Lock to prevent conflicts when registering signals
+  private final Lock signalsLock = new ReentrantLock();
 
+  // Phoenix (Talon) signals and queues
+  private BaseStatusSignal[] phoenixSignals = new BaseStatusSignal[0];
+  private final List<Queue<Double>> phoenixQueues = new ArrayList<>();
+
+  // Spark signals and queues
   private final List<SparkBase> sparks = new ArrayList<>();
   private final List<DoubleSupplier> sparkSignals = new ArrayList<>();
   private final List<Queue<Double>> sparkQueues = new ArrayList<>();
 
-private static boolean isCANFD =
-      new CANBus("rio").isNetworkFD();
-  private static OdometryThread instance = null;
-  // private Notifier notifier = new Notifier(this::run);
+  // Generic signals and queues (shared between templates)
+  private final List<DoubleSupplier> genericSignals = new ArrayList<>();
+  private final List<Queue<Double>> genericQueues = new ArrayList<>();
 
+  // Timestamp queues
+  private final List<Queue<Double>> timestampQueues = new ArrayList<>();
+
+  // Determine if the CAN bus is FD. This can affect how we wait for updates.
+  private static boolean isCANFD = new CANBus("rio").isNetworkFD();
+
+  // Singleton instance
+  private static OdometryThread instance = null;
 
   public static OdometryThread getInstance() {
     if (instance == null) {
@@ -73,13 +61,18 @@ private static boolean isCANFD =
 
   @Override
   public void start() {
+    // Only start if at least one timestamp queue is registered.
     if (timestampQueues.size() > 0) {
       super.start();
     }
   }
 
-  /** Registers a Phoenix signal to be read from the thread. */
-  public Queue<Double> registerSignal(StatusSignal<Angle> signal) {
+  /**
+   * Registers a Phoenix (Talon) signal to be logged.
+   * @param signal the Phoenix status signal to register.
+   * @return a Queue that will receive the logged values.
+   */
+  public Queue<Double> registerSignal(com.ctre.phoenix6.StatusSignal<?> signal) {
     Queue<Double> queue = new ArrayBlockingQueue<>(20);
     signalsLock.lock();
     Drive.odometryLock.lock();
@@ -90,13 +83,18 @@ private static boolean isCANFD =
       phoenixSignals = newSignals;
       phoenixQueues.add(queue);
     } finally {
-      signalsLock.unlock();
       Drive.odometryLock.unlock();
+      signalsLock.unlock();
     }
     return queue;
   }
 
-  /** Registers a Spark signal to be read from the thread. */
+  /**
+   * Registers a Spark signal (from a SparkMax) to be logged.
+   * @param spark the Spark motor controller.
+   * @param signal a DoubleSupplier that provides the signal value.
+   * @return a Queue that will receive the logged values.
+   */
   public Queue<Double> registerSignal(SparkBase spark, DoubleSupplier signal) {
     Queue<Double> queue = new ArrayBlockingQueue<>(20);
     Drive.odometryLock.lock();
@@ -110,7 +108,11 @@ private static boolean isCANFD =
     return queue;
   }
 
-  /** Registers a generic signal to be read from the thread. */
+  /**
+   * Registers a generic signal to be logged.
+   * @param signal a DoubleSupplier that provides the signal value.
+   * @return a Queue that will receive the logged values.
+   */
   public Queue<Double> registerSignal(DoubleSupplier signal) {
     Queue<Double> queue = new ArrayBlockingQueue<>(20);
     signalsLock.lock();
@@ -119,13 +121,16 @@ private static boolean isCANFD =
       genericSignals.add(signal);
       genericQueues.add(queue);
     } finally {
-      signalsLock.unlock();
       Drive.odometryLock.unlock();
+      signalsLock.unlock();
     }
     return queue;
   }
 
-  /** Returns a new queue that returns timestamp values for each sample. */
+  /**
+   * Returns a new queue that will receive timestamp values for each sample.
+   * @return a Queue for timestamps.
+   */
   public Queue<Double> makeTimestampQueue() {
     Queue<Double> queue = new ArrayBlockingQueue<>(20);
     Drive.odometryLock.lock();
@@ -139,18 +144,18 @@ private static boolean isCANFD =
 
   @Override
   public void run() {
+    // Main logging loop.
     while (true) {
-      // Wait for updates from all signals
+      // Wait for Phoenix (Talon) signal updates if available.
       signalsLock.lock();
       try {
         if (isCANFD && phoenixSignals.length > 0) {
           BaseStatusSignal.waitForAll(2.0 / constants_Sim.odometryFrequency, phoenixSignals);
         } else {
-          // "waitForAll" does not support blocking on multiple signals with a bus
-          // that is not CAN FD, regardless of Pro licensing. No reasoning for this
-          // behavior is provided by the documentation.
           Thread.sleep((long) (1000.0 / constants_Sim.odometryFrequency));
-          if (phoenixSignals.length > 0) BaseStatusSignal.refreshAll(phoenixSignals);
+          if (phoenixSignals.length > 0) {
+            BaseStatusSignal.refreshAll(phoenixSignals);
+          }
         }
       } catch (InterruptedException e) {
         e.printStackTrace();
@@ -158,54 +163,48 @@ private static boolean isCANFD =
         signalsLock.unlock();
       }
 
-      // Save new data to queues
+      // Log sensor data and timestamp.
       Drive.odometryLock.lock();
       try {
-        // Sample timestamp is current FPGA time minus average CAN latency
-        //     Default timestamps from Phoenix are NOT compatible with
-        //     FPGA timestamps, this solution is imperfect but close
+        // Compute the sample timestamp (in seconds) adjusted for Phoenix latency.
         double timestamp = RobotController.getFPGATime() / 1e6;
-        double totalLatency = 0.0;
-        for (BaseStatusSignal signal : phoenixSignals) {
-          totalLatency += signal.getTimestamp().getLatency();
-        }
         if (phoenixSignals.length > 0) {
+          double totalLatency = 0.0;
+          for (BaseStatusSignal signal : phoenixSignals) {
+            totalLatency += signal.getTimestamp().getLatency();
+          }
           timestamp -= totalLatency / phoenixSignals.length;
         }
 
-          // Read Spark values, mark invalid in case of error
-        double[] sparkValues = new double[sparkSignals.size()];
+        // Log Phoenix (Talon) signals.
+        for (int i = 0; i < phoenixSignals.length; i++) {
+          phoenixQueues.get(i).offer(phoenixSignals[i].getValueAsDouble());
+        }
+
+        // Process and log Spark signals (only if all are valid).
         boolean isValid = true;
+        double[] sparkValues = new double[sparkSignals.size()];
         for (int i = 0; i < sparkSignals.size(); i++) {
           sparkValues[i] = sparkSignals.get(i).getAsDouble();
           if (sparks.get(i).getLastError() != REVLibError.kOk) {
             isValid = false;
           }
         }
-
-        // Add new samples to queues
-        for (int i = 0; i < phoenixSignals.length; i++) {
-          phoenixQueues.get(i).offer(phoenixSignals[i].getValueAsDouble());
+        if (isValid) {
+          for (int i = 0; i < sparkSignals.size(); i++) {
+            sparkQueues.get(i).offer(sparkValues[i]);
+          }
         }
+
+        // Log generic signals (logged only once per cycle).
         for (int i = 0; i < genericSignals.size(); i++) {
           genericQueues.get(i).offer(genericSignals.get(i).getAsDouble());
         }
-        for (int i = 0; i < timestampQueues.size(); i++) {
-          timestampQueues.get(i).offer(timestamp);
-        }
 
-        // If valid, add values to queues
-      if (isValid) {
-        for (int i = 0; i < sparkSignals.size(); i++) {
-          sparkQueues.get(i).offer(sparkValues[i]);
-        }
-        for (int i = 0; i < genericSignals.size(); i++) {
-          genericQueues.get(i).offer(genericSignals.get(i).getAsDouble());
-        }
+        // Log the timestamp (logged only once per cycle).
         for (int i = 0; i < timestampQueues.size(); i++) {
           timestampQueues.get(i).offer(timestamp);
         }
-      }
       } finally {
         Drive.odometryLock.unlock();
       }

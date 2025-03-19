@@ -171,7 +171,7 @@ public TalonFX driveKraken;
     // Create drive status signals
     drivePosition = driveKraken.getPosition();
     drivePositionQueue =
-        OdometryThread.getInstance().registerSignal(driveKraken.getPosition());
+        OdometryThread.getInstance().registerSignal(drivePosition);
     driveVelocity = driveKraken.getVelocity();
     driveAppliedVolts = driveKraken.getMotorVoltage();
     driveCurrent = driveKraken.getStatorCurrent();
