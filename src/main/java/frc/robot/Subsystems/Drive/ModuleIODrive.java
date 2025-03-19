@@ -122,7 +122,7 @@ public TalonFX driveKraken;
 
 
     turnConfig = new SparkMaxConfig()
-    .apply(new ClosedLoopConfig().pidf(0.0225, 0.000001, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-179.9999999, 180));
+    .apply(new ClosedLoopConfig().pidf(0.0005, 0.0, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-Math.PI, Math.PI));
     turnConfig.encoder.positionConversionFactor(constants_Module.STEER_TO_RAD).velocityConversionFactor(constants_Module.STEER_RPM_2_RAD_PER_SEC);
     turnConfig.inverted(switch(module)
     {
@@ -131,13 +131,15 @@ public TalonFX driveKraken;
         case 2 -> constants_Drive.BL_STEER_ENCODER_REVERSED;
         case 3 -> constants_Drive.BR_STEER_ENCODER_REVERSED;
         default -> false;
-    }).idleMode(IdleMode.kBrake).voltageCompensation(12.25);
+    }).idleMode(IdleMode.kBrake);
 
 
     turnSpark = new SparkMax((module+1), MotorType.kBrushless);
+    turnSpark.configure(turnConfig, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    
+    
     turnEncoder = turnSpark.getEncoder();
     turnPIDController = turnSpark.getClosedLoopController();
-    turnSpark.configure(turnConfig, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     turnEncoder.setPosition(0);
 
     absOffset =
@@ -287,7 +289,7 @@ public TalonFX driveKraken;
     try 
     {
       Thread.sleep(10);
-      turnPIDController.setReference(90, ControlType.kPosition);
+      turnPIDController.setReference(Math.toRadians(90), ControlType.kPosition);
     } catch (Exception e){}
   }
 
