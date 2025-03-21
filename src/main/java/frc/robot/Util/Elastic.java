@@ -60,6 +60,11 @@ public final class Elastic {
                 builder.addDoubleProperty("Y", ()->s_Drive.getPose().getMeasureY().magnitude(), null);
             }
         });
+
+        for(int i = 0; i<4; i++)
+        {
+          SmartDashboard.putNumber("Drive -> " + i + " Absolute Value", s_Drive.modules[i].getABSPosition());
+        }
     }
 
     private static final StringTopic notificationTopic = NetworkTableInstance.getDefault()

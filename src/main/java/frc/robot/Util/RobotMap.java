@@ -23,14 +23,14 @@ public class RobotMap
         public static final int FRONT_RIGHT_DRIVE_KRAKEN = 2;
         public static final int FRONT_RIGHT_STEER_SPARKMAX = 2;
         public static final int FRONT_RIGHT_ABS_ENCODER = 2;
-        //Back Right - Module 3
-        public static final int BACK_RIGHT_DRIVE_KRAKEN = 3;
-        public static final int BACK_RIGHT_STEER_SPARKMAX = 3;
-        public static final int BACK_RIGHT_ABS_ENCODER = 3;
         //Back Left - Module 2
-        public static final int BACK_LEFT_DRIVE_KRAKEN = 4;
-        public static final int BACK_LEFT_STEER_SPARKMAX = 4;
-        public static final int BACK_LEFT_ABS_ENCODER = 4;
+        public static final int BACK_LEFT_DRIVE_KRAKEN = 3;
+        public static final int BACK_LEFT_STEER_SPARKMAX = 3;
+        public static final int BACK_LEFT_ABS_ENCODER = 3;
+        //Back Right - Module 3
+        public static final int BACK_RIGHT_DRIVE_KRAKEN = 4;
+        public static final int BACK_RIGHT_STEER_SPARKMAX = 4;
+        public static final int BACK_RIGHT_ABS_ENCODER = 4;
     }
     public static final class MAP_ELEVATOR
     {

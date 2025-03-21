@@ -24,9 +24,10 @@ public interface ModuleIO {
     public double driveVelocityMPS = 0.0;
     public double driveAppliedVolts = 0.0;
     public double driveCurrentAmps = 0.0;
-
+    
     public boolean turnConnected = false;
     public Rotation2d turnPosition = new Rotation2d();
+    public double turnABSPosition = 5.0;
     public double turnVelocityRadPerSec = 0.0;
     public double turnAppliedVolts = 0.0;
     public double turnCurrentAmps = 0.0;
@@ -50,10 +51,4 @@ public interface ModuleIO {
 
   /** Run the turn motor to the specified rotation. */
   public default void setTurnPosition(Rotation2d rotation) {}
-
-  /** Reset the Swerve Wheels forward */
-  public default void resetWheels() {}
-
-  /** Reset the Swerve Wheels Right */
-  public default void resetWheelsRight() {}
 }

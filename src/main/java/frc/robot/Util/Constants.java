@@ -35,7 +35,7 @@ public final class Constants {
 
     
   public static final class constants_Module {
-    public static final double WHEEL_RADIUS_METERS = 0.1016/2; //Inches
+    public static final double WHEEL_RADIUS_METERS = 0.1016/2; //meters
     public static final double WHEEL_CIRCUMFRENCE_METERS = 2*Math.PI*WHEEL_RADIUS_METERS;
     public static final double DRIVE_GEAR_RATIO = 4.59; //4.59 for Swerve X, 6.75 for sds
     public static final double DRIVE_ROT_2_METER = (WHEEL_CIRCUMFRENCE_METERS);

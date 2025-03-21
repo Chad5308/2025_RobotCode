@@ -64,7 +64,6 @@ public class Module {
   /** Runs the module with the specified setpoint state. Mutates the state to optimize it. */
   public void runSetpoint(SwerveModuleState state) {
     // Optimize velocity setpoint
-    // state.optimize(getAngle());
     state.optimize(getAngle());
     state.cosineScale(inputs.turnPosition);
 
@@ -88,6 +87,11 @@ public class Module {
   /** Returns the current turn angle of the module. */
   public Rotation2d getAngle() {
     return inputs.turnPosition;
+  }
+
+  public double getABSPosition()
+  {
+    return inputs.turnABSPosition;
   }
 
   /** Returns the current drive position of the module in meters. */
@@ -130,15 +134,6 @@ public class Module {
     return inputs.driveVelocityMPS;
   }
 
-  public void resetWheels()
-  {
-    io.resetWheels();
-  }
-
-  public void resetWheelsRight()
-  {
-    io.resetWheelsRight();
-  }
 
 
 }

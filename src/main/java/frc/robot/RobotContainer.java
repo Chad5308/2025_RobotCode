@@ -11,6 +11,9 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -167,6 +170,7 @@ public class RobotContainer {
             () -> -u_Controllers.rightStick.getX(),
             () -> -u_Controllers.leftStick.getX()));
 
+
     //  s_Drive.setDefaultCommand(
     //     DriveCommand.joystickDrive(
     //         s_Drive,
@@ -196,9 +200,10 @@ public class RobotContainer {
     .onFalse(Commands.deferredProxy(()->
     s_StateMachine.tryState(RobotState.NONE, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)));
     
-    //Auto Reef
-    u_Controllers.leftStick.button(4).onTrue(Commands.runOnce(()->s_Vision.isRightScore = true)).onTrue(s_Vision.alignReef);
-    u_Controllers.leftStick.button(3).onTrue(Commands.runOnce(()->s_Vision.isRightScore = false)).onTrue(s_Vision.alignReef);
+    //Auto Reef TODO
+    // u_Controllers.leftStick.button(4).onTrue(Commands.runOnce(()->s_Vision.isRightScore = true)).onTrue(s_Vision.alignReef);
+    // u_Controllers.leftStick.button(3).onTrue(Commands.runOnce(()->s_Vision.isRightScore = false)).onTrue(s_Vision.alignReef);44
+
     // //Clean L2
     // u_Controllers.leftStick.button(3).onTrue(Commands.deferredProxy(()->
     // s_StateMachine.tryState(RobotState.CLEAN_L2, s_StateMachine, c_Drive, s_Elevator, s_Climber, s_Rollers, s_Vision, s_Lights)))

@@ -103,7 +103,7 @@ public TalonFX driveKraken;
   public ModuleIODrive(int module) {
 
     driveKraken = new TalonFX((module+1));
-    driveConfigs = new Slot0Configs().withKP(0.1).withKI(0).withKD(0.1).withKS(0.4).withKV(0.124);
+    driveConfigs = new Slot0Configs().withKP(0.001).withKI(0).withKD(0.0).withKS(0.4).withKV(0.124);
     driveFeedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(constants_Module.DRIVE_GEAR_RATIO*constants_Module.DRIVE_ROT_2_METER);
     neutralModeValue = NeutralModeValue.Brake;
     driveKraken.getConfigurator().apply(driveConfigs);
@@ -122,7 +122,7 @@ public TalonFX driveKraken;
 
 
     turnConfig = new SparkMaxConfig()
-    .apply(new ClosedLoopConfig().pidf(0.0005, 0.0, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-Math.PI, Math.PI));
+    .apply(new ClosedLoopConfig().pidf(0.3, 0.0, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-Math.PI, Math.PI));
     turnConfig.encoder.positionConversionFactor(constants_Module.STEER_TO_RAD).velocityConversionFactor(constants_Module.STEER_RPM_2_RAD_PER_SEC);
     turnConfig.inverted(switch(module)
     {
@@ -211,13 +211,13 @@ public TalonFX driveKraken;
     inputs.driveAppliedVolts = driveAppliedVolts.getValueAsDouble();
     inputs.driveCurrentAmps = driveCurrent.getValueAsDouble();
 
+    inputs.turnABSPosition = getABSPosition();
+    turnEncoder.setPosition(getABSPosition());
 
+    inputs.turnPosition = new Rotation2d(turnEncoder.getPosition());
     // Update turn inputs
     sparkStickyFault = false;
-    ifOk(
-        turnSpark,
-        turnEncoder::getPosition,
-        (value) -> inputs.turnPosition = new Rotation2d(getABSPosition()));
+    
     ifOk(turnSpark, turnEncoder::getVelocity, (value) -> inputs.turnVelocityRadPerSec = value);
     ifOk(
         turnSpark,
@@ -267,30 +267,30 @@ public TalonFX driveKraken;
 
    public double getABSPosition()
   {
-    return absoluteEncoder.getAbsolutePosition().getValueAsDouble()*(2*Math.PI); //Radians
+    return absoluteEncoder.getAbsolutePosition().getValueAsDouble() * 2 * Math.PI; //Radians
   }
   
 
-  @Override
-  public void resetWheels() 
-  {
-    turnEncoder.setPosition(getABSPosition());
-    try 
-    {
-      Thread.sleep(10);
-      turnPIDController.setReference(0, ControlType.kPosition);
-    } catch (Exception e){}
-  }
+  // @Override
+  // public void resetWheels() 
+  // {
+  //   turnEncoder.setPosition(getABSPosition());
+  //   try 
+  //   {
+  //     Thread.sleep(10);
+  //     setTurnPosition(Rotation2d.fromDegrees(0));
+  //   } catch (Exception e){}
+  // }
 
-  @Override
-  public void resetWheelsRight() 
-  {
-    turnEncoder.setPosition(getABSPosition());
-    try 
-    {
-      Thread.sleep(10);
-      turnPIDController.setReference(Math.toRadians(90), ControlType.kPosition);
-    } catch (Exception e){}
-  }
+  // @Override
+  // public void resetWheelsRight() 
+  // {
+  //   turnEncoder.setPosition(getABSPosition());
+  //   try 
+  //   {
+  //     Thread.sleep(10);
+  //     turnPIDController.setReference(Math.toRadians(90), ControlType.kPosition);
+  //   } catch (Exception e){}
+  // }
 
 }

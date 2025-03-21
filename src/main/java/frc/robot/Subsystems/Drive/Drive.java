@@ -102,6 +102,12 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
+    //TODO
+    SmartDashboard.putNumber("FL Relative Position", modules[0].getAngle().getRadians());
+    SmartDashboard.putNumber("FR Relative Position", modules[1].getAngle().getRadians());
+    SmartDashboard.putNumber("BL Relative Position", modules[2].getAngle().getRadians());
+    SmartDashboard.putNumber("BR Relative Position", modules[3].getAngle().getRadians());
+
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);
@@ -302,7 +308,7 @@ public class Drive extends SubsystemBase {
   public void faceAllFoward() {
   for (int i = 0; i < 4; i++)
   {
-    modules[i].resetWheels();
+    modules[i].runSetpoint(new SwerveModuleState(0, Rotation2d.fromRadians(0)));
   }
       System.out.println("exacuted faceAll");
   }
@@ -311,7 +317,7 @@ public class Drive extends SubsystemBase {
   public void faceAllRight() {
   for (int i = 0; i < 4; i++)
   {
-    modules[i].resetWheelsRight();
+    modules[i].runSetpoint(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI/2.0)));
   }
       System.out.println("exacuted face Right");
   }
