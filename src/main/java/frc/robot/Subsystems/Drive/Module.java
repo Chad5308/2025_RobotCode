@@ -221,5 +221,4 @@ public class Module extends SubsystemBase
       steerPIDController.setReference(90, ControlType.kPosition);
     } catch (Exception e){}
   }
-    
 }

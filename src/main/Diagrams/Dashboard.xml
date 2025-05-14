@@ -1,5 +1,29 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="BR Relative Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="50" y="243"/>
+	</widget>
+	<widget field="BL Relative Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="50" y="222"/>
+	</widget>
+	<widget field="FR Relative Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="50" y="201"/>
+	</widget>
+	<widget field="FL Relative Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="50" y="180"/>
+	</widget>
+	<widget field="Drive -> 3 Absolute Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="50" y="159"/>
+	</widget>
+	<widget field="Drive -> 2 Absolute Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="50" y="138"/>
+	</widget>
+	<widget field="Drive -> 1 Absolute Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="63" y="117"/>
+	</widget>
+	<widget field="Drive -> 0 Absolute Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="63" y="96"/>
+	</widget>
 	<widget field="Theta Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="714" y="228"/>
 	</widget>
@@ -141,5 +165,4 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="PathPlanner"/>
 </xml>
