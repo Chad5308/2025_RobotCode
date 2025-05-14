@@ -54,6 +54,8 @@ import frc.robot.Util.Constants.constants_Drive;
 import frc.robot.Util.Constants.constants_Module;
 import frc.robot.Util.Constants.constants_Sim;
 
+import frc.robot.Util.Constants.constants_Module;
+
 import java.util.Queue;
 import java.util.function.DoubleSupplier;
 
@@ -103,7 +105,7 @@ public TalonFX driveKraken;
   public ModuleIODrive(int module) {
 
     driveKraken = new TalonFX((module+1));
-    driveConfigs = new Slot0Configs().withKP(0.001).withKI(0).withKD(0.0).withKS(0.4).withKV(0.124);
+    driveConfigs = new Slot0Configs().withKP(constants_Module.P_DRIVE).withKI(constants_Module.I_DRIVE).withKD(constants_Module.D_DRIVE).withKS(constants_Module.S_DRIVE).withKV(constants_Module.V_DRIVE);
     driveFeedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(constants_Module.DRIVE_GEAR_RATIO*constants_Module.DRIVE_ROT_2_METER);
     neutralModeValue = NeutralModeValue.Brake;
     driveKraken.getConfigurator().apply(driveConfigs);
@@ -122,7 +124,7 @@ public TalonFX driveKraken;
 
 
     turnConfig = new SparkMaxConfig()
-    .apply(new ClosedLoopConfig().pidf(0.3, 0.0, 0.0, 0.0, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-Math.PI, Math.PI));
+    .apply(new ClosedLoopConfig().pidf(constants_Module.P_TURNING, constants_Module.I_TURNING, constants_Module.D_TURNING, constants_Module.FF_TURNING, ClosedLoopSlot.kSlot0).positionWrappingEnabled(true).positionWrappingInputRange(-Math.PI, Math.PI));
     turnConfig.encoder.positionConversionFactor(constants_Module.STEER_TO_RAD).velocityConversionFactor(constants_Module.STEER_RPM_2_RAD_PER_SEC);
     turnConfig.inverted(switch(module)
     {

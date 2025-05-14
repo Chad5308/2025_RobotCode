@@ -46,18 +46,18 @@ public final class Constants {
     public static final double STEER_RPM_2_RAD_PER_SEC = STEER_TO_RAD / 60;
 
     //TODO Tune our pid loop for the drives once you add in all the offsets, you can just rotate the wheels to 90 degrees using the flight sticks, then disable and enable the code to set them to 0 degreese and tune off of that vaule
-    public static final double P_TURNING = 0.0075;
+    public static final double P_TURNING = 0.3;
     public static final double I_TURNING = 0.0;
-    public static final double D_TURNING = 0.75;
-    public static final double FF_TURNING = 0;
+    public static final double D_TURNING = 0.0;
+    public static final double FF_TURNING = 0.0;
 
     //TODO Dont worry about changing these values
-    public static final double S_DRIVE = 0.4;
-    public static final double V_DRIVE = 0.124;
-    public static final double A_DRIVE = 0.1;
     public static final double P_DRIVE = 0.1;
     public static final double I_DRIVE = 0.1;
-
+    public static final double D_DRIVE = 0.0;
+    public static final double S_DRIVE = 0.4;
+    public static final double V_DRIVE = 0.124;
+    
     //TODO Measure from the center of each wheel to get these, Front to back for "WHEEL_BASE", Left to right for "TRACK_WIDTH"
     public static final double TRACK_WIDTH = Units.inchesToMeters(29);
       // Distance between left and right wheels
